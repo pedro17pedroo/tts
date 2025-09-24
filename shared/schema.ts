@@ -52,10 +52,15 @@ export const tenants = pgTable("tenants", {
 // Users (admins, agents, customers)
 export const users = pgTable("users", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  email: varchar("email").unique(),
+  email: varchar("email").unique().notNull(),
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  passwordHash: varchar("password_hash"),
+  resetToken: varchar("reset_token"),
+  resetTokenExpires: timestamp("reset_token_expires"),
+  emailVerified: boolean("email_verified").default(false),
+  emailVerifyToken: varchar("email_verify_token"),
   role: userRoleEnum("role").notNull().default('customer'),
   tenantId: varchar("tenant_id").references(() => tenants.id, { onDelete: 'cascade' }),
   isActive: boolean("is_active").default(true),
@@ -309,6 +314,35 @@ export const insertUserSchema = createInsertSchema(users).omit({
   updatedAt: true,
 });
 
+// Authentication schemas
+export const registerUserSchema = z.object({
+  email: z.string().email("Email inválido"),
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+  firstName: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
+  lastName: z.string().min(2, "Sobrenome deve ter pelo menos 2 caracteres"),
+  tenantId: z.string().optional(),
+  role: z.enum(['global_admin', 'tenant_admin', 'agent', 'customer']).default('customer'),
+});
+
+export const loginUserSchema = z.object({
+  email: z.string().email("Email inválido"),
+  password: z.string().min(1, "Senha é obrigatória"),
+});
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email("Email inválido"),
+});
+
+export const resetPasswordSchema = z.object({
+  token: z.string().min(1, "Token é obrigatório"),
+  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+});
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1, "Senha atual é obrigatória"),
+  newPassword: z.string().min(6, "Nova senha deve ter pelo menos 6 caracteres"),
+});
+
 export const insertCustomerSchema = createInsertSchema(customers).omit({
   id: true,
   createdAt: true,
@@ -376,3 +410,10 @@ export type Category = typeof categories.$inferSelect;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
 export type CustomBranding = z.infer<typeof customBrandingSchema>;
 export type CustomField = z.infer<typeof customFieldSchema>;
+
+// Authentication types
+export type RegisterUser = z.infer<typeof registerUserSchema>;
+export type LoginUser = z.infer<typeof loginUserSchema>;
+export type ForgotPassword = z.infer<typeof forgotPasswordSchema>;
+export type ResetPassword = z.infer<typeof resetPasswordSchema>;
+export type ChangePassword = z.infer<typeof changePasswordSchema>;

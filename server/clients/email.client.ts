@@ -1,10 +1,12 @@
-import { sendEmail } from "../emailService";
+import { sendEmail as sendEmailService } from "../emailService";
 
 export interface EmailData {
   to: string;
   subject: string;
   html: string;
 }
+
+export const sendEmail = sendEmailService;
 
 export class EmailClient {
   async sendEmail(data: EmailData): Promise<void> {

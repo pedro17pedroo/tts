@@ -1,6 +1,6 @@
 import { createApp, setupErrorHandling } from "./http/app";
 import { registerModules } from "./http/module-registry";
-import { setupAuth } from "./replitAuth";
+import { setupAuth } from "./auth";
 import { setupVite, serveStatic, log } from "./vite";
 import { createServer } from "http";
 

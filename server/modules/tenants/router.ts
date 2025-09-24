@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { TenantsController } from "./controller";
-import { isAuthenticated } from "../../replitAuth";
+import { isAuthenticated } from "../../auth";
 
 const router = Router();
 const tenantsController = new TenantsController();

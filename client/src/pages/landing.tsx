@@ -20,7 +20,11 @@ export default function Landing() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogin = () => {
-    window.location.href = "/api/login";
+    window.location.href = "/login";
+  };
+
+  const handleRegister = () => {
+    window.location.href = "/register";
   };
 
   const features = [
@@ -143,7 +147,7 @@ export default function Landing() {
             
             <div className="hidden md:flex items-center space-x-4">
               <Button variant="ghost" onClick={handleLogin}>Login</Button>
-              <Button onClick={handleLogin}>Começar Grátis</Button>
+              <Button onClick={handleRegister}>Começar Grátis</Button>
             </div>
 
             {/* Mobile menu button */}
@@ -168,7 +172,7 @@ export default function Landing() {
                 <a href="#contact" className="block px-3 py-2 text-muted-foreground hover:text-foreground">Contato</a>
                 <div className="pt-4 border-t border-border">
                   <Button variant="ghost" className="w-full justify-start" onClick={handleLogin}>Login</Button>
-                  <Button className="w-full mt-2" onClick={handleLogin}>Começar Grátis</Button>
+                  <Button className="w-full mt-2" onClick={handleRegister}>Começar Grátis</Button>
                 </div>
               </div>
             </div>

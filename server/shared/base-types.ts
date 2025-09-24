@@ -23,13 +23,20 @@ export type ApiResponse<T = any> = SuccessResponse<T> | ErrorResponse;
 // Authenticated Request interface (shared across all modules)
 export interface AuthenticatedRequest extends Request {
   user: {
-    claims: {
-      sub: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      profile_image_url: string;
-    };
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    role: 'global_admin' | 'tenant_admin' | 'agent' | 'customer';
+    tenantId: string | null;
+    isActive: boolean;
+    profileImageUrl?: string;
+  };
+  session: {
+    userId?: string;
+    userEmail?: string;
+    userRole?: string;
+    tenantId?: string | null;
   };
 }
 

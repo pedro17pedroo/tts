@@ -5,6 +5,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import Landing from "@/pages/landing";
+import Login from "@/pages/login";
+import Register from "@/pages/register";
 import Onboarding from "@/pages/onboarding";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import Dashboard from "@/pages/dashboard";
@@ -33,6 +35,8 @@ function Router() {
       {!isAuthenticated ? (
         <>
           <Route path="/" component={Landing} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
           <Route path="/subscribe" component={Subscribe} />
         </>
       ) : !user?.tenantId ? (

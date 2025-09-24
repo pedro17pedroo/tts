@@ -37,8 +37,16 @@ import { eq, and, sql, desc, asc, ilike, or } from "drizzle-orm";
 export interface IStorage {
   // User operations
   getUser(id: string): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  createUser(user: Omit<UpsertUser, 'id'>): Promise<User>;
   upsertUser(user: UpsertUser): Promise<User>;
+  updateUser(id: string, updates: Partial<User>): Promise<User>;
   getUserByTenant(userId: string, tenantId: string): Promise<User | undefined>;
+  
+  // Password reset operations
+  setResetToken(email: string, token: string, expires: Date): Promise<void>;
+  getUserByResetToken(token: string): Promise<User | undefined>;
+  clearResetToken(userId: string): Promise<void>;
   
   // Tenant operations
   getTenant(id: string): Promise<Tenant | undefined>;
@@ -96,6 +104,16 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+
+  async createUser(userData: Omit<UpsertUser, 'id'>): Promise<User> {
+    const [user] = await db.insert(users).values(userData).returning();
+    return user;
+  }
+
   async upsertUser(userData: UpsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
@@ -111,12 +129,52 @@ export class DatabaseStorage implements IStorage {
     return user;
   }
 
+  async updateUser(id: string, updates: Partial<User>): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    return user;
+  }
+
   async getUserByTenant(userId: string, tenantId: string): Promise<User | undefined> {
     const [user] = await db
       .select()
       .from(users)
       .where(and(eq(users.id, userId), eq(users.tenantId, tenantId)));
     return user;
+  }
+
+  // Password reset operations
+  async setResetToken(email: string, token: string, expires: Date): Promise<void> {
+    await db
+      .update(users)
+      .set({ 
+        resetToken: token, 
+        resetTokenExpires: expires,
+        updatedAt: new Date()
+      })
+      .where(eq(users.email, email));
+  }
+
+  async getUserByResetToken(token: string): Promise<User | undefined> {
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.resetToken, token));
+    return user;
+  }
+
+  async clearResetToken(userId: string): Promise<void> {
+    await db
+      .update(users)
+      .set({ 
+        resetToken: null, 
+        resetTokenExpires: null,
+        updatedAt: new Date()
+      })
+      .where(eq(users.id, userId));
   }
 
   // Tenant operations
