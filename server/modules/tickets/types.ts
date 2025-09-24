@@ -1,40 +1,46 @@
-import { type Request } from "express";
 import type { Ticket, InsertTicket, TicketComment, InsertTicketComment, TimeEntry } from "@shared/schema";
+import type { 
+  AuthenticatedRequest, 
+  ApiResponse, 
+  BaseFilters,
+  SuccessResponse,
+  ErrorResponse
+} from "../../shared/base-types";
 
 export type TicketData = Ticket;
 export type CreateTicketData = InsertTicket;
 export type TicketCommentData = TicketComment;
 export type CreateTicketCommentData = InsertTicketComment;
 
-// Request types
-export interface AuthenticatedRequest extends Request {
-  user: {
-    claims: {
-      sub: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      profile_image_url: string;
-    };
+// Re-export AuthenticatedRequest from base types
+export type { AuthenticatedRequest };
+
+// Success response types
+export interface TicketsSuccessResponse extends SuccessResponse<TicketData[]> {
+  success: true;
+  data: TicketData[];
+}
+
+export interface SingleTicketSuccessResponse extends SuccessResponse {
+  success: true;
+  data: {
+    ticket: TicketData;
+    comments: TicketCommentData[];
+    timeEntries: TimeEntry[];
   };
 }
 
-// Response types
-export interface TicketsResponse {
-  tickets: TicketData[];
+export interface TicketCommentSuccessResponse extends SuccessResponse<TicketCommentData> {
+  success: true;
+  data: TicketCommentData;
 }
 
-export interface SingleTicketResponse {
-  ticket: TicketData;
-  comments: TicketCommentData[];
-  timeEntries: TimeEntry[];
-}
+// API Response types (can be success or error)
+export type TicketsResponse = TicketsSuccessResponse | ErrorResponse;
+export type SingleTicketResponse = SingleTicketSuccessResponse | ErrorResponse;
+export type TicketCommentResponse = TicketCommentSuccessResponse | ErrorResponse;
 
-export interface TicketCommentResponse {
-  comment: TicketCommentData;
-}
-
-export interface TicketFilters {
+export interface TicketFilters extends BaseFilters {
   status?: string;
   priority?: string;
   assigneeId?: string;

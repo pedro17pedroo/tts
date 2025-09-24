@@ -1,27 +1,28 @@
-import { type Request } from "express";
 import type { Customer, InsertCustomer } from "@shared/schema";
+import type { 
+  AuthenticatedRequest, 
+  ApiResponse, 
+  SuccessResponse,
+  ErrorResponse
+} from "../../shared/base-types";
 
 export type CustomerData = Customer;
 export type CreateCustomerData = InsertCustomer;
 
-// Request types
-export interface AuthenticatedRequest extends Request {
-  user: {
-    claims: {
-      sub: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      profile_image_url: string;
-    };
-  };
+// Re-export AuthenticatedRequest from base types
+export type { AuthenticatedRequest };
+
+// Success response types
+export interface CustomersSuccessResponse extends SuccessResponse<CustomerData[]> {
+  success: true;
+  data: CustomerData[];
 }
 
-// Response types
-export interface CustomerResponse {
-  customers: CustomerData[];
+export interface SingleCustomerSuccessResponse extends SuccessResponse<CustomerData> {
+  success: true;
+  data: CustomerData;
 }
 
-export interface SingleCustomerResponse {
-  customer: CustomerData;
-}
+// API Response types (can be success or error)
+export type CustomerResponse = CustomersSuccessResponse | ErrorResponse;
+export type SingleCustomerResponse = SingleCustomerSuccessResponse | ErrorResponse;
