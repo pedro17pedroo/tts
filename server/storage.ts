@@ -10,6 +10,8 @@ import {
   departments,
   categories,
   slaConfigs,
+  slaStatus,
+  slaLogs,
   type User,
   type UpsertUser,
   type Tenant,
@@ -30,6 +32,12 @@ import {
   type InsertDepartment,
   type Category,
   type InsertCategory,
+  type SlaConfig,
+  type InsertSlaConfig,
+  type SlaStatus,
+  type InsertSlaStatus,
+  type SlaLogs,
+  type InsertSlaLog,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, sql, desc, asc, ilike, or } from "drizzle-orm";
@@ -95,6 +103,27 @@ export interface IStorage {
   
   // Dashboard stats
   getDashboardStats(tenantId: string): Promise<any>;
+  
+  // SLA Config operations
+  getSlaConfigs(tenantId: string, filters?: any): Promise<SlaConfig[]>;
+  getSlaConfig(id: string, tenantId: string): Promise<SlaConfig | undefined>;
+  getSlaConfigByTenantAndPriority(tenantId: string, priority: string, categoryId?: string): Promise<SlaConfig | undefined>;
+  createSlaConfig(slaConfig: InsertSlaConfig): Promise<SlaConfig>;
+  updateSlaConfig(id: string, updates: Partial<SlaConfig>): Promise<SlaConfig>;
+  deleteSlaConfig(id: string, tenantId: string): Promise<void>;
+  
+  // SLA Status operations
+  getSlaStatusByTicket(ticketId: string): Promise<SlaStatus | undefined>;
+  getSlaStatusesByTenant(tenantId: string, filters?: any): Promise<SlaStatus[]>;
+  createSlaStatus(slaStatus: InsertSlaStatus): Promise<SlaStatus>;
+  updateSlaStatus(id: string, updates: Partial<SlaStatus>): Promise<SlaStatus>;
+  getSlaStatusesAtRisk(tenantId: string): Promise<SlaStatus[]>;
+  getSlaStatusesBreached(tenantId: string): Promise<SlaStatus[]>;
+  
+  // SLA Logs operations
+  getSlaLogs(tenantId: string, filters?: any): Promise<SlaLogs[]>;
+  getSlaLogsByTicket(ticketId: string): Promise<SlaLogs[]>;
+  createSlaLog(slaLog: InsertSlaLog): Promise<SlaLogs>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -462,6 +491,273 @@ export class DatabaseStorage implements IStorage {
         available: (totalHours.totalSold || 0) - (totalHours.consumed || 0),
       }
     };
+  }
+
+  // SLA Config operations
+  async getSlaConfigs(tenantId: string, filters?: any): Promise<SlaConfig[]> {
+    const conditions = [eq(slaConfigs.tenantId, tenantId)];
+
+    if (filters?.categoryId) {
+      conditions.push(eq(slaConfigs.categoryId, filters.categoryId));
+    }
+    
+    if (filters?.priority) {
+      conditions.push(eq(slaConfigs.priority, filters.priority));
+    }
+    
+    if (typeof filters?.isActive === 'boolean') {
+      conditions.push(eq(slaConfigs.isActive, filters.isActive));
+    }
+
+    return db
+      .select()
+      .from(slaConfigs)
+      .where(and(...conditions))
+      .orderBy(desc(slaConfigs.createdAt));
+  }
+
+  async getSlaConfig(id: string, tenantId: string): Promise<SlaConfig | undefined> {
+    const [slaConfig] = await db
+      .select()
+      .from(slaConfigs)
+      .where(and(eq(slaConfigs.id, id), eq(slaConfigs.tenantId, tenantId)));
+    return slaConfig;
+  }
+
+  async getSlaConfigByTenantAndPriority(tenantId: string, priority: string, categoryId?: string): Promise<SlaConfig | undefined> {
+    const conditions = [
+      eq(slaConfigs.tenantId, tenantId), 
+      eq(slaConfigs.priority, priority as any),
+      eq(slaConfigs.isActive, true)
+    ];
+
+    if (categoryId) {
+      conditions.push(eq(slaConfigs.categoryId, categoryId));
+    } else {
+      conditions.push(sql`${slaConfigs.categoryId} IS NULL`);
+    }
+
+    const [slaConfig] = await db
+      .select()
+      .from(slaConfigs)
+      .where(and(...conditions))
+      .orderBy(desc(slaConfigs.createdAt));
+    
+    return slaConfig;
+  }
+
+  async createSlaConfig(slaConfigData: InsertSlaConfig): Promise<SlaConfig> {
+    const [slaConfig] = await db.insert(slaConfigs).values(slaConfigData).returning();
+    return slaConfig;
+  }
+
+  async updateSlaConfig(id: string, updates: Partial<SlaConfig>): Promise<SlaConfig> {
+    const [slaConfig] = await db
+      .update(slaConfigs)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(slaConfigs.id, id))
+      .returning();
+    return slaConfig;
+  }
+
+  async deleteSlaConfig(id: string, tenantId: string): Promise<void> {
+    await db
+      .delete(slaConfigs)
+      .where(and(eq(slaConfigs.id, id), eq(slaConfigs.tenantId, tenantId)));
+  }
+
+  // SLA Status operations
+  async getSlaStatusByTicket(ticketId: string): Promise<SlaStatus | undefined> {
+    const [status] = await db
+      .select()
+      .from(slaStatus)
+      .where(eq(slaStatus.ticketId, ticketId));
+    return status;
+  }
+
+  async getSlaStatusesByTenant(tenantId: string, filters?: any): Promise<SlaStatus[]> {
+    // Join with tickets to filter by tenant
+    const conditions = [eq(tickets.tenantId, tenantId)];
+
+    if (filters?.status) {
+      conditions.push(
+        or(
+          eq(slaStatus.firstResponseStatus, filters.status as any),
+          eq(slaStatus.resolutionStatus, filters.status as any)
+        )
+      );
+    }
+
+    if (filters?.dueToday) {
+      conditions.push(
+        or(
+          sql`DATE(${slaStatus.firstResponseDueAt}) = CURRENT_DATE`,
+          sql`DATE(${slaStatus.resolutionDueAt}) = CURRENT_DATE`
+        )
+      );
+    }
+
+    if (filters?.overdue) {
+      conditions.push(
+        or(
+          sql`${slaStatus.firstResponseDueAt} < NOW() AND ${slaStatus.firstResponseAt} IS NULL`,
+          sql`${slaStatus.resolutionDueAt} < NOW() AND ${slaStatus.resolvedAt} IS NULL`
+        )
+      );
+    }
+
+    return db
+      .select({ 
+        id: slaStatus.id,
+        ticketId: slaStatus.ticketId,
+        slaConfigId: slaStatus.slaConfigId,
+        firstResponseDueAt: slaStatus.firstResponseDueAt,
+        resolutionDueAt: slaStatus.resolutionDueAt,
+        firstResponseAt: slaStatus.firstResponseAt,
+        resolvedAt: slaStatus.resolvedAt,
+        firstResponseStatus: slaStatus.firstResponseStatus,
+        resolutionStatus: slaStatus.resolutionStatus,
+        firstResponseTimeRemaining: slaStatus.firstResponseTimeRemaining,
+        resolutionTimeRemaining: slaStatus.resolutionTimeRemaining,
+        firstResponseTimeSpent: slaStatus.firstResponseTimeSpent,
+        resolutionTimeSpent: slaStatus.resolutionTimeSpent,
+        firstResponseBreachedAt: slaStatus.firstResponseBreachedAt,
+        resolutionBreachedAt: slaStatus.resolutionBreachedAt,
+        createdAt: slaStatus.createdAt,
+        updatedAt: slaStatus.updatedAt,
+      })
+      .from(slaStatus)
+      .innerJoin(tickets, eq(slaStatus.ticketId, tickets.id))
+      .where(and(...conditions))
+      .orderBy(desc(slaStatus.updatedAt));
+  }
+
+  async createSlaStatus(slaStatusData: InsertSlaStatus): Promise<SlaStatus> {
+    const [status] = await db.insert(slaStatus).values(slaStatusData).returning();
+    return status;
+  }
+
+  async updateSlaStatus(id: string, updates: Partial<SlaStatus>): Promise<SlaStatus> {
+    const [status] = await db
+      .update(slaStatus)
+      .set({ ...updates, updatedAt: new Date() })
+      .where(eq(slaStatus.id, id))
+      .returning();
+    return status;
+  }
+
+  async getSlaStatusesAtRisk(tenantId: string): Promise<SlaStatus[]> {
+    return db
+      .select({
+        id: slaStatus.id,
+        ticketId: slaStatus.ticketId,
+        slaConfigId: slaStatus.slaConfigId,
+        firstResponseDueAt: slaStatus.firstResponseDueAt,
+        resolutionDueAt: slaStatus.resolutionDueAt,
+        firstResponseAt: slaStatus.firstResponseAt,
+        resolvedAt: slaStatus.resolvedAt,
+        firstResponseStatus: slaStatus.firstResponseStatus,
+        resolutionStatus: slaStatus.resolutionStatus,
+        firstResponseTimeRemaining: slaStatus.firstResponseTimeRemaining,
+        resolutionTimeRemaining: slaStatus.resolutionTimeRemaining,
+        firstResponseTimeSpent: slaStatus.firstResponseTimeSpent,
+        resolutionTimeSpent: slaStatus.resolutionTimeSpent,
+        firstResponseBreachedAt: slaStatus.firstResponseBreachedAt,
+        resolutionBreachedAt: slaStatus.resolutionBreachedAt,
+        createdAt: slaStatus.createdAt,
+        updatedAt: slaStatus.updatedAt,
+      })
+      .from(slaStatus)
+      .innerJoin(tickets, eq(slaStatus.ticketId, tickets.id))
+      .where(
+        and(
+          eq(tickets.tenantId, tenantId),
+          or(
+            eq(slaStatus.firstResponseStatus, 'at_risk'),
+            eq(slaStatus.resolutionStatus, 'at_risk')
+          )
+        )
+      )
+      .orderBy(desc(slaStatus.updatedAt));
+  }
+
+  async getSlaStatusesBreached(tenantId: string): Promise<SlaStatus[]> {
+    return db
+      .select({
+        id: slaStatus.id,
+        ticketId: slaStatus.ticketId,
+        slaConfigId: slaStatus.slaConfigId,
+        firstResponseDueAt: slaStatus.firstResponseDueAt,
+        resolutionDueAt: slaStatus.resolutionDueAt,
+        firstResponseAt: slaStatus.firstResponseAt,
+        resolvedAt: slaStatus.resolvedAt,
+        firstResponseStatus: slaStatus.firstResponseStatus,
+        resolutionStatus: slaStatus.resolutionStatus,
+        firstResponseTimeRemaining: slaStatus.firstResponseTimeRemaining,
+        resolutionTimeRemaining: slaStatus.resolutionTimeRemaining,
+        firstResponseTimeSpent: slaStatus.firstResponseTimeSpent,
+        resolutionTimeSpent: slaStatus.resolutionTimeSpent,
+        firstResponseBreachedAt: slaStatus.firstResponseBreachedAt,
+        resolutionBreachedAt: slaStatus.resolutionBreachedAt,
+        createdAt: slaStatus.createdAt,
+        updatedAt: slaStatus.updatedAt,
+      })
+      .from(slaStatus)
+      .innerJoin(tickets, eq(slaStatus.ticketId, tickets.id))
+      .where(
+        and(
+          eq(tickets.tenantId, tenantId),
+          or(
+            eq(slaStatus.firstResponseStatus, 'breached'),
+            eq(slaStatus.resolutionStatus, 'breached')
+          )
+        )
+      )
+      .orderBy(desc(slaStatus.updatedAt));
+  }
+
+  // SLA Logs operations
+  async getSlaLogs(tenantId: string, filters?: any): Promise<SlaLogs[]> {
+    const conditions = [eq(slaLogs.tenantId, tenantId)];
+
+    if (filters?.ticketId) {
+      conditions.push(eq(slaLogs.ticketId, filters.ticketId));
+    }
+    
+    if (filters?.action) {
+      conditions.push(eq(slaLogs.action, filters.action as any));
+    }
+    
+    if (filters?.eventType) {
+      conditions.push(eq(slaLogs.eventType, filters.eventType));
+    }
+
+    if (filters?.dateFrom) {
+      conditions.push(sql`${slaLogs.createdAt} >= ${filters.dateFrom}`);
+    }
+
+    if (filters?.dateTo) {
+      conditions.push(sql`${slaLogs.createdAt} <= ${filters.dateTo}`);
+    }
+
+    return db
+      .select()
+      .from(slaLogs)
+      .where(and(...conditions))
+      .orderBy(desc(slaLogs.createdAt));
+  }
+
+  async getSlaLogsByTicket(ticketId: string): Promise<SlaLogs[]> {
+    return db
+      .select()
+      .from(slaLogs)
+      .where(eq(slaLogs.ticketId, ticketId))
+      .orderBy(desc(slaLogs.createdAt));
+  }
+
+  async createSlaLog(slaLogData: InsertSlaLog): Promise<SlaLogs> {
+    const [log] = await db.insert(slaLogs).values(slaLogData).returning();
+    return log;
   }
 }
 
