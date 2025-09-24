@@ -114,7 +114,7 @@ export default function Onboarding() {
   const subscriptionMutation = useMutation({
     mutationFn: async (data: { planType: string; tenantName: string }) => {
       const response = await apiRequest("POST", "/api/onboarding-subscription", data);
-      return response;
+      return response.json();
     },
     onSuccess: (data) => {
       setPaymentData(data);
