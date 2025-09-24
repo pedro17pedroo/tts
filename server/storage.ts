@@ -172,24 +172,25 @@ export class DatabaseStorage implements IStorage {
 
   // Ticket operations
   async getTicketsByTenant(tenantId: string, filters?: any): Promise<Ticket[]> {
-    let query = db
-      .select()
-      .from(tickets)
-      .where(eq(tickets.tenantId, tenantId));
+    const conditions = [eq(tickets.tenantId, tenantId)];
 
     if (filters?.status) {
-      query = query.where(eq(tickets.status, filters.status));
+      conditions.push(eq(tickets.status, filters.status));
     }
     
     if (filters?.priority) {
-      query = query.where(eq(tickets.priority, filters.priority));
+      conditions.push(eq(tickets.priority, filters.priority));
     }
     
     if (filters?.assigneeId) {
-      query = query.where(eq(tickets.assigneeId, filters.assigneeId));
+      conditions.push(eq(tickets.assigneeId, filters.assigneeId));
     }
 
-    return query.orderBy(desc(tickets.createdAt));
+    return db
+      .select()
+      .from(tickets)
+      .where(and(...conditions))
+      .orderBy(desc(tickets.createdAt));
   }
 
   async getTicket(id: string, tenantId: string): Promise<Ticket | undefined> {
