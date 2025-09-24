@@ -18,7 +18,9 @@ import { useToast } from "@/hooks/use-toast";
 const onboardingSchema = z.object({
   tenantName: z.string().min(2, "Nome da empresa deve ter pelo menos 2 caracteres"),
   cnpj: z.string().optional(),
-  planType: z.enum(["free", "pro", "enterprise"]).default("free"),
+  planType: z.enum(["free", "pro", "enterprise"], {
+    required_error: "Você deve selecionar um plano para continuar",
+  }),
 });
 
 type OnboardingForm = z.infer<typeof onboardingSchema>;
@@ -87,7 +89,7 @@ export default function Onboarding() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
-  const [selectedPlan, setSelectedPlan] = useState<string>("free");
+  const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<OnboardingForm>({
@@ -95,7 +97,6 @@ export default function Onboarding() {
     defaultValues: {
       tenantName: "",
       cnpj: "",
-      planType: "free",
     },
   });
 
@@ -126,6 +127,17 @@ export default function Onboarding() {
 
   const handleSubmit = (data: OnboardingForm) => {
     setError(null);
+    
+    if (!selectedPlan) {
+      setError("Você deve selecionar um plano para continuar");
+      toast({
+        title: "Plano obrigatório",
+        description: "Você deve selecionar um plano para criar sua empresa",
+        variant: "destructive",
+      });
+      return;
+    }
+    
     onboardingMutation.mutate({
       ...data,
       planType: selectedPlan as any,
@@ -199,10 +211,11 @@ export default function Onboarding() {
                   <Button
                     type="submit"
                     className="w-full"
-                    disabled={onboardingMutation.isPending}
+                    disabled={onboardingMutation.isPending || !selectedPlan}
                     data-testid="button-create-company"
                   >
-                    {onboardingMutation.isPending ? "Criando empresa..." : "Criar Empresa"}
+                    {onboardingMutation.isPending ? "Criando empresa..." : 
+                     !selectedPlan ? "Selecione um plano" : "Criar Empresa"}
                   </Button>
                 </form>
               </CardContent>
@@ -287,12 +300,35 @@ export default function Onboarding() {
                   ))}
                 </div>
 
-                <div className="mt-6 p-4 bg-muted/50 rounded-lg">
-                  <p className="text-sm text-muted-foreground text-center">
-                    <strong>Nota:</strong> Você pode alterar seu plano a qualquer momento nas configurações.
-                    {selectedPlan === "free" && " O plano gratuito não requer pagamento."}
-                  </p>
-                </div>
+                {selectedPlan && (
+                  <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <CheckCircle className="h-5 w-5 text-primary" />
+                      <h4 className="font-semibold text-primary">
+                        Plano Selecionado: {plans.find(p => p.id === selectedPlan)?.name}
+                      </h4>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      <strong>Nota:</strong> Você pode alterar seu plano a qualquer momento nas configurações.
+                      {selectedPlan === "free" && " O plano gratuito não requer pagamento."}
+                      {(selectedPlan === "pro" || selectedPlan === "enterprise") && 
+                        " Você será direcionado para configurar o pagamento após criar a empresa."}
+                    </p>
+                  </div>
+                )}
+                
+                {!selectedPlan && (
+                  <div className="mt-6 p-4 bg-amber-50 rounded-lg border border-amber-200">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-5 h-5 rounded-full bg-amber-400 flex items-center justify-center">
+                        <span className="text-white text-sm">!</span>
+                      </div>
+                      <p className="text-sm text-amber-800 font-medium">
+                        Selecione um plano para continuar com a criação da empresa
+                      </p>
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </div>

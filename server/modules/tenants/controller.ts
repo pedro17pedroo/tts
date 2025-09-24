@@ -19,25 +19,25 @@ export class TenantsController extends BaseController {
 
   async completeOnboarding(req: AuthenticatedRequest, res: Response<OnboardingResponse>) {
     try {
-      const userId = req.user.claims.sub;
-      const userClaims = req.user.claims;
+      const userId = req.user.id;
+      const user = req.user;
       const data = onboardingSchema.parse(req.body);
 
       const tenant = await this.service.completeTenantOnboarding(data, {
         id: userId,
-        email: userClaims.email,
-        firstName: userClaims.first_name,
-        lastName: userClaims.last_name,
-        profileImageUrl: userClaims.profile_image_url,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        profileImageUrl: user.profileImageUrl,
       } as any);
 
       // Update user to be tenant admin
       await this.authService.upsertUser({
         id: userId,
-        email: userClaims.email,
-        firstName: userClaims.first_name,
-        lastName: userClaims.last_name,
-        profileImageUrl: userClaims.profile_image_url,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        profileImageUrl: user.profileImageUrl,
         role: 'tenant_admin',
         tenantId: tenant.id,
       });
@@ -50,10 +50,10 @@ export class TenantsController extends BaseController {
 
   async createOnboardingSubscription(req: AuthenticatedRequest, res: Response<SubscriptionResponse>) {
     try {
-      const userClaims = req.user.claims;
+      const user = req.user;
       const { planType, tenantName } = req.body;
 
-      const result = await this.service.createOnboardingSubscription(planType, userClaims, tenantName);
+      const result = await this.service.createOnboardingSubscription(planType, user, tenantName);
       this.sendSuccess(res, result, "Subscription created successfully");
     } catch (error: any) {
       this.handleError(error, res, "Failed to create subscription");

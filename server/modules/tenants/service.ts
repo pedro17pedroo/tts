@@ -1,6 +1,6 @@
 import { TenantsRepository } from "./repository";
 import { StripeClient } from "../../clients/stripe.client";
-import type { OnboardingData, TenantData, SubscriptionResponse } from "./types";
+import type { OnboardingData, TenantData, SubscriptionData } from "./types";
 import type { User } from "@shared/schema";
 
 export class TenantsService {
@@ -51,9 +51,9 @@ export class TenantsService {
 
   async createOnboardingSubscription(
     planType: string,
-    userClaims: any,
+    user: any,
     tenantName: string
-  ): Promise<SubscriptionResponse> {
+  ): Promise<SubscriptionData> {
     if (!this.stripeClient.isAvailable()) {
       throw new Error("Payment processing is currently unavailable");
     }
@@ -62,7 +62,7 @@ export class TenantsService {
       throw new Error("Invalid plan type");
     }
 
-    if (!userClaims.email) {
+    if (!user.email) {
       throw new Error('User email required');
     }
 
@@ -78,10 +78,10 @@ export class TenantsService {
 
     // Create temporary customer for onboarding
     const customer = await this.stripeClient.createCustomer({
-      email: userClaims.email,
-      name: `${userClaims.first_name} ${userClaims.last_name}`,
+      email: user.email,
+      name: `${user.firstName} ${user.lastName}`,
       metadata: {
-        userId: userClaims.sub,
+        userId: user.id,
         planType,
         isOnboarding: 'true'
       }
@@ -93,7 +93,7 @@ export class TenantsService {
       payment_behavior: 'default_incomplete',
       expand: ['latest_invoice.payment_intent'],
       metadata: {
-        userId: userClaims.sub,
+        userId: user.id,
         planType,
         isOnboarding: 'true'
       }
@@ -107,7 +107,7 @@ export class TenantsService {
     };
   }
 
-  async createSubscription(user: User): Promise<SubscriptionResponse> {
+  async createSubscription(user: User): Promise<SubscriptionData> {
     if (!this.stripeClient.isAvailable()) {
       throw new Error("Payment processing is currently unavailable");
     }

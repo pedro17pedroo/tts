@@ -44,7 +44,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth routes
   app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       res.json(user);
     } catch (error) {
@@ -56,8 +56,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Tenant onboarding
   app.post('/api/onboarding', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
-      const userClaims = req.user.claims;
+      const userId = req.user.id;
+      const userClaims = req.user;
       const data = onboardingSchema.parse(req.body);
 
       // Create tenant
@@ -73,9 +73,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       await storage.upsertUser({
         id: userId,
         email: userClaims.email,
-        firstName: userClaims.first_name,
-        lastName: userClaims.last_name,
-        profileImageUrl: userClaims.profile_image_url,
+        firstName: userClaims.firstName,
+        lastName: userClaims.lastName,
+        profileImageUrl: userClaims.profileImageUrl,
         role: 'tenant_admin',
         tenantId: tenant.id,
       });
@@ -118,8 +118,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(503).json({ message: "Payment processing is currently unavailable" });
       }
 
-      const userId = req.user.claims.sub;
-      const userClaims = req.user.claims;
+      const userId = req.user.id;
+      const userClaims = req.user;
       const { planType } = req.body;
 
       if (!planType || (planType !== 'pro' && planType !== 'enterprise')) {
@@ -143,7 +143,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create temporary customer for onboarding
       const customer = await stripe.customers.create({
         email: userClaims.email,
-        name: `${userClaims.first_name} ${userClaims.last_name}`,
+        name: `${userClaims.firstName} ${userClaims.lastName}`,
         metadata: {
           userId,
           planType,
@@ -182,7 +182,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(503).json({ message: "Payment processing is currently unavailable" });
       }
 
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -251,7 +251,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Dashboard stats
   app.get('/api/dashboard/stats', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -269,7 +269,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Customers
   app.get('/api/customers', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -286,7 +286,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/customers', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -309,7 +309,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Tickets
   app.get('/api/tickets', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -332,7 +332,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/tickets', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -375,7 +375,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.get('/api/tickets/:id', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -399,7 +399,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.patch('/api/tickets/:id', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -417,7 +417,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Ticket comments
   app.post('/api/tickets/:id/comments', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -441,7 +441,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Hour banks
   app.get('/api/hour-banks', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -458,7 +458,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/hour-banks', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -481,7 +481,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Time entries
   app.post('/api/time-entries', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const data = insertTimeEntrySchema.parse({
         ...req.body,
         userId,
@@ -508,7 +508,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Knowledge base
   app.get('/api/articles', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -526,7 +526,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/articles', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -550,7 +550,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Tenant customization endpoints
   app.get('/api/tenant/branding', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -574,7 +574,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.put('/api/tenant/branding', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -603,7 +603,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/tenant/logo-upload', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -647,7 +647,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Departments
   app.get('/api/departments', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {
@@ -665,7 +665,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Categories
   app.get('/api/categories', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await storage.getUser(userId);
       
       if (!user?.tenantId) {

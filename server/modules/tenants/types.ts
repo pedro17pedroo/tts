@@ -42,6 +42,12 @@ export interface SubscriptionSuccessResponse extends SuccessResponse {
   };
 }
 
+export interface SubscriptionData {
+  subscriptionId: string;
+  clientSecret?: string;
+  customerId?: string;
+}
+
 // API Response types (can be success or error)
 export type OnboardingResponse = OnboardingSuccessResponse | ErrorResponse;
 export type SubscriptionResponse = SubscriptionSuccessResponse | ErrorResponse;
