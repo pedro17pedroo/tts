@@ -27,8 +27,8 @@ import { createServer } from "http";
     serveStatic(app);
   }
 
-  // Start server - configured for port 4003 as requested
-  const port = 4003;
+  // Start server - configured for port 5000 for Replit compatibility
+  const port = process.env.PORT || 5000;
   server.listen({
     port,
     host: "0.0.0.0",
