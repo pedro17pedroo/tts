@@ -1,21 +1,22 @@
-import { type Request, Response, NextFunction } from "express";
+import { type Response } from "express";
+import { BaseController } from "../../shared/base-controller";
 import { AuthService } from "./service";
-import type { AuthenticatedRequest, UserResponse, AuthErrorResponse } from "./types";
+import type { AuthenticatedRequest, UserResponse } from "./types";
 
-export class AuthController {
+export class AuthController extends BaseController {
   private service: AuthService;
 
   constructor() {
+    super();
     this.service = new AuthService();
   }
 
-  async getCurrentUser(req: AuthenticatedRequest, res: Response<UserResponse | AuthErrorResponse>) {
+  async getCurrentUser(req: AuthenticatedRequest, res: Response<UserResponse>) {
     try {
       const user = await this.service.getCurrentUser(req.user.claims);
-      res.json({ user });
+      this.sendSuccess(res, user);
     } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
+      this.handleError(error, res, "Failed to fetch user");
     }
   }
 }

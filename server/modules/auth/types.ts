@@ -1,28 +1,21 @@
-import { z } from "zod";
-import { type Request } from "express";
 import type { User, UpsertUser } from "@shared/schema";
+import type { 
+  AuthenticatedRequest, 
+  SuccessResponse,
+  ErrorResponse
+} from "../../shared/base-types";
 
 export type AuthUser = User;
 export type UpsertAuthUser = UpsertUser;
 
-// Request types
-export interface AuthenticatedRequest extends Request {
-  user: {
-    claims: {
-      sub: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      profile_image_url: string;
-    };
-  };
+// Re-export AuthenticatedRequest from base types
+export type { AuthenticatedRequest };
+
+// Success response types
+export interface UserSuccessResponse extends SuccessResponse<AuthUser> {
+  success: true;
+  data: AuthUser;
 }
 
-// Response types
-export interface UserResponse {
-  user: AuthUser;
-}
-
-export interface AuthErrorResponse {
-  message: string;
-}
+// API Response types (can be success or error)
+export type UserResponse = UserSuccessResponse | ErrorResponse;

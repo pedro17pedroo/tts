@@ -1,22 +1,16 @@
 import { z } from "zod";
-import { type Request } from "express";
 import type { Tenant, InsertTenant } from "@shared/schema";
+import type { 
+  AuthenticatedRequest, 
+  SuccessResponse,
+  ErrorResponse
+} from "../../shared/base-types";
 
 export type TenantData = Tenant;
 export type CreateTenantData = InsertTenant;
 
-// Request types
-export interface AuthenticatedRequest extends Request {
-  user: {
-    claims: {
-      sub: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      profile_image_url: string;
-    };
-  };
-}
+// Re-export AuthenticatedRequest from base types
+export type { AuthenticatedRequest };
 
 // Schema for onboarding
 export const onboardingSchema = z.object({
@@ -31,14 +25,23 @@ export const onboardingSchema = z.object({
 
 export type OnboardingData = z.infer<typeof onboardingSchema>;
 
-// Response types
-export interface OnboardingResponse {
-  tenant: TenantData;
-  success: boolean;
+// Success response types
+export interface OnboardingSuccessResponse extends SuccessResponse {
+  success: true;
+  data: {
+    tenant: TenantData;
+  };
 }
 
-export interface SubscriptionResponse {
-  subscriptionId: string;
-  clientSecret?: string;
-  customerId?: string;
+export interface SubscriptionSuccessResponse extends SuccessResponse {
+  success: true;
+  data: {
+    subscriptionId: string;
+    clientSecret?: string;
+    customerId?: string;
+  };
 }
+
+// API Response types (can be success or error)
+export type OnboardingResponse = OnboardingSuccessResponse | ErrorResponse;
+export type SubscriptionResponse = SubscriptionSuccessResponse | ErrorResponse;

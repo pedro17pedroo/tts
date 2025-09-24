@@ -1,6 +1,6 @@
 import { type Response } from "express";
+import { BaseController } from "../../shared/base-controller";
 import { TenantsService } from "./service";
-import { AuthService } from "../auth/service";
 import { 
   onboardingSchema,
   type AuthenticatedRequest,
@@ -9,13 +9,12 @@ import {
   type OnboardingData 
 } from "./types";
 
-export class TenantsController {
+export class TenantsController extends BaseController {
   private service: TenantsService;
-  private authService: AuthService;
 
   constructor() {
+    super();
     this.service = new TenantsService();
-    this.authService = new AuthService();
   }
 
   async completeOnboarding(req: AuthenticatedRequest, res: Response<OnboardingResponse>) {
@@ -43,10 +42,9 @@ export class TenantsController {
         tenantId: tenant.id,
       });
 
-      res.json({ tenant, success: true });
+      this.sendSuccess(res, { tenant }, "Onboarding completed successfully");
     } catch (error: any) {
-      console.error("Onboarding error:", error);
-      res.status(500).json({ message: error.message || "Failed to complete onboarding" });
+      this.handleError(error, res, "Failed to complete onboarding");
     }
   }
 
@@ -56,27 +54,24 @@ export class TenantsController {
       const { planType, tenantName } = req.body;
 
       const result = await this.service.createOnboardingSubscription(planType, userClaims, tenantName);
-      res.json(result);
+      this.sendSuccess(res, result, "Subscription created successfully");
     } catch (error: any) {
-      console.error("Onboarding subscription error:", error);
-      res.status(500).json({ message: error.message });
+      this.handleError(error, res, "Failed to create subscription");
     }
   }
 
   async createSubscription(req: AuthenticatedRequest, res: Response<SubscriptionResponse>) {
     try {
-      const userId = req.user.claims.sub;
-      const user = await this.authService.getUserById(userId);
-      
-      if (!user) {
-        return res.status(400).json({ message: "User not found" });
+      const authResult = await this.getAuthenticatedUser(req);
+      if (!authResult) {
+        return this.handleUnauthorized(res, "User not found");
       }
 
+      const { user } = authResult;
       const result = await this.service.createSubscription(user);
-      res.json(result);
+      this.sendSuccess(res, result, "Subscription created successfully");
     } catch (error: any) {
-      console.error("Subscription error:", error);
-      res.status(500).json({ message: error.message });
+      this.handleError(error, res, "Failed to create subscription");
     }
   }
 }
