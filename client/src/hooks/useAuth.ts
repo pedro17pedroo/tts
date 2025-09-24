@@ -5,10 +5,33 @@ import type { User, LoginUser, RegisterUser } from "@shared/schema";
 export function useAuth() {
   const queryClient = useQueryClient();
   
-  const { data: user, isLoading, error } = useQuery<User>({
+  const { data: user, isLoading, error } = useQuery<User | null>({
     queryKey: ["/api/auth/user"],
+    queryFn: async () => {
+      try {
+        const response = await fetch("/api/auth/user", {
+          credentials: "include",
+        });
+        
+        if (response.status === 401) {
+          return null;
+        }
+        
+        if (!response.ok) {
+          throw new Error(`${response.status}: ${response.statusText}`);
+        }
+        
+        return response.json();
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        return null;
+      }
+    },
     retry: false,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    staleTime: Infinity,
   });
 
   // Login mutation

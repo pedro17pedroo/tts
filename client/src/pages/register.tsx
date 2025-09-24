@@ -53,6 +53,7 @@ export default function Register() {
         password: data.password,
         firstName: data.firstName,
         lastName: data.lastName,
+        role: "customer" as const,
       };
       
       await registerUser(registerData);
