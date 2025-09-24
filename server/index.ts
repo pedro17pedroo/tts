@@ -27,8 +27,8 @@ import { createServer } from "http";
     serveStatic(app);
   }
 
-  // Start server
-  const port = parseInt(process.env.PORT || '5000', 10);
+  // Start server - configured for port 4003 as requested
+  const port = 4003;
   server.listen({
     port,
     host: "0.0.0.0",
