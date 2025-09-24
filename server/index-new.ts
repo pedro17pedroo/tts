@@ -34,6 +34,6 @@ import { createServer } from "http";
     host: "0.0.0.0",
     reusePort: true,
   }, () => {
-    log(`Modular TatuTicket server running on port ${port}`);
+    log(`Modular server running on port ${port}`);
   });
 })();
