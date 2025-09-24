@@ -11,9 +11,10 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
-import { Ticket, Building, FileText, Users, CheckCircle, Star, HardDrive, Clock } from "lucide-react";
+import { Ticket, Building, FileText, Users, CheckCircle, Star, HardDrive, Clock, ArrowLeft, Loader2 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import PaymentForm from "@/components/PaymentForm";
 
 const onboardingSchema = z.object({
   tenantName: z.string().min(2, "Nome da empresa deve ter pelo menos 2 caracteres"),
@@ -85,12 +86,21 @@ const plans = [
   }
 ];
 
+type OnboardingStep = "form" | "payment" | "success";
+
 export default function Onboarding() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selectedPlan, setSelectedPlan] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
+  const [currentStep, setCurrentStep] = useState<OnboardingStep>("form");
+  const [paymentData, setPaymentData] = useState<{
+    clientSecret: string;
+    subscriptionId: string;
+    customerId: string;
+  } | null>(null);
+  const [formData, setFormData] = useState<OnboardingForm | null>(null);
 
   const form = useForm<OnboardingForm>({
     resolver: zodResolver(onboardingSchema),
@@ -100,19 +110,45 @@ export default function Onboarding() {
     },
   });
 
+  // Mutation to create subscription for paid plans
+  const subscriptionMutation = useMutation({
+    mutationFn: async (data: { planType: string; tenantName: string }) => {
+      const response = await apiRequest("POST", "/api/onboarding-subscription", data);
+      return response;
+    },
+    onSuccess: (data) => {
+      setPaymentData(data);
+      setCurrentStep("payment");
+    },
+    onError: (error: any) => {
+      const errorMessage = error.message || "Falha ao criar subscription";
+      setError(errorMessage);
+      toast({
+        title: "Erro ao criar subscription",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Mutation to complete onboarding
   const onboardingMutation = useMutation({
-    mutationFn: async (data: OnboardingForm) => {
+    mutationFn: async (data: OnboardingForm & { stripeCustomerId?: string; stripeSubscriptionId?: string }) => {
       const response = await apiRequest("POST", "/api/onboarding", data);
       return response;
     },
     onSuccess: () => {
+      setCurrentStep("success");
       toast({
         title: "Empresa criada com sucesso!",
         description: "Bem-vindo ao TatuTicket. Sua conta está pronta para uso.",
       });
       // Invalidate user query to refetch with new tenant
       queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      setLocation("/");
+      // Redirect after a short delay to show success message
+      setTimeout(() => {
+        setLocation("/");
+      }, 2000);
     },
     onError: (error: any) => {
       const errorMessage = error.message || "Falha ao criar empresa";
@@ -127,6 +163,7 @@ export default function Onboarding() {
 
   const handleSubmit = (data: OnboardingForm) => {
     setError(null);
+    setFormData(data);
     
     if (!selectedPlan) {
       setError("Você deve selecionar um plano para continuar");
@@ -137,13 +174,148 @@ export default function Onboarding() {
       });
       return;
     }
-    
+
+    // If free plan, go directly to onboarding
+    if (selectedPlan === "free") {
+      onboardingMutation.mutate({
+        ...data,
+        planType: selectedPlan as any,
+      });
+    } else {
+      // For paid plans, create subscription first
+      subscriptionMutation.mutate({
+        planType: selectedPlan,
+        tenantName: data.tenantName,
+      });
+    }
+  };
+
+  const handlePaymentSuccess = (paymentIntent: any) => {
+    if (!formData || !paymentData) return;
+
+    // Complete onboarding with payment info
     onboardingMutation.mutate({
-      ...data,
+      ...formData,
       planType: selectedPlan as any,
+      stripeCustomerId: paymentData.customerId,
+      stripeSubscriptionId: paymentData.subscriptionId,
     });
   };
 
+  const handlePaymentError = (errorMessage: string) => {
+    setError(errorMessage);
+  };
+
+  const handleBackToForm = () => {
+    setCurrentStep("form");
+    setPaymentData(null);
+    setError(null);
+  };
+
+  const selectedPlanData = plans.find(p => p.id === selectedPlan);
+
+  // Render payment step
+  if (currentStep === "payment" && paymentData && selectedPlanData) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-4">
+        <div className="w-full max-w-2xl space-y-8">
+          {/* Header */}
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <Ticket className="h-10 w-10 text-primary" />
+              <span className="text-3xl font-bold text-primary">TatuTicket</span>
+            </div>
+            <h1 className="text-3xl font-bold mb-2">Finalizar Pagamento</h1>
+            <p className="text-muted-foreground">
+              Complete seu pagamento para ativar o plano {selectedPlanData.name}
+            </p>
+          </div>
+
+          {/* Back Button */}
+          <div className="flex justify-start">
+            <Button
+              variant="outline"
+              onClick={handleBackToForm}
+              className="flex items-center space-x-2"
+              disabled={onboardingMutation.isPending}
+              data-testid="button-back-to-form"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span>Voltar</span>
+            </Button>
+          </div>
+
+          {/* Payment Form */}
+          <PaymentForm
+            clientSecret={paymentData.clientSecret}
+            onSuccess={handlePaymentSuccess}
+            onError={handlePaymentError}
+            planName={selectedPlanData.name}
+            amount={selectedPlanData.price}
+          />
+
+          {/* Loading State */}
+          {onboardingMutation.isPending && (
+            <Card>
+              <CardContent className="flex items-center justify-center p-8">
+                <div className="flex items-center space-x-4">
+                  <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                  <div>
+                    <h3 className="font-semibold">Finalizando Configuração...</h3>
+                    <p className="text-sm text-muted-foreground">
+                      Estamos criando sua empresa e ativando seu plano.
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // Render success step
+  if (currentStep === "success") {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-4">
+        <div className="w-full max-w-2xl space-y-8">
+          {/* Header */}
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <Ticket className="h-10 w-10 text-primary" />
+              <span className="text-3xl font-bold text-primary">TatuTicket</span>
+            </div>
+            <h1 className="text-3xl font-bold mb-2">Parabéns!</h1>
+            <p className="text-muted-foreground">
+              Sua empresa foi criada com sucesso
+            </p>
+          </div>
+
+          {/* Success Card */}
+          <Card>
+            <CardContent className="flex flex-col items-center justify-center p-8 text-center">
+              <CheckCircle className="h-16 w-16 text-green-500 mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Empresa Criada!</h3>
+              {selectedPlanData && (
+                <p className="text-muted-foreground mb-4">
+                  Plano {selectedPlanData.name} ativado com sucesso.
+                </p>
+              )}
+              <p className="text-sm text-muted-foreground">
+                Você será redirecionado para o dashboard em alguns segundos...
+              </p>
+              <div className="mt-6">
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+
+  // Render form step (default)
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl space-y-8">
@@ -211,11 +383,25 @@ export default function Onboarding() {
                   <Button
                     type="submit"
                     className="w-full"
-                    disabled={onboardingMutation.isPending || !selectedPlan}
+                    disabled={
+                      onboardingMutation.isPending || 
+                      subscriptionMutation.isPending || 
+                      !selectedPlan
+                    }
                     data-testid="button-create-company"
                   >
-                    {onboardingMutation.isPending ? "Criando empresa..." : 
-                     !selectedPlan ? "Selecione um plano" : "Criar Empresa"}
+                    {(onboardingMutation.isPending || subscriptionMutation.isPending) ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        {selectedPlan === "free" ? "Criando empresa..." : "Preparando pagamento..."}
+                      </>
+                    ) : !selectedPlan ? (
+                      "Selecione um plano"
+                    ) : selectedPlan === "free" ? (
+                      "Criar Empresa Gratuitamente"
+                    ) : (
+                      "Continuar para Pagamento"
+                    )}
                   </Button>
                 </form>
               </CardContent>
@@ -312,7 +498,7 @@ export default function Onboarding() {
                       <strong>Nota:</strong> Você pode alterar seu plano a qualquer momento nas configurações.
                       {selectedPlan === "free" && " O plano gratuito não requer pagamento."}
                       {(selectedPlan === "pro" || selectedPlan === "enterprise") && 
-                        " Você será direcionado para configurar o pagamento após criar a empresa."}
+                        " Você será direcionado para o pagamento na próxima etapa."}
                     </p>
                   </div>
                 )}
