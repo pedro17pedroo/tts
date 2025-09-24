@@ -32,6 +32,8 @@ const onboardingSchema = z.object({
   planType: z.enum(['free', 'pro', 'enterprise']),
   departments: z.array(z.string()).optional(),
   categories: z.array(z.string()).optional(),
+  stripeCustomerId: z.string().optional(),
+  stripeSubscriptionId: z.string().optional(),
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -62,6 +64,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         name: data.tenantName,
         cnpj: data.cnpj,
         planType: data.planType,
+        stripeCustomerId: data.stripeCustomerId,
+        stripeSubscriptionId: data.stripeSubscriptionId,
       });
 
       // Update user to be tenant admin
@@ -103,6 +107,70 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Onboarding error:", error);
       res.status(500).json({ message: "Failed to complete onboarding" });
+    }
+  });
+
+  // Onboarding subscription (before tenant exists)
+  app.post('/api/onboarding-subscription', isAuthenticated, async (req: any, res) => {
+    try {
+      if (!stripe) {
+        return res.status(503).json({ message: "Payment processing is currently unavailable" });
+      }
+
+      const userId = req.user.claims.sub;
+      const userClaims = req.user.claims;
+      const { planType } = req.body;
+
+      if (!planType || (planType !== 'pro' && planType !== 'enterprise')) {
+        return res.status(400).json({ message: "Invalid plan type" });
+      }
+
+      if (!userClaims.email) {
+        return res.status(400).json({ message: 'User email required' });
+      }
+
+      const priceIds = {
+        pro: process.env.STRIPE_PRO_PRICE_ID,
+        enterprise: process.env.STRIPE_ENTERPRISE_PRICE_ID,
+      };
+
+      const priceId = priceIds[planType as keyof typeof priceIds];
+      if (!priceId) {
+        return res.status(400).json({ message: "Price ID not configured for plan" });
+      }
+
+      // Create temporary customer for onboarding
+      const customer = await stripe.customers.create({
+        email: userClaims.email,
+        name: `${userClaims.first_name} ${userClaims.last_name}`,
+        metadata: {
+          userId,
+          planType,
+          isOnboarding: 'true'
+        }
+      });
+
+      const subscription = await stripe.subscriptions.create({
+        customer: customer.id,
+        items: [{ price: priceId }],
+        payment_behavior: 'default_incomplete',
+        expand: ['latest_invoice.payment_intent'],
+        metadata: {
+          userId,
+          planType,
+          isOnboarding: 'true'
+        }
+      });
+
+      const latestInvoice = subscription.latest_invoice as any;
+      res.json({
+        subscriptionId: subscription.id,
+        clientSecret: latestInvoice?.payment_intent?.client_secret,
+        customerId: customer.id,
+      });
+    } catch (error: any) {
+      console.error("Onboarding subscription error:", error);
+      res.status(500).json({ message: error.message });
     }
   });
 
