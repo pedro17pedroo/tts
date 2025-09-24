@@ -284,16 +284,17 @@ export class DatabaseStorage implements IStorage {
 
   // Knowledge base operations
   async getArticlesByTenant(tenantId: string, isPublic?: boolean): Promise<Article[]> {
-    let query = db
-      .select()
-      .from(articles)
-      .where(eq(articles.tenantId, tenantId));
+    const conditions = [eq(articles.tenantId, tenantId)];
 
     if (typeof isPublic === 'boolean') {
-      query = query.where(eq(articles.isPublic, isPublic));
+      conditions.push(eq(articles.isPublic, isPublic));
     }
 
-    return query.orderBy(desc(articles.createdAt));
+    return db
+      .select()
+      .from(articles)
+      .where(and(...conditions))
+      .orderBy(desc(articles.createdAt));
   }
 
   async getArticle(id: string, tenantId: string): Promise<Article | undefined> {

@@ -25,7 +25,7 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
   try {
     await mailService.send({
       to: params.to,
-      from: (process.env.SENDGRID_FROM_EMAIL as string) || 'noreply@tatuticket.com',
+      from: (process.env.SENDGRID_FROM_EMAIL || 'noreply@tatuticket.com') as string,
       subject: params.subject,
       text: params.text,
       html: params.html,

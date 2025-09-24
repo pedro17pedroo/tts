@@ -7,6 +7,7 @@ import { Columns, Table, Search } from "lucide-react";
 import KanbanBoard from "@/components/tickets/kanban-board";
 import TicketsTable from "@/components/tickets/tickets-table";
 import CreateTicketModal from "@/components/tickets/create-ticket-modal";
+import type { Ticket } from "@shared/schema";
 
 export default function Tickets() {
   const [view, setView] = useState<"kanban" | "table">("kanban");
@@ -17,7 +18,7 @@ export default function Tickets() {
     search: "",
   });
 
-  const { data: tickets = [], isLoading } = useQuery({
+  const { data: tickets = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/tickets", filters],
   });
 

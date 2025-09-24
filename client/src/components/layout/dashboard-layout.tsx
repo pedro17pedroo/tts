@@ -112,7 +112,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
         <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border">
           <div className="flex items-center space-x-3 p-3">
             <Avatar className="h-8 w-8">
-              <AvatarImage src={user?.profileImageUrl} />
+              <AvatarImage src={user?.profileImageUrl || undefined} />
               <AvatarFallback>
                 {user?.firstName?.[0] || user?.email?.[0] || 'U'}
               </AvatarFallback>

@@ -3,8 +3,22 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Ticket, Clock, CheckCircle, AlertTriangle, TrendingUp } from "lucide-react";
 import StatsCard from "@/components/ui/stats-card";
 
+interface DashboardStats {
+  openTickets: number;
+  inProgressTickets: number;
+  resolvedToday: number;
+  slaAtRisk: number;
+  hourBank: {
+    totalSold: number;
+    consumed: number;
+    available: number;
+    totalValue: number;
+    activeBanks: number;
+  };
+}
+
 export default function Dashboard() {
-  const { data: stats, isLoading } = useQuery({
+  const { data: stats, isLoading } = useQuery<DashboardStats>({
     queryKey: ["/api/dashboard/stats"],
   });
 

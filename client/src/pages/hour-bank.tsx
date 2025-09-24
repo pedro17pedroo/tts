@@ -102,9 +102,13 @@ export default function HourBank() {
   };
 
   // Calculate statistics
+  const totalSold = hourBanks.reduce((sum, bank) => sum + parseFloat(bank.totalHours), 0);
+  const consumed = hourBanks.reduce((sum, bank) => sum + parseFloat(bank.consumedHours), 0);
+  
   const stats = {
-    totalSold: hourBanks.reduce((sum, bank) => sum + parseFloat(bank.totalHours), 0),
-    consumed: hourBanks.reduce((sum, bank) => sum + parseFloat(bank.consumedHours), 0),
+    totalSold,
+    consumed,
+    available: totalSold - consumed,
     totalValue: hourBanks.reduce((sum, bank) => {
       if (bank.hourlyRate) {
         return sum + (parseFloat(bank.totalHours) * parseFloat(bank.hourlyRate));
@@ -113,8 +117,6 @@ export default function HourBank() {
     }, 0),
     activeBanks: hourBanks.filter(bank => bank.isActive).length,
   };
-
-  stats.available = stats.totalSold - stats.consumed;
 
   if (isLoading) {
     return (

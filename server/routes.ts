@@ -20,7 +20,7 @@ import {
 let stripe: Stripe | null = null;
 if (process.env.STRIPE_SECRET_KEY) {
   stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2024-06-20",
+    apiVersion: "2023-10-16" as any,
   });
 } else {
   console.warn("STRIPE_SECRET_KEY environment variable not set. Payment features will be disabled.");

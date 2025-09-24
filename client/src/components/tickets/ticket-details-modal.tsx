@@ -62,6 +62,24 @@ interface TimeEntry {
   createdAt: string;
 }
 
+interface TicketDetailsResponse {
+  ticket: Ticket;
+  comments: TicketComment[];
+  timeEntries: TimeEntry[];
+}
+
+interface User {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+interface Department {
+  id: string;
+  name: string;
+}
+
 interface TicketDetailsModalProps {
   ticketId: string | null;
   isOpen: boolean;
@@ -75,17 +93,17 @@ export default function TicketDetailsModal({ ticketId, isOpen, onClose }: Ticket
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: ticketData, isLoading } = useQuery({
+  const { data: ticketData, isLoading } = useQuery<TicketDetailsResponse>({
     queryKey: ["/api/tickets", ticketId],
     enabled: !!ticketId && isOpen,
   });
 
-  const { data: users = [] } = useQuery({
+  const { data: users = [] } = useQuery<User[]>({
     queryKey: ["/api/users"],
     enabled: isOpen,
   });
 
-  const { data: departments = [] } = useQuery({
+  const { data: departments = [] } = useQuery<Department[]>({
     queryKey: ["/api/departments"],
     enabled: isOpen,
   });

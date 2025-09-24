@@ -31,6 +31,7 @@ import { z } from "zod";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
+import type { Department, Category } from "@shared/schema";
 
 const companySchema = z.object({
   name: z.string().min(1, "Nome da empresa é obrigatório"),
@@ -53,11 +54,11 @@ export default function Settings() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
-  const { data: departments = [] } = useQuery({
+  const { data: departments = [] } = useQuery<Department[]>({
     queryKey: ["/api/departments"],
   });
 
-  const { data: categories = [] } = useQuery({
+  const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
   });
 
