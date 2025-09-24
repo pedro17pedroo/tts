@@ -267,6 +267,35 @@ export const hourBanksRelations = relations(hourBanks, ({ one, many }) => ({
   timeEntries: many(timeEntries),
 }));
 
+// Custom branding schema
+export const customBrandingSchema = z.object({
+  logo: z.string().optional(),
+  primaryColor: z.string().regex(/^#[0-9A-F]{6}$/i).optional(),
+  secondaryColor: z.string().regex(/^#[0-9A-F]{6}$/i).optional(),
+  accentColor: z.string().regex(/^#[0-9A-F]{6}$/i).optional(),
+  companyName: z.string().optional(),
+  favicon: z.string().optional(),
+  customCss: z.string().optional(),
+  timezone: z.string().default('America/Sao_Paulo'),
+  dateFormat: z.string().default('DD/MM/YYYY'),
+  timeFormat: z.string().default('24h'),
+});
+
+// Custom fields schema for tickets
+export const customFieldSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  type: z.enum(['text', 'textarea', 'select', 'checkbox', 'number', 'date']),
+  required: z.boolean().default(false),
+  options: z.array(z.string()).optional(), // for select fields
+  defaultValue: z.string().optional(),
+});
+
+// Update tenant branding schema
+export const updateTenantBrandingSchema = z.object({
+  customBranding: customBrandingSchema.optional(),
+});
+
 // Insert schemas
 export const insertTenantSchema = createInsertSchema(tenants).omit({
   id: true,
@@ -345,3 +374,5 @@ export type Department = typeof departments.$inferSelect;
 export type InsertDepartment = z.infer<typeof insertDepartmentSchema>;
 export type Category = typeof categories.$inferSelect;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
+export type CustomBranding = z.infer<typeof customBrandingSchema>;
+export type CustomField = z.infer<typeof customFieldSchema>;

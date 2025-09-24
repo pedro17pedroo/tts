@@ -15,6 +15,7 @@ import {
   insertArticleSchema,
   insertDepartmentSchema,
   insertCategorySchema,
+  updateTenantBrandingSchema,
 } from "@shared/schema";
 
 let stripe: Stripe | null = null;
@@ -543,6 +544,103 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Article creation error:", error);
       res.status(500).json({ message: "Failed to create article" });
+    }
+  });
+
+  // Tenant customization endpoints
+  app.get('/api/tenant/branding', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (!user?.tenantId) {
+        return res.status(400).json({ message: "User not associated with a tenant" });
+      }
+
+      const tenant = await storage.getTenant(user.tenantId);
+      if (!tenant) {
+        return res.status(404).json({ message: "Tenant not found" });
+      }
+
+      res.json({
+        customBranding: tenant.customBranding || {},
+        tenantName: tenant.name,
+      });
+    } catch (error) {
+      console.error("Get branding error:", error);
+      res.status(500).json({ message: "Failed to fetch branding" });
+    }
+  });
+
+  app.put('/api/tenant/branding', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (!user?.tenantId) {
+        return res.status(400).json({ message: "User not associated with a tenant" });
+      }
+
+      if (user.role !== 'tenant_admin') {
+        return res.status(403).json({ message: "Only tenant admins can update branding" });
+      }
+
+      const { customBranding } = updateTenantBrandingSchema.parse(req.body);
+
+      const updatedTenant = await storage.updateTenant(user.tenantId, {
+        customBranding,
+      });
+
+      res.json({
+        customBranding: updatedTenant.customBranding,
+        message: "Branding updated successfully"
+      });
+    } catch (error) {
+      console.error("Update branding error:", error);
+      res.status(500).json({ message: "Failed to update branding" });
+    }
+  });
+
+  app.post('/api/tenant/logo-upload', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      
+      if (!user?.tenantId) {
+        return res.status(400).json({ message: "User not associated with a tenant" });
+      }
+
+      if (user.role !== 'tenant_admin') {
+        return res.status(403).json({ message: "Only tenant admins can upload logos" });
+      }
+
+      const { logoData, fileName } = req.body;
+      
+      if (!logoData || !fileName) {
+        return res.status(400).json({ message: "Logo data and file name required" });
+      }
+
+      // For now, we'll store base64 data directly
+      // In production, you'd upload to cloud storage
+      const logoUrl = logoData;
+
+      const tenant = await storage.getTenant(user.tenantId);
+      const currentBranding = tenant?.customBranding || {};
+
+      const updatedTenant = await storage.updateTenant(user.tenantId, {
+        customBranding: {
+          ...currentBranding,
+          logo: logoUrl,
+        },
+      });
+
+      res.json({
+        logoUrl,
+        message: "Logo uploaded successfully"
+      });
+    } catch (error) {
+      console.error("Logo upload error:", error);
+      res.status(500).json({ message: "Failed to upload logo" });
     }
   });
 

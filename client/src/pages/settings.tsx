@@ -32,6 +32,257 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import type { Department, Category } from "@shared/schema";
+import { Upload, Palette as ColorIcon } from "lucide-react";
+
+// Customization Component
+function CustomizationSettings() {
+  const { toast } = useToast();
+  const [selectedColors, setSelectedColors] = useState({
+    primary: '#3b82f6',
+    secondary: '#64748b',
+    accent: '#f59e0b',
+  });
+
+  // Fetch current branding
+  const { data: branding, isLoading } = useQuery({
+    queryKey: ['/api/tenant/branding'],
+  });
+
+  // Update branding mutation
+  const updateBrandingMutation = useMutation({
+    mutationFn: async (brandingData: any) => {
+      const response = await apiRequest('PUT', '/api/tenant/branding', brandingData);
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Personalização atualizada",
+        description: "As configurações foram salvas com sucesso.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Erro ao atualizar",
+        description: "Não foi possível salvar as configurações.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Logo upload mutation
+  const uploadLogoMutation = useMutation({
+    mutationFn: async ({ logoData, fileName }: { logoData: string; fileName: string }) => {
+      const response = await apiRequest('POST', '/api/tenant/logo-upload', { logoData, fileName });
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "Logo atualizado",
+        description: "O logo da empresa foi atualizado com sucesso.",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Erro no upload",
+        description: "Não foi possível fazer upload do logo.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const logoData = e.target?.result as string;
+        uploadLogoMutation.mutate({ logoData, fileName: file.name });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleColorChange = (colorType: string, color: string) => {
+    const newColors = { ...selectedColors, [colorType]: color };
+    setSelectedColors(newColors);
+    
+    const customBranding = {
+      ...(branding?.customBranding || {}),
+      primaryColor: newColors.primary,
+      secondaryColor: newColors.secondary,
+      accentColor: newColors.accent,
+    };
+
+    updateBrandingMutation.mutate({ customBranding });
+  };
+
+  const handleTimezoneChange = (timezone: string) => {
+    const customBranding = {
+      ...(branding?.customBranding || {}),
+      timezone,
+    };
+    updateBrandingMutation.mutate({ customBranding });
+  };
+
+  if (isLoading) {
+    return <div className="p-6">Carregando configurações...</div>;
+  }
+
+  const currentBranding = (branding?.customBranding as any) || {};
+
+  return (
+    <div className="grid gap-6">
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Palette className="w-5 h-5" />
+            Personalização da Interface
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Logo Upload */}
+          <div>
+            <Label htmlFor="logo">Logo da Empresa</Label>
+            <div className="mt-2 flex items-center space-x-4">
+              <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center overflow-hidden">
+                {currentBranding.logo ? (
+                  <img 
+                    src={currentBranding.logo} 
+                    alt="Logo da empresa" 
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <Building className="h-8 w-8 text-muted-foreground" />
+                )}
+              </div>
+              <div>
+                <input
+                  type="file"
+                  id="logo-upload"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+                <Button 
+                  variant="outline" 
+                  onClick={() => document.getElementById('logo-upload')?.click()}
+                  disabled={uploadLogoMutation.isPending}
+                  data-testid="button-upload-logo"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  {uploadLogoMutation.isPending ? 'Enviando...' : 'Upload Logo'}
+                </Button>
+                <p className="text-sm text-muted-foreground mt-1">
+                  PNG, JPG até 2MB
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <Separator />
+          
+          {/* Theme Colors */}
+          <div>
+            <Label className="flex items-center gap-2">
+              <ColorIcon className="w-4 h-4" />
+              Cores do Tema
+            </Label>
+            <div className="mt-4 space-y-4">
+              <div className="flex items-center gap-4">
+                <Label className="w-20">Principal</Label>
+                <input
+                  type="color"
+                  value={currentBranding.primaryColor || selectedColors.primary}
+                  onChange={(e) => handleColorChange('primary', e.target.value)}
+                  className="w-12 h-12 rounded cursor-pointer border-2"
+                  data-testid="color-primary"
+                />
+                <span className="text-sm text-muted-foreground">
+                  {currentBranding.primaryColor || selectedColors.primary}
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <Label className="w-20">Secundária</Label>
+                <input
+                  type="color"
+                  value={currentBranding.secondaryColor || selectedColors.secondary}
+                  onChange={(e) => handleColorChange('secondary', e.target.value)}
+                  className="w-12 h-12 rounded cursor-pointer border-2"
+                  data-testid="color-secondary"
+                />
+                <span className="text-sm text-muted-foreground">
+                  {currentBranding.secondaryColor || selectedColors.secondary}
+                </span>
+              </div>
+              
+              <div className="flex items-center gap-4">
+                <Label className="w-20">Destaque</Label>
+                <input
+                  type="color"
+                  value={currentBranding.accentColor || selectedColors.accent}
+                  onChange={(e) => handleColorChange('accent', e.target.value)}
+                  className="w-12 h-12 rounded cursor-pointer border-2"
+                  data-testid="color-accent"
+                />
+                <span className="text-sm text-muted-foreground">
+                  {currentBranding.accentColor || selectedColors.accent}
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          <Separator />
+          
+          {/* Timezone */}
+          <div>
+            <Label htmlFor="timezone">Fuso Horário</Label>
+            <Select 
+              value={currentBranding.timezone || "America/Sao_Paulo"} 
+              onValueChange={handleTimezoneChange}
+            >
+              <SelectTrigger className="mt-2" data-testid="select-timezone">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="America/Sao_Paulo">América/São Paulo (UTC-3)</SelectItem>
+                <SelectItem value="America/New_York">América/Nova York (UTC-5)</SelectItem>
+                <SelectItem value="Europe/London">Europa/Londres (UTC+0)</SelectItem>
+                <SelectItem value="Asia/Tokyo">Ásia/Tóquio (UTC+9)</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
+          <Separator />
+          
+          {/* Company Name */}
+          <div>
+            <Label htmlFor="company-name">Nome da Empresa (Exibição)</Label>
+            <Input
+              id="company-name"
+              placeholder={(branding as any)?.tenantName || "Nome da empresa"}
+              defaultValue={currentBranding.companyName || (branding as any)?.tenantName}
+              onBlur={(e) => {
+                if (e.target.value !== currentBranding.companyName) {
+                  const customBranding = {
+                    ...currentBranding,
+                    companyName: e.target.value,
+                  };
+                  updateBrandingMutation.mutate({ customBranding });
+                }
+              }}
+              className="mt-2"
+              data-testid="input-company-name"
+            />
+            <p className="text-sm text-muted-foreground mt-1">
+              Este nome será exibido na interface para seus clientes
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
 
 const companySchema = z.object({
   name: z.string().min(1, "Nome da empresa é obrigatório"),
@@ -510,48 +761,7 @@ export default function Settings() {
 
         {/* Customization Settings */}
         <TabsContent value="customization">
-          <div className="grid gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>Personalização da Interface</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <Label htmlFor="logo">Logo da Empresa</Label>
-                  <div className="mt-2 flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-muted rounded-lg flex items-center justify-center">
-                      <Building className="h-8 w-8 text-muted-foreground" />
-                    </div>
-                    <Button variant="outline" data-testid="button-upload-logo">Upload Logo</Button>
-                  </div>
-                </div>
-                <Separator />
-                <div>
-                  <Label>Cores do Tema</Label>
-                  <div className="mt-2 grid grid-cols-4 gap-2">
-                    <div className="w-8 h-8 bg-primary rounded cursor-pointer border-2 border-primary"></div>
-                    <div className="w-8 h-8 bg-accent rounded cursor-pointer border-2 border-transparent hover:border-accent"></div>
-                    <div className="w-8 h-8 bg-secondary rounded cursor-pointer border-2 border-transparent hover:border-secondary"></div>
-                    <div className="w-8 h-8 bg-destructive rounded cursor-pointer border-2 border-transparent hover:border-destructive"></div>
-                  </div>
-                </div>
-                <Separator />
-                <div>
-                  <Label htmlFor="timezone">Fuso Horário</Label>
-                  <Select defaultValue="america/sao_paulo">
-                    <SelectTrigger className="mt-2" data-testid="select-timezone">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="america/sao_paulo">América/São Paulo (UTC-3)</SelectItem>
-                      <SelectItem value="america/new_york">América/Nova York (UTC-5)</SelectItem>
-                      <SelectItem value="europe/london">Europa/Londres (UTC+0)</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+          <CustomizationSettings />
         </TabsContent>
       </Tabs>
     </div>
