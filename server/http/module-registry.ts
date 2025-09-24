@@ -1,6 +1,7 @@
 import { type Express } from "express";
 import { authModule } from "../modules/auth/router";
 import { tenantsModule } from "../modules/tenants/router";
+import { customersModule } from "../modules/customers/router";
 
 export interface Module {
   name: string;
@@ -18,6 +19,11 @@ const modules: Module[] = [
     name: "tenants",
     router: tenantsModule,
     basePath: "/api",
+  },
+  {
+    name: "customers",
+    router: customersModule,
+    basePath: "/api/customers",
   },
 ];
 
