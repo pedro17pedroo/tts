@@ -1,6 +1,7 @@
 import { sql, relations } from 'drizzle-orm';
 import {
   index,
+  uniqueIndex,
   jsonb,
   pgTable,
   timestamp,
@@ -30,6 +31,8 @@ export const planTypeEnum = pgEnum('plan_type', ['free', 'pro', 'enterprise']);
 export const ticketStatusEnum = pgEnum('ticket_status', ['new', 'in_progress', 'waiting_customer', 'resolved', 'closed']);
 export const ticketPriorityEnum = pgEnum('ticket_priority', ['low', 'medium', 'high', 'critical']);
 export const userRoleEnum = pgEnum('user_role', ['global_admin', 'tenant_admin', 'agent', 'customer']);
+export const slaStatusEnum = pgEnum('sla_status_enum', ['compliant', 'at_risk', 'breached']);
+export const slaLogActionEnum = pgEnum('sla_log_action_enum', ['created', 'updated', 'deleted', 'violation', 'resolution']);
 
 // Tenants (companies using the SaaS)
 export const tenants = pgTable("tenants", {
@@ -188,15 +191,83 @@ export const articles = pgTable("articles", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// SLA configurations
+// SLA configurations - Configurações de SLA por tenant, categoria e prioridade
 export const slaConfigs = pgTable("sla_configs", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   tenantId: varchar("tenant_id").notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  categoryId: varchar("category_id").references(() => categories.id), // null = applies to all categories
   priority: ticketPriorityEnum("priority").notNull(),
   firstResponseMinutes: integer("first_response_minutes").notNull(),
   resolutionMinutes: integer("resolution_minutes").notNull(),
+  // Business hours configuration
+  businessHoursStart: varchar("business_hours_start", { length: 5 }).default('09:00'), // HH:MM format
+  businessHoursEnd: varchar("business_hours_end", { length: 5 }).default('18:00'), // HH:MM format
+  businessDays: jsonb("business_days").default('[1,2,3,4,5]'), // Array of weekdays (1=Monday, 7=Sunday)
+  timezone: varchar("timezone", { length: 50 }).default('America/Sao_Paulo'),
+  isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
-});
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => [
+  index("idx_sla_configs_tenant_priority").on(table.tenantId, table.priority),
+  index("idx_sla_configs_category").on(table.categoryId),
+  uniqueIndex("idx_sla_configs_null_category").on(table.tenantId, table.priority).where(sql`${table.categoryId} IS NULL`),
+  uniqueIndex("idx_sla_configs_with_category").on(table.tenantId, table.categoryId, table.priority).where(sql`${table.categoryId} IS NOT NULL`),
+]);
+
+// SLA status tracking per ticket - Status de SLA por ticket
+export const slaStatus = pgTable("sla_status", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  ticketId: varchar("ticket_id").notNull().unique().references(() => tickets.id, { onDelete: 'cascade' }),
+  slaConfigId: varchar("sla_config_id").references(() => slaConfigs.id),
+  // SLA timestamps
+  firstResponseDueAt: timestamp("first_response_due_at"),
+  resolutionDueAt: timestamp("resolution_due_at"),
+  firstResponseAt: timestamp("first_response_at"),
+  resolvedAt: timestamp("resolved_at"),
+  // Status tracking
+  firstResponseStatus: slaStatusEnum("first_response_status").default('compliant'),
+  resolutionStatus: slaStatusEnum("resolution_status").default('compliant'),
+  // Time calculations (in minutes)
+  firstResponseTimeRemaining: integer("first_response_time_remaining"),
+  resolutionTimeRemaining: integer("resolution_time_remaining"),
+  firstResponseTimeSpent: integer("first_response_time_spent"),
+  resolutionTimeSpent: integer("resolution_time_spent"),
+  // Breach tracking
+  firstResponseBreachedAt: timestamp("first_response_breached_at"),
+  resolutionBreachedAt: timestamp("resolution_breached_at"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+}, (table) => [
+  index("idx_sla_status_due_dates").on(table.firstResponseDueAt, table.resolutionDueAt),
+  index("idx_sla_status_breached").on(table.firstResponseBreachedAt, table.resolutionBreachedAt),
+]);
+
+// SLA logs and audit trail - Histórico e auditoria de SLAs
+export const slaLogs = pgTable("sla_logs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  tenantId: varchar("tenant_id").notNull().references(() => tenants.id, { onDelete: 'cascade' }),
+  ticketId: varchar("ticket_id").references(() => tickets.id, { onDelete: 'cascade' }),
+  slaConfigId: varchar("sla_config_id").references(() => slaConfigs.id),
+  slaStatusId: varchar("sla_status_id").references(() => slaStatus.id),
+  action: slaLogActionEnum("action").notNull(),
+  // Event details
+  eventType: varchar("event_type", { length: 50 }).notNull(), // 'first_response_breach', 'resolution_breach', 'config_change', etc.
+  description: text("description"),
+  oldValues: jsonb("old_values"), // For configuration changes
+  newValues: jsonb("new_values"), // For configuration changes
+  // Metrics
+  responseTime: integer("response_time"), // Minutes taken for first response
+  resolutionTime: integer("resolution_time"), // Minutes taken for resolution
+  // Context
+  userId: varchar("user_id").references(() => users.id), // User who triggered the action
+  metadata: jsonb("metadata"), // Additional context data
+  createdAt: timestamp("created_at").defaultNow(),
+}, (table) => [
+  index("idx_sla_logs_tenant_date").on(table.tenantId, table.createdAt),
+  index("idx_sla_logs_ticket").on(table.ticketId),
+  index("idx_sla_logs_action").on(table.action),
+  index("idx_sla_logs_event_type").on(table.eventType),
+]);
 
 // Relations
 export const tenantsRelations = relations(tenants, ({ many }) => ({
@@ -208,6 +279,7 @@ export const tenantsRelations = relations(tenants, ({ many }) => ({
   hourBanks: many(hourBanks),
   articles: many(articles),
   slaConfigs: many(slaConfigs),
+  slaLogs: many(slaLogs),
 }));
 
 export const usersRelations = relations(users, ({ one, many }) => ({
@@ -219,6 +291,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
   timeEntries: many(timeEntries),
   ticketComments: many(ticketComments),
   articles: many(articles),
+  slaLogs: many(slaLogs),
 }));
 
 export const customersRelations = relations(customers, ({ one, many }) => ({
@@ -258,6 +331,11 @@ export const ticketsRelations = relations(tickets, ({ one, many }) => ({
   comments: many(ticketComments),
   attachments: many(ticketAttachments),
   timeEntries: many(timeEntries),
+  slaStatus: one(slaStatus, {
+    fields: [tickets.id],
+    references: [slaStatus.ticketId],
+  }),
+  slaLogs: many(slaLogs),
 }));
 
 export const hourBanksRelations = relations(hourBanks, ({ one, many }) => ({
@@ -270,6 +348,68 @@ export const hourBanksRelations = relations(hourBanks, ({ one, many }) => ({
     references: [tenants.id],
   }),
   timeEntries: many(timeEntries),
+}));
+
+// Categories relations - Relações de categorias  
+export const categoriesRelations = relations(categories, ({ one, many }) => ({
+  tenant: one(tenants, {
+    fields: [categories.tenantId],
+    references: [tenants.id],
+  }),
+  tickets: many(tickets),
+  articles: many(articles),
+  slaConfigs: many(slaConfigs),
+}));
+
+// SLA Config relations - Relações de configurações SLA
+export const slaConfigsRelations = relations(slaConfigs, ({ one, many }) => ({
+  tenant: one(tenants, {
+    fields: [slaConfigs.tenantId],
+    references: [tenants.id],
+  }),
+  category: one(categories, {
+    fields: [slaConfigs.categoryId],
+    references: [categories.id],
+  }),
+  slaStatuses: many(slaStatus),
+  slaLogs: many(slaLogs),
+}));
+
+// SLA Status relations - Relações de status SLA
+export const slaStatusRelations = relations(slaStatus, ({ one, many }) => ({
+  ticket: one(tickets, {
+    fields: [slaStatus.ticketId],
+    references: [tickets.id],
+  }),
+  slaConfig: one(slaConfigs, {
+    fields: [slaStatus.slaConfigId],
+    references: [slaConfigs.id],
+  }),
+  slaLogs: many(slaLogs),
+}));
+
+// SLA Logs relations - Relações de logs SLA
+export const slaLogsRelations = relations(slaLogs, ({ one }) => ({
+  tenant: one(tenants, {
+    fields: [slaLogs.tenantId],
+    references: [tenants.id],
+  }),
+  ticket: one(tickets, {
+    fields: [slaLogs.ticketId],
+    references: [tickets.id],
+  }),
+  slaConfig: one(slaConfigs, {
+    fields: [slaLogs.slaConfigId],
+    references: [slaConfigs.id],
+  }),
+  slaStatus: one(slaStatus, {
+    fields: [slaLogs.slaStatusId],
+    references: [slaStatus.id],
+  }),
+  user: one(users, {
+    fields: [slaLogs.userId],
+    references: [users.id],
+  }),
 }));
 
 // Custom branding schema
@@ -387,6 +527,23 @@ export const insertCategorySchema = createInsertSchema(categories).omit({
   createdAt: true,
 });
 
+export const insertSlaConfigSchema = createInsertSchema(slaConfigs).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertSlaStatusSchema = createInsertSchema(slaStatus).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export const insertSlaLogSchema = createInsertSchema(slaLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
@@ -408,6 +565,12 @@ export type Department = typeof departments.$inferSelect;
 export type InsertDepartment = z.infer<typeof insertDepartmentSchema>;
 export type Category = typeof categories.$inferSelect;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
+export type SlaConfig = typeof slaConfigs.$inferSelect;
+export type InsertSlaConfig = z.infer<typeof insertSlaConfigSchema>;
+export type SlaStatus = typeof slaStatus.$inferSelect;
+export type InsertSlaStatus = z.infer<typeof insertSlaStatusSchema>;
+export type SlaLog = typeof slaLogs.$inferSelect;
+export type InsertSlaLog = z.infer<typeof insertSlaLogSchema>;
 export type CustomBranding = z.infer<typeof customBrandingSchema>;
 export type CustomField = z.infer<typeof customFieldSchema>;
 
