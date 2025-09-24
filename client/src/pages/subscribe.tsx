@@ -6,10 +6,9 @@ import { Button } from "@/components/ui/button";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
-if (!import.meta.env.VITE_STRIPE_PUBLIC_KEY) {
-  throw new Error('Missing required Stripe key: VITE_STRIPE_PUBLIC_KEY');
-}
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+const stripePromise = import.meta.env.VITE_STRIPE_PUBLIC_KEY 
+  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
+  : null;
 
 const SubscribeForm = () => {
   const stripe = useStripe();
@@ -76,6 +75,15 @@ export default function Subscribe() {
   const { toast } = useToast();
 
   useEffect(() => {
+    if (!stripePromise) {
+      toast({
+        title: "Payment Unavailable",
+        description: "Payment system is not configured. Please contact support.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     apiRequest("POST", "/api/create-subscription")
       .then((res) => res.json())
       .then((data) => {
@@ -89,6 +97,23 @@ export default function Subscribe() {
         });
       });
   }, [toast]);
+
+  if (!stripePromise) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md mx-auto">
+          <CardHeader>
+            <CardTitle>Payment Unavailable</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground">
+              Payment system is currently not configured. Please contact support to set up your subscription.
+            </p>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   if (!clientSecret) {
     return (

@@ -13,7 +13,9 @@ import { useToast } from "@/hooks/use-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY!);
+const stripePromise = import.meta.env.VITE_STRIPE_PUBLIC_KEY 
+  ? loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY)
+  : null;
 
 // Payment form component
 function PaymentForm({ onPaymentComplete }: { onPaymentComplete: () => void }) {
@@ -463,7 +465,7 @@ export default function Onboarding() {
               </div>
             )}
 
-            {step === 2 && formData.planType !== "free" && clientSecret && (
+            {step === 2 && formData.planType !== "free" && (
               <div className="space-y-6">
                 <div className="text-center">
                   <CardTitle className="mb-2 flex items-center justify-center">
@@ -482,9 +484,29 @@ export default function Onboarding() {
                     </div>
                   </div>
                 </div>
-                <Elements stripe={stripePromise} options={{ clientSecret }}>
-                  <PaymentForm onPaymentComplete={() => setPaymentCompleted(true)} />
-                </Elements>
+                {!stripePromise ? (
+                  <div className="text-center p-6 bg-muted/30 rounded-lg">
+                    <p className="text-muted-foreground mb-4">
+                      Sistema de pagamento não configurado no momento.
+                    </p>
+                    <Button 
+                      onClick={() => setPaymentCompleted(true)}
+                      className="w-full"
+                      data-testid="button-skip-payment"
+                    >
+                      Pular Pagamento (Configurar Depois)
+                    </Button>
+                  </div>
+                ) : !clientSecret ? (
+                  <div className="text-center">
+                    <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto" />
+                    <p className="text-muted-foreground mt-2">Preparando pagamento...</p>
+                  </div>
+                ) : (
+                  <Elements stripe={stripePromise} options={{ clientSecret }}>
+                    <PaymentForm onPaymentComplete={() => setPaymentCompleted(true)} />
+                  </Elements>
+                )}
               </div>
             )}
 
