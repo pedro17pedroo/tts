@@ -286,7 +286,7 @@ function CustomizationSettings() {
 
 const companySchema = z.object({
   name: z.string().min(1, "Nome da empresa é obrigatório"),
-  cnpj: z.string().optional(),
+  nif: z.string().min(1, "NIF é obrigatório"),
   domain: z.string().optional(),
 });
 
@@ -317,7 +317,7 @@ export default function Settings() {
     resolver: zodResolver(companySchema),
     defaultValues: {
       name: "Minha Empresa",
-      cnpj: "",
+      nif: "",
       domain: "",
     },
   });
@@ -442,12 +442,12 @@ export default function Settings() {
                     />
                     <FormField
                       control={companyForm.control}
-                      name="cnpj"
+                      name="nif"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>CNPJ</FormLabel>
+                          <FormLabel>NIF *</FormLabel>
                           <FormControl>
-                            <Input {...field} data-testid="input-company-cnpj" />
+                            <Input {...field} placeholder="000000000" data-testid="input-company-nif" />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

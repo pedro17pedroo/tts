@@ -18,7 +18,7 @@ import PaymentForm from "@/components/PaymentForm";
 
 const onboardingSchema = z.object({
   tenantName: z.string().min(2, "Nome da empresa deve ter pelo menos 2 caracteres"),
-  cnpj: z.string().optional(),
+  nif: z.string().min(1, "NIF é obrigatório"),
   planType: z.enum(["free", "pro", "enterprise"], {
     required_error: "Você deve selecionar um plano para continuar",
   }),
@@ -106,7 +106,7 @@ export default function Onboarding() {
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
       tenantName: "",
-      cnpj: "",
+      nif: "",
     },
   });
 
@@ -366,16 +366,16 @@ export default function Onboarding() {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="cnpj">CNPJ (Opcional)</Label>
+                    <Label htmlFor="nif">NIF *</Label>
                     <Input
-                      id="cnpj"
-                      placeholder="00.000.000/0000-00"
-                      data-testid="input-cnpj"
-                      {...form.register("cnpj")}
+                      id="nif"
+                      placeholder="000000000"
+                      data-testid="input-nif"
+                      {...form.register("nif")}
                     />
-                    {form.formState.errors.cnpj && (
+                    {form.formState.errors.nif && (
                       <p className="text-sm text-destructive">
-                        {form.formState.errors.cnpj.message}
+                        {form.formState.errors.nif.message}
                       </p>
                     )}
                   </div>

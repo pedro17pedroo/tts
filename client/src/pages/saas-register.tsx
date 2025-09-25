@@ -35,7 +35,7 @@ import { useToast } from "@/hooks/use-toast";
 // Schema para validação das etapas do fluxo simplificado
 const companyInfoSchema = z.object({
   tenantName: z.string().min(2, "Nome da empresa deve ter pelo menos 2 caracteres"),
-  cnpj: z.string().optional(),
+  nif: z.string().min(1, "NIF é obrigatório"),
 });
 
 const userRegistrationSchema = z.object({
@@ -73,7 +73,7 @@ export default function SaasRegister() {
     resolver: zodResolver(companyInfoSchema),
     defaultValues: {
       tenantName: "",
-      cnpj: "",
+      nif: "",
     },
   });
 
@@ -280,16 +280,16 @@ export default function SaasRegister() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="cnpj">CNPJ (opcional)</Label>
+                  <Label htmlFor="nif">NIF *</Label>
                   <Input
-                    id="cnpj"
-                    placeholder="00.000.000/0000-00"
-                    data-testid="input-cnpj"
-                    {...companyForm.register("cnpj")}
+                    id="nif"
+                    placeholder="000000000"
+                    data-testid="input-nif"
+                    {...companyForm.register("nif")}
                   />
-                  {companyForm.formState.errors.cnpj && (
+                  {companyForm.formState.errors.nif && (
                     <p className="text-sm text-destructive">
-                      {companyForm.formState.errors.cnpj.message}
+                      {companyForm.formState.errors.nif.message}
                     </p>
                   )}
                 </div>

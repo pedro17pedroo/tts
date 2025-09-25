@@ -16,7 +16,7 @@ export class TenantsService {
     // Create tenant
     const tenant = await this.repository.createTenant({
       name: data.tenantName,
-      cnpj: data.cnpj,
+      nif: data.nif,
       planType: data.planType,
       stripeCustomerId: data.stripeCustomerId,
       stripeSubscriptionId: data.stripeSubscriptionId,

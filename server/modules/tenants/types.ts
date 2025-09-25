@@ -15,7 +15,7 @@ export type { AuthenticatedRequest };
 // Schema for onboarding
 export const onboardingSchema = z.object({
   tenantName: z.string().min(1),
-  cnpj: z.string().optional(),
+  nif: z.string().min(1, "NIF é obrigatório"),
   planType: z.enum(['free', 'pro', 'enterprise']),
   departments: z.array(z.string()).optional(),
   categories: z.array(z.string()).optional(),
