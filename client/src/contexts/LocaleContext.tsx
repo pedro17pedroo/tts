@@ -209,7 +209,7 @@ export function LocaleProvider({ children }: LocaleProviderProps) {
   const getCurrencySymbolForLocale = () => getCurrencySymbol(locale);
   const getCurrencyCodeForLocale = () => getCurrencyCode(locale);
   const getLanguageInfo = () => LANGUAGE_INFO[locale];
-  const getSupportedLocales = (): Locale[] => ['pt-AO', 'pt-BR', 'en-US'];
+  const getSupportedLocales = (): Locale[] => ['pt-AO', 'pt-BR', 'en-US', 'es-ES'];
 
   // Context value
   const contextValue: LocaleContextType = {

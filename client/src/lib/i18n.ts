@@ -1,42 +1,47 @@
 // Internationalization utilities for Angola-specific formatting
 import { format, formatDistanceToNow as formatDistanceToNowFn } from 'date-fns';
-import { ptBR, enUS } from 'date-fns/locale';
+import { ptBR, enUS, es } from 'date-fns/locale';
 
 // Supported locales
-export type Locale = 'pt-AO' | 'pt-BR' | 'en-US';
+export type Locale = 'pt-AO' | 'pt-BR' | 'en-US' | 'es-ES';
 
 // Currency codes and their symbols
 export const CURRENCIES = {
   'pt-AO': { code: 'AOA', symbol: 'Kz' },
   'pt-BR': { code: 'BRL', symbol: 'R$' },
-  'en-US': { code: 'USD', symbol: '$' }
+  'en-US': { code: 'USD', symbol: '$' },
+  'es-ES': { code: 'EUR', symbol: '€' }
 } as const;
 
 // Date-fns locales mapping
 const DATE_FNS_LOCALES = {
   'pt-AO': ptBR, // Use Portuguese Brazil as closest to Portuguese Angola
   'pt-BR': ptBR,
-  'en-US': enUS
+  'en-US': enUS,
+  'es-ES': es
 } as const;
 
 // Timezone mapping
 export const TIMEZONES = {
   'pt-AO': 'Africa/Luanda',
   'pt-BR': 'America/Sao_Paulo',
-  'en-US': 'America/New_York'
+  'en-US': 'America/New_York',
+  'es-ES': 'Europe/Madrid'
 } as const;
 
 // Date format patterns
 export const DATE_FORMATS = {
   'pt-AO': 'dd/MM/yyyy',
   'pt-BR': 'dd/MM/yyyy',
-  'en-US': 'MM/dd/yyyy'
+  'en-US': 'MM/dd/yyyy',
+  'es-ES': 'dd/MM/yyyy'
 } as const;
 
 export const DATETIME_FORMATS = {
   'pt-AO': 'dd/MM/yyyy HH:mm',
   'pt-BR': 'dd/MM/yyyy HH:mm',
-  'en-US': 'MM/dd/yyyy h:mm a'
+  'en-US': 'MM/dd/yyyy h:mm a',
+  'es-ES': 'dd/MM/yyyy HH:mm'
 } as const;
 
 // Language names and flags
@@ -55,6 +60,11 @@ export const LANGUAGE_INFO = {
     name: 'English (US)',
     shortName: 'EN-US',
     flag: '🇺🇸'
+  },
+  'es-ES': {
+    name: 'Español (España)',
+    shortName: 'ES-ES',
+    flag: '🇪🇸'
   }
 } as const;
 
@@ -90,6 +100,11 @@ export function formatCurrency(
 
   // For Angola, put symbol after the amount with space
   if (locale === 'pt-AO') {
+    return `${formattedNumber} ${currency.symbol}`;
+  }
+  
+  // For Spanish and Euro, put symbol after the amount with space
+  if (locale === 'es-ES') {
     return `${formattedNumber} ${currency.symbol}`;
   }
 
@@ -204,7 +219,7 @@ export function getCurrencyCode(locale: Locale = 'pt-AO'): string {
  * Validate if locale is supported
  */
 export function isValidLocale(locale: string): locale is Locale {
-  return ['pt-AO', 'pt-BR', 'en-US'].includes(locale);
+  return ['pt-AO', 'pt-BR', 'en-US', 'es-ES'].includes(locale);
 }
 
 /**
@@ -220,8 +235,8 @@ export function getDefaultLocale(): Locale {
 export function parseCurrency(currencyString: string, locale: Locale = 'pt-AO'): number {
   // Remove currency symbols and spaces
   const cleanString = currencyString
-    .replace(/[KzR$\s]/g, '')
-    .replace(/\./g, '') // Remove thousands separators for pt locales
+    .replace(/[KzR$€\s]/g, '')
+    .replace(/\./g, '') // Remove thousands separators for pt and es locales
     .replace(/,/g, '.'); // Replace decimal comma with dot
   
   return parseFloat(cleanString) || 0;

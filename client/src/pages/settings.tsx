@@ -25,6 +25,8 @@ import {
   Trash2,
   Plus
 } from "lucide-react";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -251,6 +253,34 @@ function CustomizationSettings() {
                 <SelectItem value="Asia/Tokyo">Ásia/Tóquio (UTC+9)</SelectItem>
               </SelectContent>
             </Select>
+          </div>
+          
+          <Separator />
+          
+          {/* Language and Theme Preferences */}
+          <div className="space-y-4">
+            <Label className="flex items-center gap-2">
+              <Globe className="w-4 h-4" />
+              Preferências de Idioma e Tema
+            </Label>
+            
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-3">
+                <Label className="text-sm">Idioma:</Label>
+                <LanguageSwitcher 
+                  variant="compact" 
+                  testId="language-switcher-settings"
+                />
+              </div>
+              
+              <div className="flex items-center gap-3">
+                <Label className="text-sm">Tema:</Label>
+                <ThemeToggle 
+                  variant="compact" 
+                  testId="theme-toggle-settings"
+                />
+              </div>
+            </div>
           </div>
           
           <Separator />

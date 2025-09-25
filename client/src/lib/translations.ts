@@ -1000,6 +1000,840 @@ export const translations = {
   }
 } as const;
 
+// Spanish translations
+export const translationsES = {
+  // Common/General
+  common: {
+    loading: "Cargando...",
+    save: "Guardar",
+    cancel: "Cancelar",
+    delete: "Eliminar",
+    edit: "Editar",
+    view: "Ver",
+    close: "Cerrar",
+    yes: "Sí",
+    no: "No",
+    confirm: "Confirmar",
+    search: "Buscar",
+    filter: "Filtrar",
+    all: "Todos",
+    none: "Ninguno",
+    back: "Atrás",
+    next: "Siguiente",
+    previous: "Anterior",
+    submit: "Enviar",
+    create: "Crear",
+    update: "Actualizar",
+    refresh: "Actualizar",
+    export: "Exportar",
+    import: "Importar",
+    download: "Descargar",
+    upload: "Subir",
+    select: "Seleccionar",
+    required: "Requerido",
+    optional: "Opcional",
+    actions: "Acciones",
+    status: "Estado",
+    active: "Activo",
+    inactive: "Inactivo",
+    enabled: "Habilitado",
+    disabled: "Deshabilitado",
+    total: "Total",
+    success: "Éxito",
+    error: "Error",
+    warning: "Advertencia",
+    info: "Información",
+    today: "Hoy",
+    yesterday: "Ayer",
+    tomorrow: "Mañana",
+    date: "Fecha",
+    time: "Hora",
+    datetime: "Fecha y Hora",
+    name: "Nombre",
+    email: "Email",
+    phone: "Teléfono",
+    company: "Empresa",
+    description: "Descripción",
+    notes: "Notas",
+    comments: "Comentarios",
+    settings: "Configuración",
+    profile: "Perfil",
+    logout: "Cerrar Sesión",
+    login: "Iniciar Sesión",
+    register: "Registrarse",
+    password: "Contraseña",
+    newPassword: "Nueva Contraseña",
+    confirmPassword: "Confirmar Contraseña",
+    forgotPassword: "¿Olvidaste tu contraseña?",
+    rememberMe: "Recordarme",
+    or: "o",
+    and: "y",
+    welcome: "Bienvenido",
+    dashboard: "Panel de Control",
+    home: "Inicio",
+    menu: "Menú",
+    navigation: "Navegación",
+    language: "Idioma",
+    currency: "Moneda",
+    timezone: "Zona Horaria",
+    theme: "Tema",
+    light: "Claro",
+    dark: "Oscuro",
+    auto: "Automático"
+  },
+
+  // Navigation/Menu
+  navigation: {
+    dashboard: "Panel de Control",
+    tickets: "Tickets de Soporte",
+    customers: "Clientes",
+    hourBank: "Banco de Horas",
+    knowledgeBase: "Base de Conocimiento",
+    reports: "Informes",
+    settings: "Configuración",
+    billing: "Facturación",
+    subscription: "Suscripción",
+    profile: "Perfil",
+    users: "Usuarios",
+    departments: "Departamentos",
+    categories: "Categorías",
+    analytics: "Análisis",
+    integrations: "Integraciones",
+    api: "API",
+    audit: "Auditoría",
+    security: "Seguridad"
+  },
+
+  // Landing Page
+  landing: {
+    brandName: "TatuTicket",
+    tagline: "Sistema de Gestión de Soporte Técnico",
+    heroTitle: "Optimiza la Atención al Cliente de tu Empresa",
+    heroSubtitle: "Sistema completo de gestión de tickets, SLA y banco de horas",
+    getStarted: "Comenzar Gratis",
+    learnMore: "Saber Más",
+    watchDemo: "Ver Demostración",
+    featuresNav: "Características",
+    featuresTitle: "Todo lo que Necesitas para Gestionar el Soporte",
+    pricing: "Precios",
+    pricingTitle: "Planes para Cada Necesidad",
+    testimonials: "Testimonios",
+    testimonialsTitle: "Lo que Dicen Nuestros Clientes",
+    faqNav: "Preguntas Frecuentes",
+    faqTitle: "Aclaraciones",
+    contact: "Contacto",
+    footer: {
+      company: "Empresa",
+      product: "Producto",
+      support: "Soporte",
+      legal: "Legal",
+      followUs: "Síguenos",
+      allRightsReserved: "Todos los derechos reservados",
+      privacyPolicy: "Política de Privacidad",
+      termsOfService: "Términos de Servicio",
+      cookies: "Política de Cookies"
+    },
+    featureList: {
+      ticketManagement: {
+        title: "Gestión de Tickets",
+        description: "Sistema completo con estados, prioridades, categorías y enrutamiento automático"
+      },
+      hourBank: {
+        title: "Banco de Horas",
+        description: "Control de horas por cliente con temporizador automático e informes detallados"
+      },
+      slaMetrics: {
+        title: "SLA y Métricas",
+        description: "Monitoreo de SLAs con alertas y paneles personalizables"
+      },
+      multiTenant: {
+        title: "Multi-inquilino",
+        description: "Aislamiento completo entre empresas con gestión de permisos"
+      },
+      knowledgeBase: {
+        title: "Base de Conocimiento",
+        description: "Artículos organizados con búsqueda avanzada y portal del cliente"
+      },
+      security: {
+        title: "Seguridad",
+        description: "Encriptación AES-256, MFA y cumplimiento con LGPD/GDPR"
+      }
+    },
+    plans: {
+      free: {
+        name: "Gratuito",
+        price: "0 €",
+        period: "Para empezar",
+        description: "Ideal para equipos pequeños",
+        cta: "Comenzar Gratis",
+        features: [
+          "Hasta 3 usuarios",
+          "100 tickets/mes",
+          "1GB almacenamiento",
+          "Soporte básico"
+        ]
+      },
+      pro: {
+        name: "Profesional",
+        price: "49 €",
+        period: "por mes",
+        description: "Para empresas en crecimiento",
+        cta: "Suscribirse Pro",
+        popular: "Más Popular",
+        features: [
+          "Hasta 15 usuarios",
+          "1.000 tickets/mes",
+          "50GB almacenamiento",
+          "SLA e informes",
+          "Integración API"
+        ]
+      },
+      enterprise: {
+        name: "Empresarial",
+        price: "149 €",
+        period: "por mes",
+        description: "Para grandes organizaciones",
+        cta: "Suscribirse Empresarial",
+        features: [
+          "Usuarios ilimitados",
+          "Tickets ilimitados",
+          "500GB almacenamiento",
+          "Personalización avanzada",
+          "Soporte prioritario"
+        ]
+      }
+    },
+    faqList: {
+      trial: {
+        question: "¿Cómo funciona el período de prueba?",
+        answer: "Tienes 14 días para probar todas las funcionalidades del plan Profesional sin compromiso. No se requiere tarjeta de crédito."
+      },
+      migration: {
+        question: "¿Puedo migrar entre planes?",
+        answer: "Sí, puedes hacer upgrade o downgrade en cualquier momento. Los cambios se aplican en el próximo ciclo de facturación."
+      },
+      security: {
+        question: "¿Son seguros los datos?",
+        answer: "Utilizamos encriptación AES-256, copias de seguridad automáticas y somos compatibles con LGPD y GDPR."
+      },
+      support: {
+        question: "¿Qué tipo de soporte está disponible?",
+        answer: "Ofrecemos soporte por email, chat y teléfono. Clientes empresariales tienen acceso a soporte prioritario 24/7."
+      },
+      customization: {
+        question: "¿Puedo personalizar el sistema?",
+        answer: "Sí, ofrecemos opciones de personalización incluyendo colores, logotipo y flujos de trabajo personalizados."
+      },
+      integration: {
+        question: "¿El sistema integra con otras herramientas?",
+        answer: "Sí, tenemos integración con las principales herramientas de email, CRM y sistemas de facturación."
+      }
+    }
+  },
+
+  // Authentication
+  auth: {
+    login: {
+      title: "Iniciar Sesión",
+      subtitle: "Introduce tu email y contraseña para acceder a tu cuenta",
+      email: "Email",
+      password: "Contraseña",
+      rememberMe: "Recordarme",
+      forgotPassword: "¿Olvidaste tu contraseña?",
+      signIn: "Entrar",
+      signUp: "Crear Cuenta",
+      noAccount: "¿No tienes cuenta?",
+      success: "¡Sesión iniciada con éxito!",
+      successDescription: "Has sido autenticado correctamente.",
+      error: "Error en el inicio de sesión",
+      invalidCredentials: "Email o contraseña incorrectos",
+      accountLocked: "Cuenta bloqueada temporalmente",
+      tooManyAttempts: "Demasiados intentos. Inténtalo de nuevo más tarde."
+    },
+    register: {
+      title: "Crear Cuenta",
+      subtitle: "Regístrate para comenzar a usar TatuTicket",
+      firstName: "Nombre",
+      lastName: "Apellido",
+      email: "Email",
+      password: "Contraseña",
+      confirmPassword: "Confirmar Contraseña",
+      company: "Empresa",
+      phone: "Teléfono",
+      agreeTerms: "Acepto los términos y condiciones",
+      createAccount: "Crear Cuenta",
+      signIn: "Entrar",
+      hasAccount: "¿Ya tienes cuenta?",
+      success: "¡Cuenta creada con éxito!",
+      successDescription: "Has sido registrado y autenticado correctamente.",
+      error: "Error en el registro",
+      emailExists: "Email ya está en uso",
+      passwordMismatch: "Las contraseñas no coinciden",
+      termsRequired: "Debes aceptar los términos y condiciones"
+    },
+    forgotPassword: {
+      title: "Recuperar Contraseña",
+      subtitle: "Introduce tu email para recibir instrucciones de recuperación",
+      email: "Email",
+      sendInstructions: "Enviar Instrucciones",
+      backToLogin: "Volver al inicio de sesión",
+      success: "¡Instrucciones enviadas!",
+      successDescription: "Revisa tu email para instrucciones de recuperación.",
+      error: "Error en la recuperación",
+      emailNotFound: "Email no encontrado"
+    },
+    logout: {
+      title: "Cerrar Sesión",
+      confirm: "¿Estás seguro de que quieres cerrar sesión?",
+      success: "Sesión cerrada con éxito",
+      error: "Error al cerrar sesión"
+    }
+  },
+
+  // Dashboard
+  dashboard: {
+    title: "Panel de Control",
+    welcome: "Bienvenido de vuelta",
+    overview: "Resumen",
+    stats: {
+      openTickets: "Tickets Abiertos",
+      inProgress: "En Progreso",
+      resolvedToday: "Resueltos Hoy",
+      slaAtRisk: "SLA en Riesgo",
+      totalCustomers: "Total de Clientes",
+      activeUsers: "Usuarios Activos",
+      hoursSold: "Horas Vendidas",
+      hoursConsumed: "Horas Consumidas",
+      hoursAvailable: "Saldo Disponible",
+      totalRevenue: "Ingresos Totales",
+      monthlyRevenue: "Ingresos Mensuales",
+      avgResolutionTime: "Tiempo Promedio Resolución",
+      customerSatisfaction: "Satisfacción Cliente"
+    },
+    widgets: {
+      recentTickets: "Tickets Recientes",
+      upcomingSLA: "SLAs Próximos",
+      hourBankSummary: "Resumen Banco Horas",
+      performance: "Rendimiento",
+      activity: "Actividad Reciente",
+      notifications: "Notificaciones"
+    },
+    quickActions: {
+      createTicket: "Crear Ticket",
+      addCustomer: "Agregar Cliente",
+      generateReport: "Generar Informe",
+      viewAnalytics: "Ver Análisis"
+    }
+  },
+
+  // Tickets
+  tickets: {
+    title: "Tickets de Soporte",
+    create: "Crear Ticket",
+    view: "Ver Ticket",
+    edit: "Editar Ticket",
+    delete: "Eliminar Ticket",
+    assign: "Asignar",
+    unassign: "Desasignar",
+    close: "Cerrar",
+    reopen: "Reabrir",
+    resolve: "Resolver",
+    escalate: "Escalar",
+    merge: "Fusionar",
+    split: "Dividir",
+    duplicate: "Duplicar",
+    print: "Imprimir",
+    export: "Exportar",
+    
+    // Views
+    kanbanView: "Vista Kanban",
+    tableView: "Vista Tabla",
+    listView: "Vista Lista",
+    
+    // Filters
+    filters: {
+      status: "Estado",
+      priority: "Prioridad",
+      assignee: "Responsable",
+      customer: "Cliente",
+      department: "Departamento",
+      category: "Categoría",
+      dateRange: "Período",
+      search: "Buscar tickets..."
+    },
+    
+    // Status
+    status: {
+      new: "Nuevo",
+      open: "Abierto",
+      inProgress: "En Progreso",
+      waitingCustomer: "Esperando Cliente",
+      waitingInternal: "Esperando Interno",
+      resolved: "Resuelto",
+      closed: "Cerrado",
+      cancelled: "Cancelado",
+      onHold: "En Espera"
+    },
+    
+    // Priority
+    priority: {
+      low: "Baja",
+      medium: "Media",
+      high: "Alta",
+      critical: "Crítica",
+      urgent: "Urgente"
+    },
+    
+    // Fields
+    fields: {
+      id: "ID",
+      title: "Título",
+      description: "Descripción",
+      status: "Estado",
+      priority: "Prioridad",
+      customer: "Cliente",
+      assignee: "Responsable",
+      department: "Departamento",
+      category: "Categoría",
+      tags: "Etiquetas",
+      attachments: "Adjuntos",
+      timeSpent: "Tiempo Gastado",
+      timeEstimated: "Tiempo Estimado",
+      dueDate: "Fecha Límite",
+      createdAt: "Creado en",
+      updatedAt: "Actualizado en",
+      resolvedAt: "Resuelto en",
+      closedAt: "Cerrado en",
+      slaStatus: "Estado SLA",
+      slaDeadline: "Plazo SLA",
+      lastResponse: "Última Respuesta",
+      responseTime: "Tiempo Respuesta",
+      resolutionTime: "Tiempo Resolución",
+      satisfaction: "Satisfacción",
+      rating: "Calificación",
+      feedback: "Comentario"
+    },
+    
+    // Actions
+    actions: {
+      viewDetails: "Ver Detalles",
+      editTicket: "Editar Ticket",
+      addComment: "Agregar Comentario",
+      changeStatus: "Cambiar Estado",
+      changePriority: "Cambiar Prioridad",
+      assignTo: "Asignar a",
+      addTime: "Agregar Tiempo",
+      addAttachment: "Agregar Adjunto",
+      createSubtask: "Crear Subtarea",
+      linkTicket: "Enlazar Ticket",
+      copyLink: "Copiar Enlace",
+      sendEmail: "Enviar Email",
+      scheduleReminder: "Programar Recordatorio"
+    },
+    
+    // Messages
+    messages: {
+      created: "Ticket creado con éxito",
+      updated: "Ticket actualizado con éxito",
+      deleted: "Ticket eliminado con éxito",
+      assigned: "Ticket asignado con éxito",
+      statusChanged: "Estado cambiado con éxito",
+      priorityChanged: "Prioridad cambiada con éxito",
+      commentAdded: "Comentario agregado con éxito",
+      timeAdded: "Tiempo registrado con éxito",
+      attachmentAdded: "Adjunto agregado con éxito",
+      resolved: "Ticket resuelto con éxito",
+      closed: "Ticket cerrado con éxito",
+      reopened: "Ticket reabierto con éxito",
+      escalated: "Ticket escalado con éxito",
+      merged: "Tickets fusionados con éxito",
+      duplicated: "Ticket duplicado con éxito",
+      
+      // Errors
+      createError: "Error al crear ticket",
+      updateError: "Error al actualizar ticket",
+      deleteError: "Error al eliminar ticket",
+      assignError: "Error al asignar ticket",
+      statusError: "Error al cambiar estado",
+      priorityError: "Error al cambiar prioridad",
+      commentError: "Error al agregar comentario",
+      timeError: "Error al registrar tiempo",
+      attachmentError: "Error al agregar adjunto",
+      loadError: "Error al cargar tickets",
+      notFound: "Ticket no encontrado",
+      accessDenied: "Acceso denegado al ticket",
+      invalidData: "Datos inválidos",
+      duplicateTitle: "Título ya existe"
+    }
+  },
+
+  // Customers
+  customers: {
+    title: "Clientes",
+    add: "Agregar Cliente",
+    edit: "Editar Cliente",
+    delete: "Eliminar Cliente",
+    view: "Ver Cliente",
+    import: "Importar Clientes",
+    export: "Exportar Clientes",
+    
+    // Fields
+    fields: {
+      name: "Nombre",
+      email: "Email",
+      phone: "Teléfono",
+      company: "Empresa",
+      address: "Dirección",
+      city: "Ciudad",
+      country: "País",
+      postalCode: "Código Postal",
+      taxNumber: "Número Fiscal",
+      website: "Sitio Web",
+      industry: "Sector",
+      size: "Tamaño",
+      status: "Estado",
+      type: "Tipo",
+      priority: "Prioridad",
+      assignedTo: "Asignado a",
+      createdAt: "Creado en",
+      updatedAt: "Actualizado en",
+      lastContact: "Último Contacto",
+      totalTickets: "Total Tickets",
+      openTickets: "Tickets Abiertos",
+      satisfaction: "Satisfacción",
+      value: "Valor",
+      tags: "Etiquetas",
+      notes: "Notas"
+    },
+    
+    // Status
+    status: {
+      active: "Activo",
+      inactive: "Inactivo",
+      suspended: "Suspendido",
+      prospect: "Prospecto",
+      lead: "Lead",
+      trial: "Prueba"
+    },
+    
+    // Type
+    type: {
+      individual: "Individual",
+      business: "Empresa",
+      government: "Gobierno",
+      ngo: "ONG",
+      education: "Educación",
+      healthcare: "Salud"
+    },
+    
+    // Actions
+    actions: {
+      viewProfile: "Ver Perfil",
+      editProfile: "Editar Perfil",
+      viewTickets: "Ver Tickets",
+      createTicket: "Crear Ticket",
+      viewHourBank: "Ver Banco Horas",
+      addHours: "Agregar Horas",
+      sendEmail: "Enviar Email",
+      makeCall: "Hacer Llamada",
+      addNote: "Agregar Nota",
+      addTag: "Agregar Etiqueta",
+      exportData: "Exportar Datos",
+      mergeCustomer: "Fusionar Cliente",
+      deleteCustomer: "Eliminar Cliente"
+    },
+    
+    // Messages
+    messages: {
+      created: "Cliente creado con éxito",
+      updated: "Cliente actualizado con éxito",
+      deleted: "Cliente eliminado con éxito",
+      imported: "Clientes importados con éxito",
+      exported: "Clientes exportados con éxito",
+      emailSent: "Email enviado con éxito",
+      noteAdded: "Nota agregada con éxito",
+      tagAdded: "Etiqueta agregada con éxito",
+      merged: "Clientes fusionados con éxito",
+      
+      // Errors
+      createError: "Error al crear cliente",
+      updateError: "Error al actualizar cliente",
+      deleteError: "Error al eliminar cliente",
+      importError: "Error al importar clientes",
+      exportError: "Error al exportar clientes",
+      emailError: "Error al enviar email",
+      loadError: "Error al cargar clientes",
+      notFound: "Cliente no encontrado",
+      emailExists: "Email ya existe",
+      invalidData: "Datos inválidos",
+      accessDenied: "Acceso denegado"
+    }
+  },
+
+  // Hour Bank
+  hourBank: {
+    title: "Banco de Horas",
+    create: "Crear Banco",
+    edit: "Editar Banco",
+    delete: "Eliminar Banco",
+    view: "Ver Detalles",
+    add: "Agregar Horas",
+    consume: "Consumir Horas",
+    transfer: "Transferir Horas",
+    extend: "Prorrogar",
+    suspend: "Suspender",
+    activate: "Activar",
+    
+    // Fields
+    fields: {
+      customer: "Cliente",
+      totalHours: "Total Horas",
+      consumedHours: "Horas Consumidas",
+      remainingHours: "Horas Restantes",
+      hourlyRate: "Tarifa por Hora",
+      totalValue: "Valor Total",
+      purchaseDate: "Fecha Compra",
+      expiryDate: "Fecha Vencimiento",
+      status: "Estado",
+      description: "Descripción",
+      notes: "Notas",
+      tags: "Etiquetas",
+      department: "Departamento",
+      project: "Proyecto",
+      contract: "Contrato",
+      invoiceNumber: "Número Factura",
+      paymentStatus: "Estado Pago",
+      usageHistory: "Historial Uso",
+      createdAt: "Creado en",
+      updatedAt: "Actualizado en",
+      createdBy: "Creado por",
+      updatedBy: "Actualizado por"
+    },
+    
+    // Status
+    status: {
+      active: "Activo",
+      inactive: "Inactivo",
+      expired: "Expirado",
+      suspended: "Suspendido",
+      exhausted: "Agotado",
+      pending: "Pendiente",
+      cancelled: "Cancelado"
+    },
+    
+    // Usage Types
+    usageTypes: {
+      support: "Soporte Técnico",
+      development: "Desarrollo",
+      consulting: "Consultoría",
+      training: "Formación",
+      maintenance: "Mantenimiento",
+      implementation: "Implementación",
+      testing: "Pruebas",
+      documentation: "Documentación",
+      meeting: "Reunión",
+      other: "Otro"
+    },
+    
+    // Statistics
+    stats: {
+      totalBanks: "Total Bancos",
+      activeBanks: "Bancos Activos",
+      totalHoursSold: "Total Horas Vendidas",
+      totalHoursConsumed: "Total Horas Consumidas",
+      totalHoursRemaining: "Total Horas Restantes",
+      totalValue: "Valor Total",
+      averageUsage: "Uso Promedio",
+      expiringThisMonth: "Expiran Este Mes",
+      lowBalance: "Saldo Bajo",
+      utilizationRate: "Tasa Utilización"
+    },
+    
+    // Actions
+    actions: {
+      viewDetails: "Ver Detalles",
+      addHours: "Agregar Horas",
+      consumeHours: "Registrar Uso",
+      transferHours: "Transferir Horas",
+      extendExpiry: "Prorrogar Vencimiento",
+      generateReport: "Generar Informe",
+      exportHistory: "Exportar Historial",
+      sendStatement: "Enviar Estado de Cuenta",
+      createInvoice: "Crear Factura",
+      viewInvoices: "Ver Facturas",
+      addNote: "Agregar Nota",
+      editDetails: "Editar Detalles",
+      suspendBank: "Suspender Banco",
+      activateBank: "Activar Banco",
+      deleteBank: "Eliminar Banco"
+    },
+    
+    // Messages
+    messages: {
+      created: "Banco de horas creado con éxito",
+      updated: "Banco de horas actualizado con éxito",
+      deleted: "Banco de horas eliminado con éxito",
+      hoursAdded: "Horas agregadas con éxito",
+      hoursConsumed: "Horas registradas con éxito",
+      hoursTransferred: "Horas transferidas con éxito",
+      expiryExtended: "Vencimiento prorrogado con éxito",
+      suspended: "Banco suspendido con éxito",
+      activated: "Banco activado con éxito",
+      reportGenerated: "Informe generado con éxito",
+      statementSent: "Estado de cuenta enviado con éxito",
+      invoiceCreated: "Factura creada con éxito",
+      
+      // Warnings
+      lowBalance: "Saldo bajo en el banco de horas",
+      expiringSoon: "Banco de horas expira pronto",
+      expired: "Banco de horas expirado",
+      exhausted: "Banco de horas agotado",
+      insufficientHours: "Horas insuficientes en el banco",
+      
+      // Errors
+      createError: "Error al crear banco de horas",
+      updateError: "Error al actualizar banco de horas",
+      deleteError: "Error al eliminar banco de horas",
+      addHoursError: "Error al agregar horas",
+      consumeHoursError: "Error al registrar uso de horas",
+      transferError: "Error al transferir horas",
+      extendError: "Error al prorrogar vencimiento",
+      loadError: "Error al cargar bancos de horas",
+      notFound: "Banco de horas no encontrado",
+      invalidData: "Datos inválidos",
+      accessDenied: "Acceso denegado",
+      alreadyExpired: "Banco ya expirado",
+      alreadySuspended: "Banco ya suspendido"
+    }
+  },
+
+  // Settings
+  settings: {
+    title: "Configuración",
+    general: "General",
+    account: "Cuenta",
+    security: "Seguridad",
+    notifications: "Notificaciones",
+    integrations: "Integraciones",
+    billing: "Facturación",
+    team: "Equipo",
+    preferences: "Preferencias",
+    
+    // General Settings
+    generalSettings: {
+      companyInfo: "Información de la Empresa",
+      companyName: "Nombre de la Empresa",
+      companyEmail: "Email de la Empresa",
+      companyPhone: "Teléfono de la Empresa",
+      companyAddress: "Dirección de la Empresa",
+      companyWebsite: "Sitio Web de la Empresa",
+      timezone: "Zona Horaria",
+      language: "Idioma",
+      currency: "Moneda",
+      dateFormat: "Formato de Fecha",
+      timeFormat: "Formato de Hora"
+    },
+    
+    // Account Settings
+    accountSettings: {
+      personalInfo: "Información Personal",
+      firstName: "Nombre",
+      lastName: "Apellido",
+      email: "Email",
+      phone: "Teléfono",
+      avatar: "Avatar",
+      changePassword: "Cambiar Contraseña",
+      currentPassword: "Contraseña Actual",
+      newPassword: "Nueva Contraseña",
+      confirmNewPassword: "Confirmar Nueva Contraseña"
+    },
+    
+    // Security Settings
+    securitySettings: {
+      twoFactorAuth: "Autenticación de Dos Factores",
+      enable2FA: "Habilitar 2FA",
+      disable2FA: "Deshabilitar 2FA",
+      activeSessions: "Sesiones Activas",
+      loginHistory: "Historial de Inicios de Sesión",
+      apiKeys: "Claves API",
+      generateApiKey: "Generar Clave API",
+      revokeApiKey: "Revocar Clave API"
+    },
+    
+    // Notification Settings
+    notificationSettings: {
+      emailNotifications: "Notificaciones por Email",
+      pushNotifications: "Notificaciones Push",
+      smsNotifications: "Notificaciones SMS",
+      ticketUpdates: "Actualizaciones de Tickets",
+      slaAlerts: "Alertas SLA",
+      systemUpdates: "Actualizaciones del Sistema",
+      marketingEmails: "Emails de Marketing",
+      weeklyReports: "Informes Semanales",
+      monthlyReports: "Informes Mensuales"
+    },
+    
+    // Messages
+    messages: {
+      settingsSaved: "Configuración guardada con éxito",
+      passwordChanged: "Contraseña cambiada con éxito",
+      profileUpdated: "Perfil actualizado con éxito",
+      notificationsUpdated: "Notificaciones actualizadas con éxito",
+      
+      // Errors
+      saveError: "Error al guardar configuración",
+      passwordError: "Error al cambiar contraseña",
+      profileError: "Error al actualizar perfil",
+      notificationError: "Error al actualizar notificaciones",
+      invalidCurrentPassword: "Contraseña actual incorrecta",
+      passwordTooShort: "Contraseña demasiado corta",
+      passwordMismatch: "Las contraseñas no coinciden"
+    }
+  },
+
+  // Date and time
+  dates: {
+    // Time periods
+    second: "segundo",
+    seconds: "segundos",
+    minute: "minuto",
+    minutes: "minutos",
+    hour: "hora",
+    hours: "horas",
+    day: "día",
+    days: "días",
+    week: "semana",
+    weeks: "semanas",
+    month: "mes",
+    months: "meses",
+    year: "año",
+    years: "años",
+    
+    // Days of week
+    monday: "Lunes",
+    tuesday: "Martes",
+    wednesday: "Miércoles",
+    thursday: "Jueves",
+    friday: "Viernes",
+    saturday: "Sábado",
+    sunday: "Domingo",
+    
+    // Months
+    january: "Enero",
+    february: "Febrero",
+    march: "Marzo",
+    april: "Abril",
+    may: "Mayo",
+    june: "Junio",
+    july: "Julio",
+    august: "Agosto",
+    september: "Septiembre",
+    october: "Octubre",
+    november: "Noviembre",
+    december: "Diciembre"
+  }
+} as const;
+
 // Helper type for nested translation keys
 export type TranslationKey = keyof typeof translations;
 export type TranslationPath<T> = T extends object 
