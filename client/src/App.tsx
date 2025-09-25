@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Landing from "@/pages/landing";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
+import SaasRegister from "@/pages/saas-register";
 import Onboarding from "@/pages/onboarding";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import Dashboard from "@/pages/dashboard";
@@ -37,6 +38,7 @@ function Router() {
           <Route path="/" component={Landing} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/saas-register" component={SaasRegister} />
           <Route path="/subscribe" component={Subscribe} />
         </>
       ) : !user?.tenantId ? (

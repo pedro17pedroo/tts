@@ -2,7 +2,7 @@
 
 ## Overview
 
-TatuTicket is a comprehensive multi-tenant SaaS platform for ticket management and customer support. The system enables companies (tenants) to sign up online, choose subscription plans, and immediately start managing their customer support operations. The platform features ticket management, hour bank tracking, knowledge base, customer management, and detailed reporting capabilities.
+TatuTicket is a comprehensive multi-tenant SaaS platform for ticket management and customer support. The system enables companies (tenants) to sign up online through a streamlined SaaS registration flow, choose subscription plans, and immediately start managing their customer support operations. The platform features ticket management, hour bank tracking, knowledge base, customer management, and detailed reporting capabilities.
 
 Key features include:
 - Multi-tenant architecture with complete data isolation
@@ -13,6 +13,16 @@ Key features include:
 - Dashboard with analytics and reporting
 - Subscription management with Stripe integration
 - Email notifications via SendGrid
+
+## Recent Changes
+
+**September 25, 2025** - Implemented SaaS Registration Flow:
+- Created new `/saas-register` page with multi-step registration process
+- Integrated plan selection (Free, Professional, Enterprise) with company information and user registration
+- Streamlined flow that automatically registers user, creates tenant, and completes onboarding
+- Updated landing page to direct users to new SaaS registration flow
+- Maintained compatibility with existing authentication and onboarding endpoints
+- Added progress indicator and improved user experience with step-by-step navigation
 
 ## User Preferences
 
