@@ -16,13 +16,27 @@ Key features include:
 
 ## Recent Changes
 
-**September 25, 2025** - Implemented SaaS Registration Flow:
+**September 25, 2025** - Multiple Improvements:
+
+*SaaS Registration Flow Implementation:*
 - Created new `/saas-register` page with multi-step registration process
 - Integrated plan selection (Free, Professional, Enterprise) with company information and user registration
 - Streamlined flow that automatically registers user, creates tenant, and completes onboarding
 - Updated landing page to direct users to new SaaS registration flow
 - Maintained compatibility with existing authentication and onboarding endpoints
 - Added progress indicator and improved user experience with step-by-step navigation
+
+*Angola Market Localization:*
+- Migrated system from CNPJ to mandatory NIF (Número de Identificação Fiscal) for Angola market
+- Updated all registration forms (saas-register, onboarding, settings) to require NIF field
+- Configured system for Angola: AOA currency, Africa/Luanda timezone, pt-AO locale
+- Updated validation schemas and backend services to use NIF instead of CNPJ
+
+*Post-Registration Navigation Fix:*
+- Fixed issue where users were redirected to onboarding page instead of dashboard after account creation
+- Implemented smart redirection logic that waits for user cache to update with tenantId
+- Applied fix to both SaaS registration and onboarding flows
+- Users now go directly to company dashboard after successful account/company creation
 
 ## User Preferences
 
