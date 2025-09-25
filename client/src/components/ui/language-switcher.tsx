@@ -8,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useLocale, type Locale } from '@/contexts/LocaleContext';
+import { LANGUAGE_INFO } from '@/lib/i18n';
 import { cn } from '@/lib/utils';
 
 interface LanguageSwitcherProps {
@@ -108,13 +109,7 @@ export function LanguageSwitcher({
         data-testid="language-switcher-content"
       >
         {supportedLocales.map((supportedLocale) => {
-          const languageInfo = getSupportedLocales().includes(supportedLocale) 
-            ? {
-                'pt-AO': { name: 'Português (Angola)', shortName: 'PT-AO', flag: '🇦🇴' },
-                'pt-BR': { name: 'Português (Brasil)', shortName: 'PT-BR', flag: '🇧🇷' },
-                'en-US': { name: 'English (US)', shortName: 'EN-US', flag: '🇺🇸' }
-              }[supportedLocale]
-            : null;
+          const languageInfo = LANGUAGE_INFO[supportedLocale];
 
           if (!languageInfo) return null;
 

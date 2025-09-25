@@ -68,7 +68,7 @@ const defaultContextValue: LocaleContextType = {
   getCurrencyCode: () => getCurrencyCode(),
   
   getLanguageInfo: () => LANGUAGE_INFO[getDefaultLocale()],
-  getSupportedLocales: () => ['pt-AO', 'pt-BR', 'en-US']
+  getSupportedLocales: () => ['pt-AO', 'pt-BR', 'en-US', 'es-ES']
 };
 
 // Create context

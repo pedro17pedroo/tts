@@ -23,7 +23,9 @@ import {
   Mail,
   Globe,
   Trash2,
-  Plus
+  Plus,
+  Upload,
+  Palette as ColorIcon
 } from "lucide-react";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
@@ -34,7 +36,21 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import type { Department, Category } from "@shared/schema";
-import { Upload, Palette as ColorIcon } from "lucide-react";
+
+// Define branding response type
+const brandingResponseSchema = z.object({
+  tenantName: z.string().optional(),
+  customBranding: z.object({
+    logo: z.string().optional(),
+    primaryColor: z.string().optional(),
+    secondaryColor: z.string().optional(),
+    accentColor: z.string().optional(),
+    companyName: z.string().optional(),
+    timezone: z.string().optional(),
+  }).optional(),
+});
+
+type BrandingResponse = z.infer<typeof brandingResponseSchema>;
 
 // Customization Component
 function CustomizationSettings() {
@@ -46,7 +62,7 @@ function CustomizationSettings() {
   });
 
   // Fetch current branding
-  const { data: branding, isLoading } = useQuery({
+  const { data: branding, isLoading } = useQuery<BrandingResponse>({
     queryKey: ['/api/tenant/branding'],
   });
 

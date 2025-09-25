@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import { useTranslations } from "@/hooks/useTranslations";
 import { translations } from "@/lib/translations";
+import { LanguageSwitcher } from "@/components/ui/language-switcher";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export default function Landing() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -141,14 +143,30 @@ export default function Landing() {
             
             {/* Desktop Buttons - Full Size (lg+) */}
             <div className="hidden lg:flex items-center space-x-4">
-              <Button variant="ghost" onClick={handleLogin}>{t('common.login')}</Button>
-              <Button onClick={handleRegister}>{t('landing.getStarted')}</Button>
+              <LanguageSwitcher 
+                variant="compact" 
+                testId="nav-language-switcher-desktop"
+              />
+              <ThemeToggle 
+                variant="compact" 
+                testId="nav-theme-toggle-desktop"
+              />
+              <Button variant="ghost" onClick={handleLogin} data-testid="button-login-desktop">{t('common.login')}</Button>
+              <Button onClick={handleRegister} data-testid="button-register-desktop">{t('landing.getStarted')}</Button>
             </div>
 
             {/* Tablet Buttons - Compact (md-lg) */}
             <div className="hidden md:flex lg:hidden items-center space-x-2">
-              <Button variant="ghost" size="sm" onClick={handleLogin}>{t('common.login')}</Button>
-              <Button size="sm" onClick={handleRegister}>{t('landing.getStarted')}</Button>
+              <LanguageSwitcher 
+                variant="icon-only" 
+                testId="nav-language-switcher-tablet"
+              />
+              <ThemeToggle 
+                variant="icon-only" 
+                testId="nav-theme-toggle-tablet"
+              />
+              <Button variant="ghost" size="sm" onClick={handleLogin} data-testid="button-login-tablet">{t('common.login')}</Button>
+              <Button size="sm" onClick={handleRegister} data-testid="button-register-tablet">{t('landing.getStarted')}</Button>
             </div>
 
             {/* Mobile menu button */}
@@ -172,9 +190,22 @@ export default function Landing() {
                 <a href="#pricing" className="block px-3 py-2 text-muted-foreground hover:text-foreground">{t('landing.pricing')}</a>
                 <a href="#faq" className="block px-3 py-2 text-muted-foreground hover:text-foreground">{t('landing.faqNav')}</a>
                 <a href="#contact" className="block px-3 py-2 text-muted-foreground hover:text-foreground">{t('landing.contact')}</a>
-                <div className="pt-4 border-t border-border">
-                  <Button variant="ghost" className="w-full justify-start" onClick={handleLogin}>{t('common.login')}</Button>
-                  <Button className="w-full mt-2" onClick={handleRegister}>{t('landing.getStarted')}</Button>
+                <div className="pt-4 border-t border-border space-y-3">
+                  <div className="flex items-center justify-between px-3">
+                    <span className="text-sm font-medium text-muted-foreground">Settings</span>
+                    <div className="flex items-center space-x-2">
+                      <LanguageSwitcher 
+                        variant="compact" 
+                        testId="nav-language-switcher-mobile"
+                      />
+                      <ThemeToggle 
+                        variant="compact" 
+                        testId="nav-theme-toggle-mobile"
+                      />
+                    </div>
+                  </div>
+                  <Button variant="ghost" className="w-full justify-start" onClick={handleLogin} data-testid="button-login-mobile">{t('common.login')}</Button>
+                  <Button className="w-full" onClick={handleRegister} data-testid="button-register-mobile">{t('landing.getStarted')}</Button>
                 </div>
               </div>
             </div>
