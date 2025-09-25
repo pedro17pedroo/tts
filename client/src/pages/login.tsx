@@ -11,10 +11,11 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Ticket, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslations } from "@/hooks/useTranslations";
 
 const loginSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(1, "Senha é obrigatória"),
+  email: z.string().email("Introduza um e-mail válido"),
+  password: z.string().min(1, "Palavra-passe é obrigatória"),
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
@@ -23,6 +24,7 @@ export default function Login() {
   const [, setLocation] = useLocation();
   const { login, isLoginLoading } = useAuth();
   const { toast } = useToast();
+  const { t } = useTranslations();
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,15 +41,15 @@ export default function Login() {
       setError(null);
       await login(data);
       toast({
-        title: "Login realizado com sucesso!",
-        description: "Você foi autenticado.",
+        title: t('auth.login.success'),
+        description: t('auth.login.successDescription'),
       });
       setLocation("/");
     } catch (error: any) {
-      const errorMessage = error.message || "Falha no login";
+      const errorMessage = error.message || t('auth.login.error');
       setError(errorMessage);
       toast({
-        title: "Erro no login",
+        title: t('auth.login.error'),
         description: errorMessage,
         variant: "destructive",
       });
@@ -58,7 +60,7 @@ export default function Login() {
     // TODO: Implement forgot password
     toast({
       title: "Em desenvolvimento",
-      description: "Funcionalidade de recuperação de senha em breve.",
+      description: "Funcionalidade de recuperação de palavra-passe em breve.",
     });
   };
 
@@ -68,11 +70,11 @@ export default function Login() {
         <CardHeader className="space-y-1 text-center">
           <div className="flex items-center justify-center space-x-2">
             <Ticket className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold text-primary">TatuTicket</span>
+            <span className="text-2xl font-bold text-primary">{t('landing.brandName')}</span>
           </div>
-          <CardTitle className="text-2xl">Fazer Login</CardTitle>
+          <CardTitle className="text-2xl">{t('auth.login.title')}</CardTitle>
           <CardDescription>
-            Entre com seu email e senha para acessar sua conta
+            {t('auth.login.subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -84,12 +86,12 @@ export default function Login() {
 
           <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email">{t('auth.login.email')}</Label>
               <div className="relative">
                 <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="email"
-                  placeholder="seu@email.com"
+                  placeholder={t('forms.placeholders.email')}
                   type="email"
                   className="pl-10"
                   data-testid="input-email"
@@ -104,12 +106,12 @@ export default function Login() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Senha</Label>
+              <Label htmlFor="password">{t('auth.login.password')}</Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="password"
-                  placeholder="Sua senha"
+                  placeholder={t('auth.login.password')}
                   type={showPassword ? "text" : "password"}
                   className="pl-10 pr-10"
                   data-testid="input-password"
@@ -143,7 +145,7 @@ export default function Login() {
               disabled={isLoginLoading}
               data-testid="button-login"
             >
-              {isLoginLoading ? "Entrando..." : "Entrar"}
+              {isLoginLoading ? t('common.loading') : t('auth.login.signIn')}
             </Button>
           </form>
 
@@ -154,19 +156,19 @@ export default function Login() {
               onClick={handleForgotPassword}
               data-testid="button-forgot-password"
             >
-              Esqueceu sua senha?
+              {t('auth.login.forgotPassword')}
             </Button>
           </div>
 
           <div className="text-center text-sm text-muted-foreground">
-            Não tem uma conta?{" "}
+            {t('auth.login.noAccount')}{" "}
             <Link href="/register">
               <Button
                 variant="link"
                 className="p-0 h-auto text-primary"
                 data-testid="link-register"
               >
-                Registrar-se
+                {t('auth.login.signUp')}
               </Button>
             </Link>
           </div>
@@ -178,7 +180,7 @@ export default function Login() {
                 className="p-0 h-auto"
                 data-testid="link-home"
               >
-                Voltar ao início
+                {t('common.back')}
               </Button>
             </Link>
           </div>

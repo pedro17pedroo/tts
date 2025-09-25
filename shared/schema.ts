@@ -38,7 +38,7 @@ export const slaLogActionEnum = pgEnum('sla_log_action_enum', ['created', 'updat
 export const tenants = pgTable("tenants", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: varchar("name", { length: 255 }).notNull(),
-  cnpj: varchar("cnpj", { length: 18 }),
+  nif: varchar("nif", { length: 20 }), // Angola tax ID (replaced cnpj)
   domain: varchar("domain", { length: 255 }),
   planType: planTypeEnum("plan_type").notNull().default('free'),
   stripeCustomerId: varchar("stripe_customer_id"),
@@ -48,6 +48,12 @@ export const tenants = pgTable("tenants", {
   maxTickets: integer("max_tickets").default(100),
   maxStorage: integer("max_storage").default(1), // GB
   customBranding: jsonb("custom_branding"),
+  // Internationalization fields for Angola
+  locale: varchar("locale", { length: 10 }).default('pt-AO'), // Angola Portuguese
+  currency: varchar("currency", { length: 3 }).default('AOA'), // Angolan Kwanza
+  timezone: varchar("timezone", { length: 50 }).default('Africa/Luanda'),
+  dateFormat: varchar("date_format", { length: 20 }).default('DD/MM/YYYY'),
+  timeFormat: varchar("time_format", { length: 10 }).default('24h'),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -203,7 +209,7 @@ export const slaConfigs = pgTable("sla_configs", {
   businessHoursStart: varchar("business_hours_start", { length: 5 }).default('09:00'), // HH:MM format
   businessHoursEnd: varchar("business_hours_end", { length: 5 }).default('18:00'), // HH:MM format
   businessDays: jsonb("business_days").default('[1,2,3,4,5]'), // Array of weekdays (1=Monday, 7=Sunday)
-  timezone: varchar("timezone", { length: 50 }).default('America/Sao_Paulo'),
+  timezone: varchar("timezone", { length: 50 }).default('Africa/Luanda'),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
@@ -421,7 +427,10 @@ export const customBrandingSchema = z.object({
   companyName: z.string().optional(),
   favicon: z.string().optional(),
   customCss: z.string().optional(),
-  timezone: z.string().default('America/Sao_Paulo'),
+  // Locale support for translation
+  locale: z.string().default('pt-AO'), // Angola Portuguese
+  translations: z.record(z.string()).optional(), // Key-value pairs for translations
+  timezone: z.string().default('Africa/Luanda'), // Updated default for Angola
   dateFormat: z.string().default('DD/MM/YYYY'),
   timeFormat: z.string().default('24h'),
 });
@@ -454,33 +463,51 @@ export const insertUserSchema = createInsertSchema(users).omit({
   updatedAt: true,
 });
 
-// Authentication schemas
+// Helper function to create localized validation messages
+const createValidationMessages = () => ({
+  email: "Introduza um e-mail válido",
+  required: "Este campo é obrigatório",
+  minLength: (min: number) => `Mínimo ${min} caracteres`,
+  maxLength: (max: number) => `Máximo ${max} caracteres`,
+  passwordWeak: "Palavra-passe muito fraca",
+  passwordMismatch: "Palavras-passe não coincidem",
+  invalidToken: "Token inválido ou expirado",
+  nameRequired: "Nome é obrigatório",
+  surnameRequired: "Apelido é obrigatório", 
+  passwordRequired: "Palavra-passe é obrigatória",
+  currentPasswordRequired: "Palavra-passe actual é obrigatória",
+  newPasswordRequired: "Nova palavra-passe é obrigatória"
+});
+
+const messages = createValidationMessages();
+
+// Authentication schemas with Portuguese (Angola) validation messages
 export const registerUserSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
-  firstName: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-  lastName: z.string().min(2, "Sobrenome deve ter pelo menos 2 caracteres"),
+  email: z.string().email(messages.email),
+  password: z.string().min(6, messages.minLength(6)),
+  firstName: z.string().min(2, messages.nameRequired),
+  lastName: z.string().min(2, messages.surnameRequired),
   tenantId: z.string().optional(),
   role: z.enum(['global_admin', 'tenant_admin', 'agent', 'customer']).default('customer'),
 });
 
 export const loginUserSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(1, "Senha é obrigatória"),
+  email: z.string().email(messages.email),
+  password: z.string().min(1, messages.passwordRequired),
 });
 
 export const forgotPasswordSchema = z.object({
-  email: z.string().email("Email inválido"),
+  email: z.string().email(messages.email),
 });
 
 export const resetPasswordSchema = z.object({
-  token: z.string().min(1, "Token é obrigatório"),
-  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres"),
+  token: z.string().min(1, messages.invalidToken),
+  password: z.string().min(6, messages.minLength(6)),
 });
 
 export const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1, "Senha atual é obrigatória"),
-  newPassword: z.string().min(6, "Nova senha deve ter pelo menos 6 caracteres"),
+  currentPassword: z.string().min(1, messages.currentPasswordRequired),
+  newPassword: z.string().min(6, messages.minLength(6)),
 });
 
 export const insertCustomerSchema = createInsertSchema(customers).omit({

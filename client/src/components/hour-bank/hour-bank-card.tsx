@@ -2,9 +2,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
+import { CurrencyDisplay } from "@/components/ui/currency-display";
+import { RelativeDateDisplay } from "@/components/ui/date-display";
 import { Clock, AlertTriangle, Calendar, DollarSign, Plus, Eye } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { useLocale } from "@/contexts/LocaleContext";
 
 interface HourBank {
   id: string;
@@ -29,6 +30,7 @@ interface HourBankCardProps {
 }
 
 export default function HourBankCard({ hourBank, onAddHours, onViewDetails }: HourBankCardProps) {
+  const { formatHours, formatPercentage } = useLocale();
   const totalHours = parseFloat(hourBank.totalHours);
   const consumedHours = parseFloat(hourBank.consumedHours);
   const remainingHours = totalHours - consumedHours;
@@ -94,8 +96,8 @@ export default function HourBankCard({ hourBank, onAddHours, onViewDetails }: Ho
           {/* Hours Summary */}
           <div className="space-y-2">
             <div className="flex justify-between items-center text-sm">
-              <span>Saldo: <span className="font-semibold">{remainingHours.toFixed(1)}h</span></span>
-              <span>Total: <span className="font-semibold">{totalHours.toFixed(1)}h</span></span>
+              <span>Saldo: <span className="font-semibold">{formatHours(remainingHours)}</span></span>
+              <span>Total: <span className="font-semibold">{formatHours(totalHours)}</span></span>
             </div>
             
             {/* Progress Bar */}
@@ -106,8 +108,8 @@ export default function HourBankCard({ hourBank, onAddHours, onViewDetails }: Ho
                 data-testid={`progress-${hourBank.id}`}
               />
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>{consumedHours.toFixed(1)}h consumidas</span>
-                <span>{usagePercentage.toFixed(0)}% usado</span>
+                <span>{formatHours(consumedHours)} consumidas</span>
+                <span>{formatPercentage(usagePercentage)} usado</span>
               </div>
             </div>
           </div>
@@ -123,10 +125,7 @@ export default function HourBankCard({ hourBank, onAddHours, onViewDetails }: Ho
                     isExpired ? (
                       <span className="text-destructive">Expirado</span>
                     ) : (
-                      formatDistanceToNow(new Date(hourBank.expiresAt), {
-                        addSuffix: true,
-                        locale: ptBR
-                      })
+                      <RelativeDateDisplay date={hourBank.expiresAt} />
                     )
                   ) : (
                     "Sem expiração"
@@ -141,7 +140,7 @@ export default function HourBankCard({ hourBank, onAddHours, onViewDetails }: Ho
                 <div>
                   <p className="text-muted-foreground">Valor Total</p>
                   <p className="font-medium">
-                    R$ {totalValue.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                    <CurrencyDisplay amount={totalValue} />
                   </p>
                 </div>
               </div>
@@ -151,13 +150,10 @@ export default function HourBankCard({ hourBank, onAddHours, onViewDetails }: Ho
           {/* Creation Date */}
           <div className="flex items-center justify-between text-xs text-muted-foreground pt-2 border-t border-border">
             <span>
-              Criado {formatDistanceToNow(new Date(hourBank.createdAt), {
-                addSuffix: true,
-                locale: ptBR
-              })}
+              Criado <RelativeDateDisplay date={hourBank.createdAt} />
             </span>
             {hourlyRate && (
-              <span>R$ {hourlyRate.toFixed(2)}/hora</span>
+              <span><CurrencyDisplay amount={hourlyRate} />/hora</span>
             )}
           </div>
 
