@@ -30,15 +30,9 @@ import {
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import PaymentForm from "@/components/PaymentForm";
+// PaymentForm removido - não mais necessário no fluxo simplificado
 
-// Schema para validação de cada etapa
-const planSelectionSchema = z.object({
-  planType: z.enum(["free", "pro", "enterprise"], {
-    required_error: "Você deve selecionar um plano para continuar",
-  }),
-});
-
+// Schema para validação das etapas do fluxo simplificado
 const companyInfoSchema = z.object({
   tenantName: z.string().min(2, "Nome da empresa deve ter pelo menos 2 caracteres"),
   cnpj: z.string().optional(),
@@ -55,71 +49,11 @@ const userRegistrationSchema = z.object({
   path: ["confirmPassword"],
 });
 
-type PlanSelectionForm = z.infer<typeof planSelectionSchema>;
 type CompanyInfoForm = z.infer<typeof companyInfoSchema>;
 type UserRegistrationForm = z.infer<typeof userRegistrationSchema>;
 
-type RegistrationStep = "plan" | "company" | "user" | "payment" | "processing" | "success";
+type RegistrationStep = "company" | "user" | "processing" | "success";
 
-const plans = [
-  {
-    id: "free",
-    name: "Gratuito",
-    price: "R$ 0",
-    period: "/mês",
-    description: "Perfeito para começar",
-    features: [
-      "Até 3 usuários",
-      "100 tickets/mês",
-      "1GB armazenamento",
-      "Suporte básico"
-    ],
-    icon: <Users className="h-5 w-5" />,
-    maxUsers: 3,
-    maxTickets: 100,
-    maxStorage: 1
-  },
-  {
-    id: "pro",
-    name: "Profissional",
-    price: "R$ 49",
-    period: "/mês",
-    description: "Para equipes em crescimento",
-    features: [
-      "Até 15 usuários",
-      "1000 tickets/mês",
-      "10GB armazenamento",
-      "Suporte prioritário",
-      "Relatórios avançados",
-      "Integrações"
-    ],
-    icon: <Star className="h-5 w-5" />,
-    maxUsers: 15,
-    maxTickets: 1000,
-    maxStorage: 10,
-    popular: true
-  },
-  {
-    id: "enterprise",
-    name: "Enterprise",
-    price: "R$ 149",
-    period: "/mês",
-    description: "Para grandes organizações",
-    features: [
-      "Usuários ilimitados",
-      "Tickets ilimitados",
-      "100GB armazenamento",
-      "Suporte 24/7",
-      "White-label",
-      "API personalizada",
-      "SLA garantido"
-    ],
-    icon: <Building className="h-5 w-5" />,
-    maxUsers: 999999,
-    maxTickets: 999999,
-    maxStorage: 100
-  }
-];
 
 export default function SaasRegister() {
   const [, setLocation] = useLocation();
@@ -127,27 +61,14 @@ export default function SaasRegister() {
   const queryClient = useQueryClient();
   
   // Estados do fluxo
-  const [currentStep, setCurrentStep] = useState<RegistrationStep>("plan");
-  const [selectedPlan, setSelectedPlan] = useState<string>("");
+  const [currentStep, setCurrentStep] = useState<RegistrationStep>("company");
   const [companyData, setCompanyData] = useState<CompanyInfoForm | null>(null);
   const [userData, setUserData] = useState<UserRegistrationForm | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
-  // Estados para pagamento
-  const [paymentData, setPaymentData] = useState<{
-    clientSecret: string;
-    subscriptionId: string;
-    customerId: string;
-  } | null>(null);
-
-  // Forms para cada etapa
-  const planForm = useForm<PlanSelectionForm>({
-    resolver: zodResolver(planSelectionSchema),
-    defaultValues: { planType: undefined },
-  });
-
+  // Forms para o fluxo simplificado
   const companyForm = useForm<CompanyInfoForm>({
     resolver: zodResolver(companyInfoSchema),
     defaultValues: {
@@ -188,26 +109,6 @@ export default function SaasRegister() {
     },
   });
 
-  // Mutation para criar subscription para planos pagos
-  const subscriptionMutation = useMutation({
-    mutationFn: async (data: { planType: string; tenantName: string }) => {
-      const response = await apiRequest("POST", "/api/onboarding-subscription", data);
-      return response.json();
-    },
-    onSuccess: (data) => {
-      setPaymentData(data);
-      setCurrentStep("payment");
-    },
-    onError: (error: any) => {
-      const errorMessage = error.message || "Falha ao criar subscription";
-      setError(errorMessage);
-      toast({
-        title: "Erro ao criar subscription",
-        description: errorMessage,
-        variant: "destructive",
-      });
-    },
-  });
 
   // Mutation para completar onboarding
   const onboardingMutation = useMutation({
@@ -240,12 +141,6 @@ export default function SaasRegister() {
   });
 
   // Navegação entre etapas
-  const handlePlanSelection = (data: PlanSelectionForm) => {
-    setSelectedPlan(data.planType);
-    setCurrentStep("company");
-    setError(null);
-  };
-
   const handleCompanyInfo = (data: CompanyInfoForm) => {
     setCompanyData(data);
     setCurrentStep("user");
@@ -267,54 +162,23 @@ export default function SaasRegister() {
       });
 
       // Se chegou até aqui, o usuário foi registrado com sucesso
-      // Agora processa a criação da empresa
-      if (selectedPlan === "free") {
-        // Para plano gratuito, cria empresa diretamente
-        onboardingMutation.mutate({
-          ...companyData!,
-          planType: selectedPlan,
-        });
-      } else {
-        // Para planos pagos, cria subscription primeiro
-        subscriptionMutation.mutate({
-          planType: selectedPlan,
-          tenantName: companyData!.tenantName,
-        });
-      }
+      // Agora cria a empresa com plano trial de 14 dias automaticamente
+      onboardingMutation.mutate({
+        ...companyData!,
+        planType: "free", // Trial implementado como plano free
+      });
     } catch (error) {
       setCurrentStep("user");
     }
   };
 
-  const handlePaymentSuccess = (paymentIntent: any) => {
-    if (!companyData || !paymentData) return;
-
-    // Complete onboarding with payment info
-    onboardingMutation.mutate({
-      ...companyData,
-      planType: selectedPlan,
-      stripeCustomerId: paymentData.customerId,
-      stripeSubscriptionId: paymentData.subscriptionId,
-    });
-  };
-
-  const handlePaymentError = (errorMessage: string) => {
-    setError(errorMessage);
-    setCurrentStep("payment");
-  };
+  // Removidas handlePaymentSuccess e handlePaymentError - não mais necessárias no novo fluxo
 
   const handleBack = () => {
     setError(null);
     switch (currentStep) {
-      case "company":
-        setCurrentStep("plan");
-        break;
       case "user":
         setCurrentStep("company");
-        break;
-      case "payment":
-        setCurrentStep("user");
-        setPaymentData(null);
         break;
       case "processing":
         setCurrentStep("user");
@@ -326,17 +190,14 @@ export default function SaasRegister() {
 
   const getStepProgress = () => {
     switch (currentStep) {
-      case "plan": return 25;
-      case "company": return 50;
-      case "user": return 75;
-      case "payment": return 90;
-      case "processing": return 95;
+      case "company": return 33;
+      case "user": return 66;
+      case "processing": return 90;
       case "success": return 100;
       default: return 0;
     }
   };
 
-  const selectedPlanData = plans.find(p => p.id === selectedPlan);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-4">
@@ -349,12 +210,10 @@ export default function SaasRegister() {
           </div>
           <h1 className="text-3xl font-bold mb-2">Criar Sua Conta</h1>
           <p className="text-muted-foreground">
-            {currentStep === "plan" && "Escolha o plano ideal para sua empresa"}
             {currentStep === "company" && "Informações da sua empresa"}
             {currentStep === "user" && "Suas informações de login"}
-            {currentStep === "payment" && "Finalizar pagamento"}
             {currentStep === "processing" && "Processando seu registro..."}
-            {currentStep === "success" && "Conta criada com sucesso!"}
+            {currentStep === "success" && "Conta criada com sucesso! 14 dias grátis incluídos."}
           </p>
         </div>
 
@@ -363,7 +222,6 @@ export default function SaasRegister() {
           <div className="w-full">
             <Progress value={getStepProgress()} className="w-full" />
             <div className="flex justify-between text-xs text-muted-foreground mt-2">
-              <span>Plano</span>
               <span>Empresa</span>
               <span>Usuário</span>
               <span>Conclusão</span>
@@ -372,13 +230,13 @@ export default function SaasRegister() {
         )}
 
         {/* Back Button */}
-        {currentStep !== "plan" && currentStep !== "success" && currentStep !== "processing" && (
+        {currentStep !== "company" && currentStep !== "success" && currentStep !== "processing" && (
           <div className="flex justify-start">
             <Button
               variant="outline"
               onClick={handleBack}
               className="flex items-center space-x-2"
-              disabled={registerMutation.isPending || subscriptionMutation.isPending || onboardingMutation.isPending}
+              disabled={registerMutation.isPending || onboardingMutation.isPending}
               data-testid="button-back"
             >
               <ArrowLeft className="h-4 w-4" />
@@ -394,88 +252,7 @@ export default function SaasRegister() {
           </Alert>
         )}
 
-        {/* Step 1: Plan Selection */}
-        {currentStep === "plan" && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Escolha seu Plano</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={planForm.handleSubmit(handlePlanSelection)} className="space-y-6">
-                <div className="grid md:grid-cols-3 gap-6">
-                  {plans.map((plan) => (
-                    <Card 
-                      key={plan.id} 
-                      className={`relative cursor-pointer transition-all hover:shadow-lg ${
-                        selectedPlan === plan.id 
-                          ? 'border-2 border-primary ring-2 ring-primary/20' 
-                          : 'border hover:border-primary/50'
-                      } ${plan.popular ? 'border-accent' : ''}`}
-                      onClick={() => {
-                        setSelectedPlan(plan.id);
-                        planForm.setValue("planType", plan.id as any);
-                      }}
-                      data-testid={`plan-${plan.id}`}
-                    >
-                      {plan.popular && (
-                        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                          <Badge className="bg-accent text-white">Mais Popular</Badge>
-                        </div>
-                      )}
-                      
-                      <CardContent className="p-6">
-                        <div className="text-center mb-4">
-                          <div className="flex justify-center mb-2">
-                            {plan.icon}
-                          </div>
-                          <h3 className="text-xl font-bold mb-2">{plan.name}</h3>
-                          <div className="text-2xl font-bold text-primary mb-1">{plan.price}</div>
-                          <p className="text-muted-foreground text-sm">{plan.period}</p>
-                          <p className="text-sm text-muted-foreground mt-2">{plan.description}</p>
-                        </div>
-                        
-                        <ul className="space-y-2 mb-4">
-                          {plan.features.map((feature, index) => (
-                            <li key={index} className="flex items-center text-sm">
-                              <CheckCircle className="h-4 w-4 text-accent mr-2 flex-shrink-0" />
-                              <span>{feature}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        {selectedPlan === plan.id && (
-                          <div className="flex justify-center">
-                            <CheckCircle className="h-6 w-6 text-primary" />
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-
-                {planForm.formState.errors.planType && (
-                  <p className="text-sm text-destructive text-center">
-                    {planForm.formState.errors.planType.message}
-                  </p>
-                )}
-
-                <div className="flex justify-end">
-                  <Button 
-                    type="submit" 
-                    disabled={!selectedPlan}
-                    className="flex items-center space-x-2"
-                    data-testid="button-next-plan"
-                  >
-                    <span>Continuar</span>
-                    <ArrowRight className="h-4 w-4" />
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Step 2: Company Information */}
+        {/* Step 1: Company Information */}
         {currentStep === "company" && (
           <Card>
             <CardHeader>
@@ -693,25 +470,7 @@ export default function SaasRegister() {
           </Card>
         )}
 
-        {/* Step 4: Payment (for paid plans) */}
-        {currentStep === "payment" && paymentData && selectedPlanData && (
-          <Card>
-            <CardHeader>
-              <CardTitle>Finalizar Pagamento</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <PaymentForm
-                clientSecret={paymentData.clientSecret}
-                onSuccess={handlePaymentSuccess}
-                onError={handlePaymentError}
-                planName={selectedPlanData.name}
-                amount={selectedPlanData.price}
-              />
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Step 5: Processing */}
+        {/* Step 3: Processing */}
         {currentStep === "processing" && (
           <Card>
             <CardContent className="py-16 text-center">
@@ -724,15 +483,22 @@ export default function SaasRegister() {
           </Card>
         )}
 
-        {/* Step 6: Success */}
+        {/* Step 4: Success */}
         {currentStep === "success" && (
           <Card>
             <CardContent className="py-16 text-center">
               <CheckCircle className="h-16 w-16 mx-auto mb-4 text-accent" />
               <h3 className="text-2xl font-bold mb-2">Conta Criada com Sucesso!</h3>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-muted-foreground mb-4">
                 Bem-vindo ao TatuTicket! Sua conta e empresa foram criadas.
               </p>
+              <div className="bg-accent/10 border border-accent/20 rounded-lg p-4 mb-6">
+                <h4 className="font-semibold text-accent mb-2">🎉 Trial de 14 Dias Ativado!</h4>
+                <p className="text-sm text-muted-foreground">
+                  Você tem acesso completo a todas as funcionalidades por 14 dias.
+                  Após este período, será necessário escolher um plano de assinatura.
+                </p>
+              </div>
               <p className="text-sm text-muted-foreground">
                 Redirecionando para o dashboard...
               </p>

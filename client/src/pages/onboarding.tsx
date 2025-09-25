@@ -30,7 +30,7 @@ const plans = [
   {
     id: "free",
     name: "Gratuito",
-    price: "R$ 0",
+    price: "0 Kz",
     period: "/mês",
     description: "Perfeito para começar",
     features: [
@@ -47,7 +47,7 @@ const plans = [
   {
     id: "pro",
     name: "Profissional",
-    price: "R$ 49",
+    price: "49.500 Kz",
     period: "/mês",
     description: "Para equipes em crescimento",
     features: [
@@ -67,7 +67,7 @@ const plans = [
   {
     id: "enterprise",
     name: "Enterprise",
-    price: "R$ 149",
+    price: "149.500 Kz",
     period: "/mês",
     description: "Para grandes organizações",
     features: [
