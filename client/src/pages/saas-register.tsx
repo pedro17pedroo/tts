@@ -136,7 +136,7 @@ export default function SaasRegister() {
             const userData = queryClient.getQueryData(["/api/auth/user"]) as any;
             if (userData?.data?.tenantId) {
               // User has tenantId, safe to redirect to dashboard
-              setLocation("/");
+              setLocation("/dashboard");
               return;
             }
             
@@ -150,7 +150,7 @@ export default function SaasRegister() {
         }
         
         // Fallback: redirect anyway after max attempts
-        setLocation("/");
+        setLocation("/dashboard");
       };
       
       // Start waiting after a short delay to show success message

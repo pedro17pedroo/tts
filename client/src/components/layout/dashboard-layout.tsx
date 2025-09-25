@@ -43,7 +43,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   }, [isSidebarOpen]);
 
   const navigation = [
-    { name: 'Dashboard', href: '/', icon: Home, current: location === '/' },
+    { name: 'Dashboard', href: '/dashboard', icon: Home, current: location === '/dashboard' },
     { name: 'Tickets', href: '/tickets', icon: Ticket, current: location === '/tickets' },
     { name: 'Clientes', href: '/customers', icon: Users, current: location === '/customers' },
     { name: 'Bolsa de Horas', href: '/hour-bank', icon: Clock, current: location === '/hour-bank' },

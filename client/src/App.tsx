@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -21,6 +21,18 @@ import Reports from "@/pages/reports";
 import Settings from "@/pages/settings";
 import Subscribe from "@/pages/subscribe";
 import NotFound from "@/pages/not-found";
+
+function RedirectToOnboarding() {
+  const [, setLocation] = useLocation();
+  setLocation("/onboarding");
+  return null;
+}
+
+function RedirectToDashboard() {
+  const [, setLocation] = useLocation();
+  setLocation("/dashboard");
+  return null;
+}
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -45,17 +57,23 @@ function Router() {
           <Route path="/subscribe" component={Subscribe} />
         </>
       ) : !user?.tenantId ? (
-        <Route path="/" component={Onboarding} />
+        <>
+          <Route path="/onboarding" component={Onboarding} />
+          <Route path="/" component={RedirectToOnboarding} />
+        </>
       ) : (
-        <DashboardLayout>
-          <Route path="/" component={Dashboard} />
-          <Route path="/tickets" component={Tickets} />
-          <Route path="/customers" component={Customers} />
-          <Route path="/hour-bank" component={HourBank} />
-          <Route path="/knowledge-base" component={KnowledgeBase} />
-          <Route path="/reports" component={Reports} />
-          <Route path="/settings" component={Settings} />
-        </DashboardLayout>
+        <>
+          <DashboardLayout>
+            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/tickets" component={Tickets} />
+            <Route path="/customers" component={Customers} />
+            <Route path="/hour-bank" component={HourBank} />
+            <Route path="/knowledge-base" component={KnowledgeBase} />
+            <Route path="/reports" component={Reports} />
+            <Route path="/settings" component={Settings} />
+          </DashboardLayout>
+          <Route path="/" component={RedirectToDashboard} />
+        </>
       )}
       <Route component={NotFound} />
     </Switch>
