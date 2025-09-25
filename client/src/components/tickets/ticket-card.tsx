@@ -22,15 +22,15 @@ export default function TicketCard({ ticket, onClick }: TicketCardProps) {
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case 'critical':
-        return 'bg-destructive text-white';
+        return 'destructive';
       case 'high':
-        return 'bg-destructive text-white';
+        return 'destructive';
       case 'medium':
-        return 'bg-secondary text-white';
+        return 'secondary';
       case 'low':
-        return 'bg-muted text-muted-foreground';
+        return 'outline';
       default:
-        return 'bg-muted text-muted-foreground';
+        return 'outline';
     }
   };
 
@@ -50,25 +50,25 @@ export default function TicketCard({ ticket, onClick }: TicketCardProps) {
       onClick={onClick}
       data-testid={`ticket-card-${ticket.id}`}
     >
-      <CardContent className="p-4">
+      <CardContent className="p-3 md:p-4">
         <div className="flex items-start justify-between mb-2">
-          <span className="text-sm font-medium text-muted-foreground">
+          <span className="text-xs md:text-sm font-medium text-muted-foreground truncate">
             #{ticket.id.slice(-8)}
           </span>
-          <Badge className={getPriorityColor(ticket.priority)}>
+          <Badge variant={getPriorityColor(ticket.priority) as any} className="text-xs shrink-0 ml-2">
             {getPriorityLabel(ticket.priority)}
           </Badge>
         </div>
         
-        <h4 className="font-medium mb-2 line-clamp-2">{ticket.title}</h4>
+        <h4 className="font-medium mb-2 line-clamp-2 text-sm md:text-base">{ticket.title}</h4>
         
-        <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
+        <p className="text-xs md:text-sm text-muted-foreground mb-3 line-clamp-2">
           {ticket.description}
         </p>
         
         <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>Cliente #{ticket.customerId.slice(-6)}</span>
-          <span>
+          <span className="truncate mr-2">Cliente #{ticket.customerId.slice(-6)}</span>
+          <span className="shrink-0">
             {formatDistanceToNow(new Date(ticket.createdAt), { 
               addSuffix: true,
               locale: ptBR 

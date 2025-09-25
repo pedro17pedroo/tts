@@ -102,18 +102,19 @@ export default function Customers() {
   }
 
   return (
-    <div className="p-6" data-testid="customers-page">
+    <div className="p-4 md:p-6" data-testid="customers-page">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Clientes</h1>
-          <p className="text-muted-foreground">Gerencie seus clientes e suas informações</p>
+          <h1 className="text-xl md:text-2xl font-bold">Clientes</h1>
+          <p className="text-sm md:text-base text-muted-foreground">Gerencie seus clientes e suas informações</p>
         </div>
         <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
           <DialogTrigger asChild>
-            <Button data-testid="button-create-customer">
-              <Plus className="h-4 w-4 mr-2" />
-              Novo Cliente
+            <Button data-testid="button-create-customer" size="sm" className="text-xs md:text-sm">
+              <Plus className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Novo Cliente</span>
+              <span className="sm:hidden">Novo</span>
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-md">
@@ -198,24 +199,24 @@ export default function Customers() {
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-muted-foreground text-sm">Total de Clientes</p>
-                <p className="text-3xl font-bold text-primary">{customers.length}</p>
+                <p className="text-muted-foreground text-xs md:text-sm">Total de Clientes</p>
+                <p className="text-2xl md:text-3xl font-bold text-primary">{customers.length}</p>
               </div>
-              <Building className="h-8 w-8 text-primary" />
+              <Building className="h-6 w-6 md:h-8 md:w-8 text-primary" />
             </div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-muted-foreground text-sm">Novos este Mês</p>
-                <p className="text-3xl font-bold text-accent">
+                <p className="text-muted-foreground text-xs md:text-sm">Novos este Mês</p>
+                <p className="text-2xl md:text-3xl font-bold text-accent">
                   {customers.filter(c => {
                     const createdAt = new Date(c.createdAt);
                     const now = new Date();
@@ -224,18 +225,18 @@ export default function Customers() {
                   }).length}
                 </p>
               </div>
-              <Plus className="h-8 w-8 text-accent" />
+              <Plus className="h-6 w-6 md:h-8 md:w-8 text-accent" />
             </div>
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-6">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-muted-foreground text-sm">Com Tickets Ativos</p>
-                <p className="text-3xl font-bold text-secondary">0</p>
+                <p className="text-muted-foreground text-xs md:text-sm">Com Tickets Ativos</p>
+                <p className="text-2xl md:text-3xl font-bold text-secondary">0</p>
               </div>
-              <Mail className="h-8 w-8 text-secondary" />
+              <Mail className="h-6 w-6 md:h-8 md:w-8 text-secondary" />
             </div>
           </CardContent>
         </Card>
@@ -243,7 +244,7 @@ export default function Customers() {
 
       {/* Search and Filters */}
       <div className="flex items-center justify-between mb-6">
-        <div className="relative w-64">
+        <div className="relative w-full sm:w-64">
           <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Buscar clientes..."
@@ -285,90 +286,173 @@ export default function Customers() {
               )}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Cliente</TableHead>
-                  <TableHead>Contato</TableHead>
-                  <TableHead>Empresa</TableHead>
-                  <TableHead>Criado</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Ações</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
+            <>
+              {/* Desktop Table View */}
+              <div className="hidden md:block">
+                <div className="overflow-x-auto">
+                  <Table className="min-w-[700px]">
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="min-w-[180px]">Cliente</TableHead>
+                        <TableHead className="min-w-[200px]">Contato</TableHead>
+                        <TableHead className="min-w-[120px]">Empresa</TableHead>
+                        <TableHead className="min-w-[100px]">Criado</TableHead>
+                        <TableHead className="min-w-[80px]">Status</TableHead>
+                        <TableHead className="text-right min-w-[100px]">Ações</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {filteredCustomers.map((customer) => (
+                        <TableRow key={customer.id} data-testid={`customer-row-${customer.id}`}>
+                          <TableCell>
+                            <div className="flex items-center space-x-3">
+                              <Avatar className="h-8 w-8">
+                                <AvatarFallback>
+                                  {customer.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                </AvatarFallback>
+                              </Avatar>
+                              <div>
+                                <p className="font-medium">{customer.name}</p>
+                                <p className="text-sm text-muted-foreground">#{customer.id.slice(-8)}</p>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="space-y-1">
+                              <div className="flex items-center space-x-2">
+                                <Mail className="h-4 w-4 text-muted-foreground" />
+                                <span className="text-sm">{customer.email}</span>
+                              </div>
+                              {customer.phone && (
+                                <div className="flex items-center space-x-2">
+                                  <Phone className="h-4 w-4 text-muted-foreground" />
+                                  <span className="text-sm">{customer.phone}</span>
+                                </div>
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            {customer.company ? (
+                              <Badge variant="outline">{customer.company}</Badge>
+                            ) : (
+                              <span className="text-muted-foreground">-</span>
+                            )}
+                          </TableCell>
+                          <TableCell>
+                            <span className="text-sm text-muted-foreground">
+                              {formatDistanceToNow(new Date(customer.createdAt), {
+                                addSuffix: true,
+                                locale: ptBR
+                              })}
+                            </span>
+                          </TableCell>
+                          <TableCell>
+                            <Badge variant="outline" className="text-accent border-accent">
+                              Ativo
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <div className="flex items-center justify-end space-x-2">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                data-testid={`button-edit-customer-${customer.id}`}
+                              >
+                                <Edit className="h-4 w-4" />
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                className="text-destructive hover:text-destructive"
+                                data-testid={`button-delete-customer-${customer.id}`}
+                              >
+                                <Trash2 className="h-4 w-4" />
+                              </Button>
+                            </div>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
+
+              {/* Mobile Card View */}
+              <div className="md:hidden space-y-4" data-testid="customers-mobile-view">
                 {filteredCustomers.map((customer) => (
-                  <TableRow key={customer.id} data-testid={`customer-row-${customer.id}`}>
-                    <TableCell>
-                      <div className="flex items-center space-x-3">
-                        <Avatar className="h-8 w-8">
-                          <AvatarFallback>
-                            {customer.name.split(' ').map(n => n[0]).join('').toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <p className="font-medium">{customer.name}</p>
-                          <p className="text-sm text-muted-foreground">#{customer.id.slice(-8)}</p>
+                  <Card key={customer.id} data-testid={`customer-mobile-card-${customer.id}`}>
+                    <CardContent className="p-4">
+                      {/* Header */}
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center space-x-3">
+                          <Avatar className="h-8 w-8">
+                            <AvatarFallback className="text-xs">
+                              {customer.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-medium text-sm">{customer.name}</p>
+                            <p className="text-xs text-muted-foreground">#{customer.id.slice(-8)}</p>
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6"
+                            data-testid={`button-edit-customer-mobile-${customer.id}`}
+                          >
+                            <Edit className="h-3 w-3" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-6 w-6 text-destructive hover:text-destructive"
+                            data-testid={`button-delete-customer-mobile-${customer.id}`}
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
                         </div>
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="space-y-1">
+                      
+                      {/* Contact Info */}
+                      <div className="space-y-2 mb-3">
                         <div className="flex items-center space-x-2">
-                          <Mail className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm">{customer.email}</span>
+                          <Mail className="h-3 w-3 text-muted-foreground" />
+                          <span className="text-xs text-muted-foreground">{customer.email}</span>
                         </div>
                         {customer.phone && (
                           <div className="flex items-center space-x-2">
-                            <Phone className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm">{customer.phone}</span>
+                            <Phone className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-xs text-muted-foreground">{customer.phone}</span>
                           </div>
                         )}
                       </div>
-                    </TableCell>
-                    <TableCell>
-                      {customer.company ? (
-                        <Badge variant="outline">{customer.company}</Badge>
-                      ) : (
-                        <span className="text-muted-foreground">-</span>
-                      )}
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-sm text-muted-foreground">
-                        {formatDistanceToNow(new Date(customer.createdAt), {
-                          addSuffix: true,
-                          locale: ptBR
-                        })}
-                      </span>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline" className="text-accent border-accent">
-                        Ativo
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end space-x-2">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          data-testid={`button-edit-customer-${customer.id}`}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="text-destructive hover:text-destructive"
-                          data-testid={`button-delete-customer-${customer.id}`}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
+                      
+                      {/* Footer */}
+                      <div className="flex items-center justify-between">
+                        {customer.company ? (
+                          <Badge variant="outline" className="text-xs">{customer.company}</Badge>
+                        ) : (
+                          <span className="text-xs text-muted-foreground">Sem empresa</span>
+                        )}
+                        <div className="flex items-center space-x-2">
+                          <Badge variant="outline" className="text-xs text-accent border-accent">
+                            Ativo
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">
+                            {formatDistanceToNow(new Date(customer.createdAt), {
+                              addSuffix: true,
+                              locale: ptBR
+                            })}
+                          </span>
+                        </div>
                       </div>
-                    </TableCell>
-                  </TableRow>
+                    </CardContent>
+                  </Card>
                 ))}
-              </TableBody>
-            </Table>
+              </div>
+            </>
           )}
         </CardContent>
       </Card>

@@ -244,21 +244,25 @@ export default function CompanySetup() {
     <div className="min-h-screen bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl">
         {/* Header with Progress */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 md:mb-8">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <Ticket className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold text-primary">TatuTicket</span>
+            <Ticket className="h-6 w-6 md:h-8 md:w-8 text-primary" />
+            <span className="text-xl md:text-2xl font-bold text-primary">TatuTicket</span>
           </div>
-          <h1 className="text-3xl font-bold mb-2">Configuração da Empresa</h1>
-          <p className="text-muted-foreground">Configure sua empresa em alguns passos simples</p>
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">Configuração da Empresa</h1>
+          <p className="text-sm md:text-base text-muted-foreground px-4">Configure sua empresa em alguns passos simples</p>
           
-          <div className="max-w-md mx-auto mt-6">
+          <div className="max-w-xs sm:max-w-md mx-auto mt-6">
             <Progress value={getStepProgress()} className="h-2" />
             <div className="flex justify-between text-xs text-muted-foreground mt-2">
-              <span>Empresa</span>
-              <span>Plano</span>
-              <span>Pagamento</span>
-              <span>Pronto</span>
+              <span className="hidden sm:inline">Empresa</span>
+              <span className="sm:hidden">1</span>
+              <span className="hidden sm:inline">Plano</span>
+              <span className="sm:hidden">2</span>
+              <span className="hidden sm:inline">Pagamento</span>
+              <span className="sm:hidden">3</span>
+              <span className="hidden sm:inline">Pronto</span>
+              <span className="sm:hidden">4</span>
             </div>
           </div>
         </div>
@@ -272,46 +276,48 @@ export default function CompanySetup() {
         {/* Step 1: Company Information */}
         {currentStep === "company" && (
           <Card className="max-w-md mx-auto">
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Building className="h-5 w-5" />
+            <CardHeader className="p-4 md:p-6">
+              <CardTitle className="flex items-center space-x-2 text-lg md:text-xl">
+                <Building className="h-4 w-4 md:h-5 md:w-5" />
                 <span>Informações da Empresa</span>
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <form onSubmit={companyForm.handleSubmit(handleCompanySubmit)} className="space-y-4">
                 <div>
-                  <Label htmlFor="tenantName">Nome da Empresa</Label>
+                  <Label htmlFor="tenantName" className="text-sm md:text-base">Nome da Empresa</Label>
                   <Input
                     id="tenantName"
                     {...companyForm.register("tenantName")}
                     placeholder="Digite o nome da sua empresa"
                     data-testid="input-company-name"
+                    className="text-sm md:text-base"
                   />
                   {companyForm.formState.errors.tenantName && (
-                    <p className="text-sm text-destructive mt-1">
+                    <p className="text-xs md:text-sm text-destructive mt-1">
                       {companyForm.formState.errors.tenantName.message}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor="nif">NIF (Opcional)</Label>
+                  <Label htmlFor="nif" className="text-sm md:text-base">NIF (Opcional)</Label>
                   <Input
                     id="nif"
                     {...companyForm.register("nif")}
                     placeholder="Número de Identificação Fiscal"
                     data-testid="input-nif"
+                    className="text-sm md:text-base"
                   />
                 </div>
 
                 <Button 
                   type="submit" 
-                  className="w-full"
+                  className="w-full text-sm md:text-base"
                   data-testid="button-continue-company"
                 >
                   Continuar
-                  <ArrowRight className="h-4 w-4 ml-2" />
+                  <ArrowRight className="h-3 w-3 md:h-4 md:w-4 ml-2" />
                 </Button>
               </form>
             </CardContent>
@@ -322,12 +328,12 @@ export default function CompanySetup() {
         {currentStep === "plan" && (
           <div>
             <div className="text-center mb-6">
-              <h2 className="text-2xl font-bold mb-2">Escolha seu Plano</h2>
-              <p className="text-muted-foreground">Selecione o plano que melhor atende às suas necessidades</p>
+              <h2 className="text-xl md:text-2xl font-bold mb-2">Escolha seu Plano</h2>
+              <p className="text-sm md:text-base text-muted-foreground px-4">Selecione o plano que melhor atende às suas necessidades</p>
             </div>
 
             <form onSubmit={planForm.handleSubmit(handlePlanSubmit)}>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-6">
                 {plans.map((plan) => (
                   <Card 
                     key={plan.id} 
@@ -339,28 +345,28 @@ export default function CompanySetup() {
                     onClick={() => planForm.setValue("planType", plan.id as any)}
                     data-testid={`card-plan-${plan.id}`}
                   >
-                    <CardHeader className="text-center">
+                    <CardHeader className="text-center p-4 md:p-6">
                       {plan.popular && (
-                        <Badge className="mx-auto mb-2 w-fit">Mais Popular</Badge>
+                        <Badge className="mx-auto mb-2 w-fit text-xs">Mais Popular</Badge>
                       )}
                       <div className="flex items-center justify-center space-x-2 mb-2">
-                        {plan.icon}
-                        <span className="font-semibold">{plan.name}</span>
+                        <div className="text-primary">{plan.icon}</div>
+                        <span className="font-semibold text-sm md:text-base">{plan.name}</span>
                       </div>
-                      <div className="text-3xl font-bold">
+                      <div className="text-2xl md:text-3xl font-bold">
                         {plan.price === 0 ? "Grátis" : formatCurrency(plan.price)}
-                        <span className="text-sm font-normal text-muted-foreground">
+                        <span className="text-xs md:text-sm font-normal text-muted-foreground">
                           {plan.period}
                         </span>
                       </div>
-                      <p className="text-sm text-muted-foreground">{plan.description}</p>
+                      <p className="text-xs md:text-sm text-muted-foreground">{plan.description}</p>
                     </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
+                    <CardContent className="p-4 md:p-6 pt-0">
+                      <ul className="space-y-1 md:space-y-2">
                         {plan.features.map((feature, index) => (
                           <li key={index} className="flex items-center space-x-2">
-                            <CheckCircle className="h-4 w-4 text-green-500" />
-                            <span className="text-sm">{feature}</span>
+                            <CheckCircle className="h-3 w-3 md:h-4 md:w-4 text-green-500 shrink-0" />
+                            <span className="text-xs md:text-sm">{feature}</span>
                           </li>
                         ))}
                       </ul>
@@ -369,14 +375,15 @@ export default function CompanySetup() {
                 ))}
               </div>
 
-              <div className="flex justify-center space-x-4">
+              <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
                 <Button 
                   type="button" 
                   variant="outline" 
                   onClick={() => setCurrentStep("company")}
                   data-testid="button-back-to-company"
+                  className="text-sm md:text-base"
                 >
-                  <ArrowLeft className="h-4 w-4 mr-2" />
+                  <ArrowLeft className="h-3 w-3 md:h-4 md:w-4 mr-2" />
                   Voltar
                 </Button>
                 
@@ -384,9 +391,15 @@ export default function CompanySetup() {
                   type="submit" 
                   disabled={!planForm.watch("planType")}
                   data-testid="button-continue-plan"
+                  className="text-sm md:text-base"
                 >
-                  {planForm.watch("planType") === "free" ? "Finalizar" : "Continuar para Pagamento"}
-                  <ArrowRight className="h-4 w-4 ml-2" />
+                  <span className="hidden sm:inline">
+                    {planForm.watch("planType") === "free" ? "Finalizar" : "Continuar para Pagamento"}
+                  </span>
+                  <span className="sm:hidden">
+                    {planForm.watch("planType") === "free" ? "Finalizar" : "Continuar"}
+                  </span>
+                  <ArrowRight className="h-3 w-3 md:h-4 md:w-4 ml-2" />
                 </Button>
               </div>
             </form>

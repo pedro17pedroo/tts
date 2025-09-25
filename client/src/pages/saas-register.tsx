@@ -228,15 +228,15 @@ export default function SaasRegister() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center p-4">
-      <div className="w-full max-w-4xl space-y-8">
+      <div className="w-full max-w-4xl space-y-6 md:space-y-8">
         {/* Header */}
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <Ticket className="h-10 w-10 text-primary" />
-            <span className="text-3xl font-bold text-primary">TatuTicket</span>
+            <Ticket className="h-8 w-8 md:h-10 md:w-10 text-primary" />
+            <span className="text-2xl md:text-3xl font-bold text-primary">TatuTicket</span>
           </div>
-          <h1 className="text-3xl font-bold mb-2">Criar Sua Conta</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl md:text-3xl font-bold mb-2">Criar Sua Conta</h1>
+          <p className="text-sm md:text-base text-muted-foreground px-4">
             {currentStep === "company" && "Informações da sua empresa"}
             {currentStep === "user" && "Suas informações de login"}
             {currentStep === "processing" && "Processando seu registro..."}
@@ -282,40 +282,41 @@ export default function SaasRegister() {
         {/* Step 1: Company Information */}
         {currentStep === "company" && (
           <Card>
-            <CardHeader>
-              <CardTitle>Informações da Empresa</CardTitle>
+            <CardHeader className="p-4 md:p-6">
+              <CardTitle className="text-lg md:text-xl">Informações da Empresa</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <form onSubmit={companyForm.handleSubmit(handleCompanyInfo)} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="tenantName">Nome da Empresa *</Label>
+                  <Label htmlFor="tenantName" className="text-sm md:text-base">Nome da Empresa *</Label>
                   <div className="relative">
                     <Building className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="tenantName"
                       placeholder="Nome da sua empresa"
-                      className="pl-10"
+                      className="pl-10 text-sm md:text-base"
                       data-testid="input-tenant-name"
                       {...companyForm.register("tenantName")}
                     />
                   </div>
                   {companyForm.formState.errors.tenantName && (
-                    <p className="text-sm text-destructive">
+                    <p className="text-xs md:text-sm text-destructive">
                       {companyForm.formState.errors.tenantName.message}
                     </p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="nif">NIF *</Label>
+                  <Label htmlFor="nif" className="text-sm md:text-base">NIF *</Label>
                   <Input
                     id="nif"
                     placeholder="000000000"
                     data-testid="input-nif"
+                    className="text-sm md:text-base"
                     {...companyForm.register("nif")}
                   />
                   {companyForm.formState.errors.nif && (
-                    <p className="text-sm text-destructive">
+                    <p className="text-xs md:text-sm text-destructive">
                       {companyForm.formState.errors.nif.message}
                     </p>
                   )}
@@ -324,11 +325,11 @@ export default function SaasRegister() {
                 <div className="flex justify-end">
                   <Button 
                     type="submit"
-                    className="flex items-center space-x-2"
+                    className="flex items-center space-x-2 text-sm md:text-base"
                     data-testid="button-next-company"
                   >
                     <span>Continuar</span>
-                    <ArrowRight className="h-4 w-4" />
+                    <ArrowRight className="h-3 w-3 md:h-4 md:w-4" />
                   </Button>
                 </div>
               </form>
@@ -339,45 +340,45 @@ export default function SaasRegister() {
         {/* Step 3: User Registration */}
         {currentStep === "user" && (
           <Card>
-            <CardHeader>
-              <CardTitle>Suas Informações</CardTitle>
+            <CardHeader className="p-4 md:p-6">
+              <CardTitle className="text-lg md:text-xl">Suas Informações</CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className="p-4 md:p-6">
               <form onSubmit={userForm.handleSubmit(handleUserRegistration)} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">Nome *</Label>
+                    <Label htmlFor="firstName" className="text-sm md:text-base">Nome *</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="firstName"
                         placeholder="Seu nome"
-                        className="pl-10"
+                        className="pl-10 text-sm md:text-base"
                         data-testid="input-first-name"
                         {...userForm.register("firstName")}
                       />
                     </div>
                     {userForm.formState.errors.firstName && (
-                      <p className="text-sm text-destructive">
+                      <p className="text-xs md:text-sm text-destructive">
                         {userForm.formState.errors.firstName.message}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Sobrenome *</Label>
+                    <Label htmlFor="lastName" className="text-sm md:text-base">Sobrenome *</Label>
                     <div className="relative">
                       <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                       <Input
                         id="lastName"
                         placeholder="Seu sobrenome"
-                        className="pl-10"
+                        className="pl-10 text-sm md:text-base"
                         data-testid="input-last-name"
                         {...userForm.register("lastName")}
                       />
                     </div>
                     {userForm.formState.errors.lastName && (
-                      <p className="text-sm text-destructive">
+                      <p className="text-xs md:text-sm text-destructive">
                         {userForm.formState.errors.lastName.message}
                       </p>
                     )}
@@ -385,34 +386,34 @@ export default function SaasRegister() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">Email *</Label>
+                  <Label htmlFor="email" className="text-sm md:text-base">Email *</Label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="email"
                       placeholder="seu@email.com"
                       type="email"
-                      className="pl-10"
+                      className="pl-10 text-sm md:text-base"
                       data-testid="input-email"
                       {...userForm.register("email")}
                     />
                   </div>
                   {userForm.formState.errors.email && (
-                    <p className="text-sm text-destructive">
+                    <p className="text-xs md:text-sm text-destructive">
                       {userForm.formState.errors.email.message}
                     </p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Senha *</Label>
+                  <Label htmlFor="password" className="text-sm md:text-base">Senha *</Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="password"
                       placeholder="Sua senha (min. 6 caracteres)"
                       type={showPassword ? "text" : "password"}
-                      className="pl-10 pr-10"
+                      className="pl-10 pr-10 text-sm md:text-base"
                       data-testid="input-password"
                       {...userForm.register("password")}
                     />
@@ -432,21 +433,21 @@ export default function SaasRegister() {
                     </Button>
                   </div>
                   {userForm.formState.errors.password && (
-                    <p className="text-sm text-destructive">
+                    <p className="text-xs md:text-sm text-destructive">
                       {userForm.formState.errors.password.message}
                     </p>
                   )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="confirmPassword">Confirmar Senha *</Label>
+                  <Label htmlFor="confirmPassword" className="text-sm md:text-base">Confirmar Senha *</Label>
                   <div className="relative">
                     <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                       id="confirmPassword"
                       placeholder="Confirme sua senha"
                       type={showConfirmPassword ? "text" : "password"}
-                      className="pl-10 pr-10"
+                      className="pl-10 pr-10 text-sm md:text-base"
                       data-testid="input-confirm-password"
                       {...userForm.register("confirmPassword")}
                     />
@@ -466,7 +467,7 @@ export default function SaasRegister() {
                     </Button>
                   </div>
                   {userForm.formState.errors.confirmPassword && (
-                    <p className="text-sm text-destructive">
+                    <p className="text-xs md:text-sm text-destructive">
                       {userForm.formState.errors.confirmPassword.message}
                     </p>
                   )}

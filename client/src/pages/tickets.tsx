@@ -34,34 +34,54 @@ export default function Tickets() {
   }
 
   return (
-    <div className="p-6" data-testid="tickets-page">
+    <div className="p-4 md:p-6" data-testid="tickets-page">
       {/* Filters and Controls */}
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center space-x-4">
+      <div className="space-y-4 mb-6">
+        {/* Top Row - View Toggle and Create Button */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Button
+              variant={view === "kanban" ? "default" : "outline"}
+              onClick={() => setView("kanban")}
+              data-testid="button-kanban-view"
+              size="sm"
+              className="text-xs md:text-sm"
+            >
+              <Columns className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Kanban</span>
+              <span className="sm:hidden">K</span>
+            </Button>
+            <Button
+              variant={view === "table" ? "default" : "outline"}
+              onClick={() => setView("table")}
+              data-testid="button-table-view"
+              size="sm"
+              className="text-xs md:text-sm"
+            >
+              <Table className="h-3 w-3 md:h-4 md:w-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">Tabela</span>
+              <span className="sm:hidden">T</span>
+            </Button>
+          </div>
+
           <Button
-            variant={view === "kanban" ? "default" : "outline"}
-            onClick={() => setView("kanban")}
-            data-testid="button-kanban-view"
+            onClick={() => setIsCreateModalOpen(true)}
+            data-testid="button-create-ticket"
+            size="sm"
+            className="text-xs md:text-sm"
           >
-            <Columns className="h-4 w-4 mr-2" />
-            Kanban
-          </Button>
-          <Button
-            variant={view === "table" ? "default" : "outline"}
-            onClick={() => setView("table")}
-            data-testid="button-table-view"
-          >
-            <Table className="h-4 w-4 mr-2" />
-            Tabela
+            <span className="hidden sm:inline">Novo Ticket</span>
+            <span className="sm:hidden">+</span>
           </Button>
         </div>
 
-        <div className="flex items-center space-x-4">
+        {/* Bottom Row - Filters */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <Select
             value={filters.status}
             onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}
           >
-            <SelectTrigger className="w-40" data-testid="select-status-filter">
+            <SelectTrigger className="w-full sm:w-36 md:w-40" data-testid="select-status-filter">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
@@ -78,7 +98,7 @@ export default function Tickets() {
             value={filters.priority}
             onValueChange={(value) => setFilters(prev => ({ ...prev, priority: value }))}
           >
-            <SelectTrigger className="w-40" data-testid="select-priority-filter">
+            <SelectTrigger className="w-full sm:w-36 md:w-40" data-testid="select-priority-filter">
               <SelectValue placeholder="Prioridade" />
             </SelectTrigger>
             <SelectContent>
@@ -90,23 +110,16 @@ export default function Tickets() {
             </SelectContent>
           </Select>
 
-          <div className="relative">
+          <div className="relative flex-1 sm:flex-none">
             <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Buscar tickets..."
-              className="pl-9 w-64"
+              className="pl-9 w-full sm:w-48 md:w-64"
               value={filters.search}
               onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
               data-testid="input-search-tickets"
             />
           </div>
-
-          <Button
-            onClick={() => setIsCreateModalOpen(true)}
-            data-testid="button-create-ticket"
-          >
-            Novo Ticket
-          </Button>
         </div>
       </div>
 
