@@ -21,7 +21,8 @@ Key features include:
 - Implemented three-tier responsive layout: desktop (≥1024px), tablet (768px-1024px), mobile (<768px)
 - Added compact tablet layout with optimized spacing and smaller text/buttons for intermediate screen sizes
 - Improved breakpoint transitions to eliminate content crowding and ensure all menu items remain visible
-- Maintained existing mobile hamburger menu functionality while enhancing tablet experience
+- Enhanced mobile hamburger menu with improved accessibility (aria attributes) and UX (auto-close on navigation)
+- Optimized desktop and tablet navbars to use icon-only selectors for language and theme toggles to save space
 
 **September 25, 2025** - Design Modernization:
 - Completely redesigned color palette for modern, professional appearance

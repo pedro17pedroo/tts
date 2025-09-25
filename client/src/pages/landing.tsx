@@ -176,6 +176,10 @@ export default function Landing() {
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
                 data-testid="button-mobile-menu"
+                aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-menu"
+                className="text-foreground"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
@@ -184,12 +188,40 @@ export default function Landing() {
 
           {/* Mobile Navigation */}
           {isMenuOpen && (
-            <div className="md:hidden">
+            <div className="md:hidden" id="mobile-menu">
               <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                <a href="#features" className="block px-3 py-2 text-muted-foreground hover:text-foreground">{t('landing.featuresNav')}</a>
-                <a href="#pricing" className="block px-3 py-2 text-muted-foreground hover:text-foreground">{t('landing.pricing')}</a>
-                <a href="#faq" className="block px-3 py-2 text-muted-foreground hover:text-foreground">{t('landing.faqNav')}</a>
-                <a href="#contact" className="block px-3 py-2 text-muted-foreground hover:text-foreground">{t('landing.contact')}</a>
+                <a 
+                  href="#features" 
+                  className="block px-3 py-2 text-muted-foreground hover:text-foreground"
+                  onClick={() => setIsMenuOpen(false)}
+                  data-testid="link-features-mobile"
+                >
+                  {t('landing.featuresNav')}
+                </a>
+                <a 
+                  href="#pricing" 
+                  className="block px-3 py-2 text-muted-foreground hover:text-foreground"
+                  onClick={() => setIsMenuOpen(false)}
+                  data-testid="link-pricing-mobile"
+                >
+                  {t('landing.pricing')}
+                </a>
+                <a 
+                  href="#faq" 
+                  className="block px-3 py-2 text-muted-foreground hover:text-foreground"
+                  onClick={() => setIsMenuOpen(false)}
+                  data-testid="link-faq-mobile"
+                >
+                  {t('landing.faqNav')}
+                </a>
+                <a 
+                  href="#contact" 
+                  className="block px-3 py-2 text-muted-foreground hover:text-foreground"
+                  onClick={() => setIsMenuOpen(false)}
+                  data-testid="link-contact-mobile"
+                >
+                  {t('landing.contact')}
+                </a>
                 <div className="pt-4 border-t border-border space-y-3">
                   <div className="flex items-center justify-between px-3">
                     <span className="text-sm font-medium text-muted-foreground">Settings</span>
