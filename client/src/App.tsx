@@ -9,7 +9,6 @@ import Landing from "@/pages/landing";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
 import SaasRegister from "@/pages/saas-register";
-import Onboarding from "@/pages/onboarding";
 import CompanySetup from "@/pages/company-setup";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import Dashboard from "@/pages/dashboard";
@@ -22,9 +21,9 @@ import Settings from "@/pages/settings";
 import Subscribe from "@/pages/subscribe";
 import NotFound from "@/pages/not-found";
 
-function RedirectToOnboarding() {
+function RedirectToSaasRegister() {
   const [, setLocation] = useLocation();
-  setLocation("/onboarding");
+  setLocation("/saas-register");
   return null;
 }
 
@@ -53,13 +52,13 @@ function Router() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/saas-register" component={SaasRegister} />
-          <Route path="/company-setup" component={CompanySetup} />
           <Route path="/subscribe" component={Subscribe} />
         </>
       ) : !user?.tenantId ? (
         <>
-          <Route path="/onboarding" component={Onboarding} />
-          <Route path="/" component={RedirectToOnboarding} />
+          <Route path="/saas-register" component={SaasRegister} />
+          <Route path="/company-setup" component={CompanySetup} />
+          <Route path="/" component={RedirectToSaasRegister} />
         </>
       ) : (
         <>

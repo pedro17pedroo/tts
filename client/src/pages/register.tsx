@@ -63,7 +63,7 @@ export default function Register() {
         description: "Você foi registrado e autenticado.",
       });
       
-      setLocation("/company-setup");
+      setLocation("/saas-register");
     } catch (error: any) {
       const errorMessage = error.message || "Falha no registro";
       setError(errorMessage);

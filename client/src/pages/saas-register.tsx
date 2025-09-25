@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 // PaymentForm removido - não mais necessário no fluxo simplificado
 
 // Schema para validação das etapas do fluxo simplificado
@@ -59,6 +60,7 @@ export default function SaasRegister() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { isAuthenticated, user, isLoading } = useAuth();
   
   // Estados do fluxo
   const [currentStep, setCurrentStep] = useState<RegistrationStep>("company");
@@ -170,8 +172,20 @@ export default function SaasRegister() {
   // Navegação entre etapas
   const handleCompanyInfo = (data: CompanyInfoForm) => {
     setCompanyData(data);
-    setCurrentStep("user");
     setError(null);
+    
+    // If user is already authenticated, skip user registration step
+    if (isAuthenticated && user) {
+      // Go directly to processing and create tenant
+      setCurrentStep("processing");
+      onboardingMutation.mutate({
+        ...data,
+        planType: "free", // Trial implementado como plano free
+      });
+    } else {
+      // User needs to register, go to user registration step
+      setCurrentStep("user");
+    }
   };
 
   const handleUserRegistration = async (data: UserRegistrationForm) => {
