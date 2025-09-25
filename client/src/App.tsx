@@ -10,6 +10,7 @@ import Login from "@/pages/login";
 import Register from "@/pages/register";
 import SaasRegister from "@/pages/saas-register";
 import Onboarding from "@/pages/onboarding";
+import CompanySetup from "@/pages/company-setup";
 import DashboardLayout from "@/components/layout/dashboard-layout";
 import Dashboard from "@/pages/dashboard";
 import Tickets from "@/pages/tickets";
@@ -40,6 +41,7 @@ function Router() {
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
           <Route path="/saas-register" component={SaasRegister} />
+          <Route path="/company-setup" component={CompanySetup} />
           <Route path="/subscribe" component={Subscribe} />
         </>
       ) : !user?.tenantId ? (

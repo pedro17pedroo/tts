@@ -63,7 +63,7 @@ export default function Register() {
         description: "Você foi registrado e autenticado.",
       });
       
-      setLocation("/onboarding");
+      setLocation("/company-setup");
     } catch (error: any) {
       const errorMessage = error.message || "Falha no registro";
       setError(errorMessage);
