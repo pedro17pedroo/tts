@@ -13,8 +13,15 @@ import {
   Shield,
   Menu,
   X,
-  Star
+  Star,
+  MoreHorizontal
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useTranslations } from "@/hooks/useTranslations";
 import { translations } from "@/lib/translations";
 import { LanguageSwitcher } from "@/components/ui/language-switcher";
@@ -125,7 +132,7 @@ export default function Landing() {
               <span className="text-xl font-bold text-primary">{t('landing.brandName')}</span>
             </div>
             
-            {/* Desktop Navigation - Full Layout (lg+) */}
+            {/* Desktop Navigation - Full Layout (1024px+) */}
             <div className="hidden lg:flex items-center space-x-8">
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">{t('landing.featuresNav')}</a>
               <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">{t('landing.pricing')}</a>
@@ -133,15 +140,7 @@ export default function Landing() {
               <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">{t('landing.contact')}</a>
             </div>
             
-            {/* Tablet Navigation - Compact Layout (md-lg) */}
-            <div className="hidden md:flex lg:hidden items-center space-x-4">
-              <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors text-sm">{t('landing.featuresNav')}</a>
-              <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors text-sm">{t('landing.pricing')}</a>
-              <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors text-sm">{t('landing.faqNav')}</a>
-              <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors text-sm">{t('landing.contact')}</a>
-            </div>
-            
-            {/* Desktop Buttons - Full Size (lg+) */}
+            {/* Desktop Buttons - Full Size (1024px+) */}
             <div className="hidden lg:flex items-center space-x-4">
               <LanguageSwitcher 
                 variant="icon-only" 
@@ -155,18 +154,52 @@ export default function Landing() {
               <Button onClick={handleRegister} data-testid="button-register-desktop">{t('landing.getStarted')}</Button>
             </div>
 
-            {/* Tablet Buttons - Compact (md-lg) */}
-            <div className="hidden md:flex lg:hidden items-center space-x-2">
+            {/* Tablet Layout - Simplified for 768px-1023px */}
+            <div className="hidden md:flex lg:hidden items-center space-x-1">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="flex-shrink-0 px-2"
+                    data-testid="button-tablet-menu"
+                  >
+                    <MoreHorizontal className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-40">
+                  <DropdownMenuItem>
+                    <a href="#features" className="w-full" data-testid="link-features-tablet">{t('landing.featuresNav')}</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <a href="#pricing" className="w-full" data-testid="link-pricing-tablet">{t('landing.pricing')}</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <a href="#faq" className="w-full" data-testid="link-faq-tablet">{t('landing.faqNav')}</a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <a href="#contact" className="w-full" data-testid="link-contact-tablet">{t('landing.contact')}</a>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               <LanguageSwitcher 
                 variant="icon-only" 
                 testId="nav-language-switcher-tablet"
+                className="flex-shrink-0"
               />
               <ThemeToggle 
                 variant="icon-only" 
                 testId="nav-theme-toggle-tablet"
+                className="flex-shrink-0"
               />
-              <Button variant="ghost" size="sm" onClick={handleLogin} data-testid="button-login-tablet">{t('common.login')}</Button>
-              <Button size="sm" onClick={handleRegister} data-testid="button-register-tablet">{t('landing.getStarted')}</Button>
+              <Button 
+                size="sm" 
+                onClick={handleRegister} 
+                data-testid="button-register-tablet"
+                className="whitespace-nowrap text-xs px-2"
+              >
+                {t('landing.getStarted')}
+              </Button>
             </div>
 
             {/* Mobile menu button */}

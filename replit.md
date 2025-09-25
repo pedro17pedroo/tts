@@ -20,6 +20,8 @@ Key features include:
 - Fixed navigation bar responsiveness issues that caused menu items to overlap
 - Implemented three-tier responsive layout: desktop (≥1024px), tablet (768px-1024px), mobile (<768px)
 - Added compact tablet layout with optimized spacing and smaller text/buttons for intermediate screen sizes
+- **Fixed critical responsiveness issue in 768px-863px range**: Created streamlined tablet layout with dropdown menu for navigation access
+- Added MoreHorizontal dropdown menu for tablet navigation to prevent overcrowding while maintaining functionality
 - Improved breakpoint transitions to eliminate content crowding and ensure all menu items remain visible
 - Enhanced mobile hamburger menu with improved accessibility (aria attributes) and UX (auto-close on navigation)
 - Optimized desktop and tablet navbars to use icon-only selectors for language and theme toggles to save space
