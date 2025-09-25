@@ -123,17 +123,32 @@ export default function Landing() {
               <span className="text-xl font-bold text-primary">{t('landing.brandName')}</span>
             </div>
             
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-8">
+            {/* Desktop Navigation - Full Layout (lg+) */}
+            <div className="hidden lg:flex items-center space-x-8">
               <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors">{t('landing.featuresNav')}</a>
               <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors">{t('landing.pricing')}</a>
               <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors">{t('landing.faqNav')}</a>
               <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors">{t('landing.contact')}</a>
             </div>
             
-            <div className="hidden md:flex items-center space-x-4">
+            {/* Tablet Navigation - Compact Layout (md-lg) */}
+            <div className="hidden md:flex lg:hidden items-center space-x-4">
+              <a href="#features" className="text-muted-foreground hover:text-foreground transition-colors text-sm">{t('landing.featuresNav')}</a>
+              <a href="#pricing" className="text-muted-foreground hover:text-foreground transition-colors text-sm">{t('landing.pricing')}</a>
+              <a href="#faq" className="text-muted-foreground hover:text-foreground transition-colors text-sm">{t('landing.faqNav')}</a>
+              <a href="#contact" className="text-muted-foreground hover:text-foreground transition-colors text-sm">{t('landing.contact')}</a>
+            </div>
+            
+            {/* Desktop Buttons - Full Size (lg+) */}
+            <div className="hidden lg:flex items-center space-x-4">
               <Button variant="ghost" onClick={handleLogin}>{t('common.login')}</Button>
               <Button onClick={handleRegister}>{t('landing.getStarted')}</Button>
+            </div>
+
+            {/* Tablet Buttons - Compact (md-lg) */}
+            <div className="hidden md:flex lg:hidden items-center space-x-2">
+              <Button variant="ghost" size="sm" onClick={handleLogin}>{t('common.login')}</Button>
+              <Button size="sm" onClick={handleRegister}>{t('landing.getStarted')}</Button>
             </div>
 
             {/* Mobile menu button */}
@@ -142,6 +157,7 @@ export default function Landing() {
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
+                data-testid="button-mobile-menu"
               >
                 {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
               </Button>
