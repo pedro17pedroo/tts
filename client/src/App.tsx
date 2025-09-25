@@ -7,7 +7,6 @@ import { LocaleProvider } from "@/contexts/LocaleContext";
 import { useAuth } from "@/hooks/useAuth";
 import Landing from "@/pages/landing";
 import Login from "@/pages/login";
-import Register from "@/pages/register";
 import SaasRegister from "@/pages/saas-register";
 import CompanySetup from "@/pages/company-setup";
 import DashboardLayout from "@/components/layout/dashboard-layout";
@@ -50,7 +49,7 @@ function Router() {
         <>
           <Route path="/" component={Landing} />
           <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
+          <Route path="/register" component={RedirectToSaasRegister} />
           <Route path="/saas-register" component={SaasRegister} />
           <Route path="/subscribe" component={Subscribe} />
         </>

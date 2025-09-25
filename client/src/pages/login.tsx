@@ -162,7 +162,7 @@ export default function Login() {
 
           <div className="text-center text-sm text-muted-foreground">
             {t('auth.login.noAccount')}{" "}
-            <Link href="/register">
+            <Link href="/saas-register">
               <Button
                 variant="link"
                 className="p-0 h-auto text-primary"
