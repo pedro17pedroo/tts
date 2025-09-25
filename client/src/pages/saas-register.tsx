@@ -116,18 +116,45 @@ export default function SaasRegister() {
       const response = await apiRequest("POST", "/api/onboarding", data);
       return response.json();
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       setCurrentStep("success");
       toast({
         title: "Empresa criada com sucesso!",
-        description: "Bem-vindo ao TatuTicket. Sua conta está pronta para uso.",
+        description: "Redirecionando para o seu dashboard...",
       });
+      
       // Invalidate user query to refetch with new tenant
-      queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
-      // Redirect after a short delay to show success message
-      setTimeout(() => {
+      await queryClient.invalidateQueries({ queryKey: ["/api/auth/user"] });
+      
+      // Wait for user query to be updated with tenantId before redirecting
+      const waitForUserUpdate = async () => {
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        while (attempts < maxAttempts) {
+          try {
+            const userData = queryClient.getQueryData(["/api/auth/user"]) as any;
+            if (userData?.user?.tenantId) {
+              // User has tenantId, safe to redirect to dashboard
+              setLocation("/");
+              return;
+            }
+            
+            // Wait a bit and try again
+            await new Promise(resolve => setTimeout(resolve, 300));
+            attempts++;
+          } catch (error) {
+            console.error("Error checking user data:", error);
+            break;
+          }
+        }
+        
+        // Fallback: redirect anyway after max attempts
         setLocation("/");
-      }, 2000);
+      };
+      
+      // Start waiting after a short delay to show success message
+      setTimeout(waitForUserUpdate, 1500);
     },
     onError: (error: any) => {
       const errorMessage = error.message || "Falha ao criar empresa";
