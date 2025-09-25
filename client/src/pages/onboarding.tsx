@@ -155,7 +155,7 @@ export default function Onboarding() {
         while (attempts < maxAttempts) {
           try {
             const userData = queryClient.getQueryData(["/api/auth/user"]) as any;
-            if (userData?.user?.tenantId) {
+            if (userData?.data?.tenantId) {
               // User has tenantId, safe to redirect to dashboard
               setLocation("/");
               return;
