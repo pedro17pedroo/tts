@@ -144,11 +144,11 @@ export default function Landing() {
             {/* Desktop Buttons - Full Size (lg+) */}
             <div className="hidden lg:flex items-center space-x-4">
               <LanguageSwitcher 
-                variant="compact" 
+                variant="icon-only" 
                 testId="nav-language-switcher-desktop"
               />
               <ThemeToggle 
-                variant="compact" 
+                variant="icon-only" 
                 testId="nav-theme-toggle-desktop"
               />
               <Button variant="ghost" onClick={handleLogin} data-testid="button-login-desktop">{t('common.login')}</Button>
