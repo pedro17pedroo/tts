@@ -36,7 +36,7 @@ import {
   type InsertSlaConfig,
   type SlaStatus,
   type InsertSlaStatus,
-  type SlaLogs,
+  type SlaLog,
   type InsertSlaLog,
 } from "@shared/schema";
 import { db } from "./db";
@@ -121,9 +121,9 @@ export interface IStorage {
   getSlaStatusesBreached(tenantId: string): Promise<SlaStatus[]>;
   
   // SLA Logs operations
-  getSlaLogs(tenantId: string, filters?: any): Promise<SlaLogs[]>;
-  getSlaLogsByTicket(ticketId: string): Promise<SlaLogs[]>;
-  createSlaLog(slaLog: InsertSlaLog): Promise<SlaLogs>;
+  getSlaLogs(tenantId: string, filters?: any): Promise<SlaLog[]>;
+  getSlaLogsByTicket(ticketId: string): Promise<SlaLog[]>;
+  createSlaLog(slaLog: InsertSlaLog): Promise<SlaLog>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -591,8 +591,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.dueToday) {
       conditions.push(
         or(
-          sql`DATE(${slaStatus.firstResponseDueAt}) = CURRENT_DATE`,
-          sql`DATE(${slaStatus.resolutionDueAt}) = CURRENT_DATE`
+          sql`DATE(first_response_due_at) = CURRENT_DATE`,
+          sql`DATE(resolution_due_at) = CURRENT_DATE`
         )
       );
     }
@@ -600,8 +600,8 @@ export class DatabaseStorage implements IStorage {
     if (filters?.overdue) {
       conditions.push(
         or(
-          sql`${slaStatus.firstResponseDueAt} < NOW() AND ${slaStatus.firstResponseAt} IS NULL`,
-          sql`${slaStatus.resolutionDueAt} < NOW() AND ${slaStatus.resolvedAt} IS NULL`
+          sql`first_response_due_at < NOW() AND first_response_at IS NULL`,
+          sql`resolution_due_at < NOW() AND resolved_at IS NULL`
         )
       );
     }
@@ -717,7 +717,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   // SLA Logs operations
-  async getSlaLogs(tenantId: string, filters?: any): Promise<SlaLogs[]> {
+  async getSlaLogs(tenantId: string, filters?: any): Promise<SlaLog[]> {
     const conditions = [eq(slaLogs.tenantId, tenantId)];
 
     if (filters?.ticketId) {
@@ -747,7 +747,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(slaLogs.createdAt));
   }
 
-  async getSlaLogsByTicket(ticketId: string): Promise<SlaLogs[]> {
+  async getSlaLogsByTicket(ticketId: string): Promise<SlaLog[]> {
     return db
       .select()
       .from(slaLogs)
@@ -755,7 +755,7 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(slaLogs.createdAt));
   }
 
-  async createSlaLog(slaLogData: InsertSlaLog): Promise<SlaLogs> {
+  async createSlaLog(slaLogData: InsertSlaLog): Promise<SlaLog> {
     const [log] = await db.insert(slaLogs).values(slaLogData).returning();
     return log;
   }
