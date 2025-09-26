@@ -127,3 +127,18 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* Enhanced sidebar animations and effects */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Better backdrop blur support */
+@supports (backdrop-filter: blur(8px)) {
+  .sidebar-backdrop {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+}
