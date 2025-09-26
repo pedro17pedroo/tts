@@ -136,7 +136,7 @@ export default function SaasRegister() {
         while (attempts < maxAttempts) {
           try {
             const userData = queryClient.getQueryData(["/api/auth/user"]) as any;
-            if (userData?.data?.tenantId) {
+            if (userData?.tenantId) {
               // User has tenantId, safe to redirect to dashboard
               setLocation("/dashboard");
               return;

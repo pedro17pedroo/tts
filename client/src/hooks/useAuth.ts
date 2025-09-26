@@ -22,8 +22,8 @@ export function useAuth() {
         }
         
         const result = await response.json();
-        console.log("Auth data fetched:", result); // Debug log
-        return result;
+        // Unwrap the API envelope to return just the User object
+        return result.success ? result.data : null;
       } catch (error) {
         console.error("Auth check failed:", error);
         return null;
@@ -97,7 +97,7 @@ export function useAuth() {
   return {
     user,
     isLoading,
-    isAuthenticated: !!user && !error,
+    isAuthenticated: Boolean(user),
     login: loginMutation.mutateAsync,
     register: registerMutation.mutateAsync,
     logout: logoutMutation.mutateAsync,
