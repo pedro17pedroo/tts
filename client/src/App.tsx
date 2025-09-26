@@ -71,6 +71,7 @@ function Router() {
             <Route path="/settings" component={Settings} />
           </DashboardLayout>
           <Route path="/" component={RedirectToDashboard} />
+          <Route path="/login" component={RedirectToDashboard} />
           <Route path="/saas-register" component={RedirectToDashboard} />
         </>
       )}

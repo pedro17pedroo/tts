@@ -21,17 +21,19 @@ export function useAuth() {
           throw new Error(`${response.status}: ${response.statusText}`);
         }
         
-        return response.json();
+        const result = await response.json();
+        console.log("Auth data fetched:", result); // Debug log
+        return result;
       } catch (error) {
         console.error("Auth check failed:", error);
         return null;
       }
     },
     retry: false,
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnWindowFocus: false,
     refetchOnReconnect: false,
-    staleTime: Infinity,
+    staleTime: 5 * 60 * 1000, // 5 minutes instead of Infinity
   });
 
   // Login mutation

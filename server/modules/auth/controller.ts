@@ -30,7 +30,7 @@ export class AuthController extends BaseController {
       
       // Return user without password hash
       const { passwordHash, resetToken, resetTokenExpires, emailVerifyToken, ...userResponse } = user;
-      this.sendSuccess(res, userResponse, 201);
+      this.sendSuccess(res, userResponse);
     } catch (error) {
       this.handleError(error, res, "Falha no registro");
     }
