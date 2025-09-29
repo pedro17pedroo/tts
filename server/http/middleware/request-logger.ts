@@ -1,5 +1,4 @@
 import { type Request, Response, NextFunction } from "express";
-import { log } from "../../vite";
 
 export function requestLogger(req: Request, res: Response, next: NextFunction) {
   const start = Date.now();
@@ -24,7 +23,7 @@ export function requestLogger(req: Request, res: Response, next: NextFunction) {
         logLine = logLine.slice(0, 79) + "…";
       }
 
-      log(logLine);
+      console.log(logLine);
     }
   });
 

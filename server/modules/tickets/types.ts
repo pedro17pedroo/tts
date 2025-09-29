@@ -1,4 +1,4 @@
-import type { Ticket, InsertTicket, TicketComment, InsertTicketComment, TimeEntry } from "@shared/schema";
+import type { Ticket, InsertTicket, TicketComment, InsertTicketComment, TimeEntry } from "../../schema";
 import type { 
   AuthenticatedRequest, 
   ApiResponse, 

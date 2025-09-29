@@ -1,7 +1,7 @@
 import { TenantsRepository } from "./repository";
 import { StripeClient } from "../../clients/stripe.client";
 import type { OnboardingData, TenantData, SubscriptionData } from "./types";
-import type { User } from "@shared/schema";
+import type { User } from "../../schema";
 
 export class TenantsService {
   private repository: TenantsRepository;

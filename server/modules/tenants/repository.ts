@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../repositories/base.repository";
-import type { Tenant, InsertTenant, InsertDepartment, InsertCategory } from "@shared/schema";
+import type { Tenant, InsertTenant, InsertDepartment, InsertCategory } from "../../schema";
 
 export class TenantsRepository extends BaseRepository {
   async getTenant(id: string): Promise<Tenant | undefined> {

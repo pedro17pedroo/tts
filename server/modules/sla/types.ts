@@ -3,10 +3,10 @@ import type {
   InsertSlaConfig, 
   SlaStatus, 
   InsertSlaStatus, 
-  SlaLogs, 
+  SlaLog, 
   InsertSlaLog,
   Ticket 
-} from "@shared/schema";
+} from "../../schema";
 import type { 
   AuthenticatedRequest, 
   ApiResponse, 
@@ -25,7 +25,7 @@ export type SlaStatusData = SlaStatus;
 export type CreateSlaStatusData = InsertSlaStatus;
 export type UpdateSlaStatusData = Partial<InsertSlaStatus>;
 
-export type SlaLogData = SlaLogs;
+export type SlaLogData = SlaLog;
 export type CreateSlaLogData = InsertSlaLog;
 
 // Re-export AuthenticatedRequest from base types

@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../repositories/base.repository";
-import type { HourBank, InsertHourBank, TimeEntry, InsertTimeEntry } from "@shared/schema";
+import type { HourBank, InsertHourBank, TimeEntry, InsertTimeEntry } from "../../schema";
 
 export class HourBankRepository extends BaseRepository {
   async getHourBanksByTenant(tenantId: string): Promise<HourBank[]> {

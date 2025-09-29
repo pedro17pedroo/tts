@@ -1,12 +1,21 @@
 import { type Response } from "express";
 import { BaseController } from "../../shared/base-controller";
 import { CustomersService } from "./service";
-import { insertCustomerSchema } from "@shared/schema";
+import { z } from "zod";
 import type { 
   AuthenticatedRequest,
   CustomerResponse,
   SingleCustomerResponse
 } from "./types";
+
+// Simple customer validation schema
+const createCustomerSchema = z.object({
+  name: z.string().min(1, "Nome é obrigatório"),
+  email: z.string().email("Email inválido"),
+  phone: z.string().optional(),
+  company: z.string().optional(),
+  tenantId: z.string(),
+});
 
 export class CustomersController extends BaseController {
   private service: CustomersService;
@@ -16,7 +25,7 @@ export class CustomersController extends BaseController {
     this.service = new CustomersService();
   }
 
-  async getCustomers(req: AuthenticatedRequest, res: Response<CustomerResponse>) {
+  async getCustomers(req: AuthenticatedRequest, res: Response) {
     try {
       const authResult = await this.getAuthenticatedUser(req);
       if (!authResult) {
@@ -25,13 +34,13 @@ export class CustomersController extends BaseController {
 
       const { tenantId } = authResult;
       const customers = await this.service.getCustomersByTenant(tenantId);
-      this.sendSuccess(res, customers);
+      return this.sendSuccess(res, customers);
     } catch (error) {
-      this.handleError(error, res, "Failed to fetch customers");
+      return this.handleError(error, res, "Failed to fetch customers");
     }
   }
 
-  async createCustomer(req: AuthenticatedRequest, res: Response<SingleCustomerResponse>) {
+  async createCustomer(req: AuthenticatedRequest, res: Response) {
     try {
       const authResult = await this.getAuthenticatedUser(req);
       if (!authResult) {
@@ -39,15 +48,15 @@ export class CustomersController extends BaseController {
       }
 
       const { tenantId } = authResult;
-      const data = insertCustomerSchema.parse({
+      const data = createCustomerSchema.parse({
         ...req.body,
         tenantId,
       });
 
       const customer = await this.service.createCustomer(data);
-      this.sendSuccessWithStatus(res, 201, customer, "Customer created successfully");
+      return this.sendSuccessWithStatus(res, 201, customer, "Customer created successfully");
     } catch (error) {
-      this.handleError(error, res, "Failed to create customer");
+      return this.handleError(error, res, "Failed to create customer");
     }
   }
 }

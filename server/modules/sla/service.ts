@@ -5,10 +5,10 @@ import type {
   InsertSlaConfig,
   SlaStatus,
   InsertSlaStatus,
-  SlaLogs,
+  SlaLog,
   InsertSlaLog,
   Ticket
-} from "@shared/schema";
+} from "../../schema";
 import type {
   SlaConfigFilters,
   SlaStatusFilters,
@@ -144,10 +144,10 @@ export class SlaService extends BaseModuleService {
       }
 
       const businessHours: BusinessHoursConfig = {
-        start: slaConfig.businessHoursStart,
-        end: slaConfig.businessHoursEnd,
-        days: slaConfig.businessDays as number[],
-        timezone: slaConfig.timezone
+        start: slaConfig.businessHoursStart || "09:00",
+        end: slaConfig.businessHoursEnd || "18:00",
+        days: slaConfig.businessDays as number[] || [1, 2, 3, 4, 5],
+        timezone: slaConfig.timezone || "UTC"
       };
 
       // Calculate due dates considering business hours
@@ -590,15 +590,15 @@ export class SlaService extends BaseModuleService {
     });
   }
 
-  async getSlaLogs(tenantId: string, filters?: SlaLogFilters): Promise<SlaLogs[]> {
+  async getSlaLogs(tenantId: string, filters?: SlaLogFilters): Promise<SlaLog[]> {
     return this.withErrorHandling('getSlaLogs', async () => {
-      return this.repository.getSlaLogs(tenantId, filters);
+      return this.repository.getSlaLog(tenantId, filters);
     });
   }
 
-  async getSlaLogsByTicket(ticketId: string): Promise<SlaLogs[]> {
+  async getSlaLogsByTicket(ticketId: string): Promise<SlaLog[]> {
     return this.withErrorHandling('getSlaLogsByTicket', async () => {
-      return this.repository.getSlaLogsByTicket(ticketId);
+      return this.repository.getSlaLogByTicket(ticketId);
     });
   }
 

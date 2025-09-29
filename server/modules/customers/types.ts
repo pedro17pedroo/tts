@@ -1,4 +1,4 @@
-import type { Customer, InsertCustomer } from "@shared/schema";
+import type { Customer, InsertCustomer } from "../../schema";
 import type { 
   AuthenticatedRequest, 
   ApiResponse, 

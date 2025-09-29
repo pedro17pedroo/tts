@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../repositories/base.repository";
-import type { User, UpsertUser } from "@shared/schema";
+import type { User, UpsertUser } from "../../schema";
 
 export class AuthRepository extends BaseRepository {
   async getUser(id: string): Promise<User | undefined> {

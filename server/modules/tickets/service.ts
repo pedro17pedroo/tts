@@ -1,6 +1,6 @@
 import { TicketsRepository } from "./repository";
 import { EmailClient } from "../../clients/email.client";
-import type { Ticket, InsertTicket, TicketComment, InsertTicketComment } from "@shared/schema";
+import type { Ticket, InsertTicket, TicketComment, InsertTicketComment } from "../../schema";
 import type { TicketFilters } from "./types";
 
 export class TicketsService {

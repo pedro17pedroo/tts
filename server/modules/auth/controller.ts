@@ -8,7 +8,7 @@ import {
   forgotPasswordSchema,
   resetPasswordSchema,
   changePasswordSchema
-} from "@shared/schema";
+} from "../../schema";
 import type { AuthenticatedRequest, UserResponse } from "./types";
 
 export class AuthController extends BaseController {
@@ -30,9 +30,9 @@ export class AuthController extends BaseController {
       
       // Return user without password hash
       const { passwordHash, resetToken, resetTokenExpires, emailVerifyToken, ...userResponse } = user;
-      this.sendSuccess(res, userResponse);
+      return this.sendSuccess(res, userResponse);
     } catch (error) {
-      this.handleError(error, res, "Falha no registro");
+      return this.handleError(error, res, "Falha no registro");
     }
   }
 
@@ -47,9 +47,9 @@ export class AuthController extends BaseController {
       
       // Return user without password hash
       const { passwordHash, resetToken, resetTokenExpires, emailVerifyToken, ...userResponse } = user;
-      this.sendSuccess(res, userResponse);
+      return this.sendSuccess(res, userResponse);
     } catch (error) {
-      this.handleError(error, res, "Falha no login");
+      return this.handleError(error, res, "Falha no login");
     }
   }
 
@@ -57,14 +57,14 @@ export class AuthController extends BaseController {
   async logout(req: Request, res: Response) {
     try {
       clearUserSession(req);
-      this.sendSuccess(res, { message: "Logout realizado com sucesso" });
+      return this.sendSuccess(res, { message: "Logout realizado com sucesso" });
     } catch (error) {
-      this.handleError(error, res, "Falha no logout");
+      return this.handleError(error, res, "Falha no logout");
     }
   }
 
   // Get current user
-  async getCurrentUser(req: AuthenticatedRequest, res: Response<UserResponse>) {
+  async getCurrentUser(req: AuthenticatedRequest, res: Response) {
     try {
       const userId = req.session?.userId;
       if (!userId) {
@@ -75,9 +75,9 @@ export class AuthController extends BaseController {
       
       // Return user without sensitive fields
       const { passwordHash, resetToken, resetTokenExpires, emailVerifyToken, ...userResponse } = user;
-      this.sendSuccess(res, userResponse);
+      return this.sendSuccess(res, userResponse);
     } catch (error) {
-      this.handleError(error, res, "Falha ao buscar usuário");
+      return this.handleError(error, res, "Falha ao buscar usuário");
     }
   }
 
@@ -88,12 +88,12 @@ export class AuthController extends BaseController {
       await this.service.forgotPassword(validatedData);
       
       // Always return success to prevent email enumeration
-      this.sendSuccess(res, { 
+      return this.sendSuccess(res, { 
         message: "Se o email existir, instruções de reset foram enviadas" 
       });
     } catch (error) {
       // Always return success for security
-      this.sendSuccess(res, { 
+      return this.sendSuccess(res, { 
         message: "Se o email existir, instruções de reset foram enviadas" 
       });
     }
@@ -105,9 +105,9 @@ export class AuthController extends BaseController {
       const validatedData = resetPasswordSchema.parse(req.body);
       await this.service.resetPassword(validatedData);
       
-      this.sendSuccess(res, { message: "Senha redefinida com sucesso" });
+      return this.sendSuccess(res, { message: "Senha redefinida com sucesso" });
     } catch (error) {
-      this.handleError(error, res, "Falha ao redefinir senha");
+      return this.handleError(error, res, "Falha ao redefinir senha");
     }
   }
 
@@ -122,9 +122,9 @@ export class AuthController extends BaseController {
       const validatedData = changePasswordSchema.parse(req.body);
       await this.service.changePassword(userId, validatedData);
       
-      this.sendSuccess(res, { message: "Senha alterada com sucesso" });
+      return this.sendSuccess(res, { message: "Senha alterada com sucesso" });
     } catch (error) {
-      this.handleError(error, res, "Falha ao alterar senha");
+      return this.handleError(error, res, "Falha ao alterar senha");
     }
   }
 
@@ -141,7 +141,7 @@ export class AuthController extends BaseController {
       
       // Return user without sensitive fields
       const { passwordHash, resetToken, resetTokenExpires, emailVerifyToken, ...userResponse } = user;
-      this.sendSuccess(res, userResponse);
+      return this.sendSuccess(res, userResponse);
     } catch (error) {
       return res.status(401).json({ message: "Invalid session" });
     }

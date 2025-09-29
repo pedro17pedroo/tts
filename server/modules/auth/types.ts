@@ -1,4 +1,4 @@
-import type { User, UpsertUser } from "@shared/schema";
+import type { User, UpsertUser } from "../../schema";
 import type { 
   AuthenticatedRequest, 
   SuccessResponse,

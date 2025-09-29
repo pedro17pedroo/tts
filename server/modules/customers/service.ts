@@ -1,5 +1,5 @@
 import { CustomersRepository } from "./repository";
-import type { Customer, InsertCustomer } from "@shared/schema";
+import type { Customer, InsertCustomer } from "../../schema";
 
 export class CustomersService {
   private repository: CustomersRepository;
@@ -14,6 +14,10 @@ export class CustomersService {
 
   async getCustomer(id: string, tenantId: string): Promise<Customer | undefined> {
     return this.repository.getCustomer(id, tenantId);
+  }
+
+  async getCustomerByEmail(email: string, tenantId: string): Promise<Customer | undefined> {
+    return this.repository.getCustomerByEmail(email, tenantId);
   }
 
   async createCustomer(customerData: InsertCustomer): Promise<Customer> {

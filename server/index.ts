@@ -1,8 +1,23 @@
+import dotenv from 'dotenv';
 import { createApp, setupErrorHandling } from "./http/app";
 import { registerModules } from "./http/module-registry";
+import { registerRoutes } from "./routes";
 import { setupAuth } from "./auth";
-import { setupVite, serveStatic, log } from "./vite";
 import { createServer } from "http";
+
+// Carregar variáveis de ambiente do arquivo .env
+dotenv.config();
+
+export function log(message: string, source = "express") {
+  const formattedTime = new Date().toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: true,
+  });
+
+  console.log(`${formattedTime} [${source}] ${message}`);
+}
 
 (async () => {
   // Create Express app with basic middleware
@@ -11,29 +26,21 @@ import { createServer } from "http";
   // Setup authentication
   await setupAuth(app);
 
-  // Register all modular routes
+  // Register all modular routes BEFORE Vite middleware
   registerModules(app);
-
-  // Setup error handling
-  setupErrorHandling(app);
+  
+  // Register additional routes from routes.ts
+  await registerRoutes(app);
 
   // Create HTTP server
   const server = createServer(app);
 
-  // Setup Vite in development or serve static files in production
-  if (app.get("env") === "development") {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
+  // Setup error handling
+  setupErrorHandling(app);
 
-  // Start server - configured for port 5000 for Replit compatibility
-  const port = process.env.PORT || 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`Modular TatuTicket server running on port ${port}`);
+  // Start server - configured for port 4003
+  const port = Number(process.env.PORT) || 4003;
+  server.listen(port, "0.0.0.0", () => {
+    log(`TatuTicket Backend API running on http://0.0.0.0:${port}`);
   });
 })();

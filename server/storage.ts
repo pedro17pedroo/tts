@@ -38,7 +38,7 @@ import {
   type InsertSlaStatus,
   type SlaLog,
   type InsertSlaLog,
-} from "@shared/schema";
+} from "./schema";
 import { db } from "./db";
 import { eq, and, sql, desc, asc, ilike, or } from "drizzle-orm";
 
@@ -64,6 +64,7 @@ export interface IStorage {
   // Customer operations
   getCustomersByTenant(tenantId: string): Promise<Customer[]>;
   getCustomer(id: string, tenantId: string): Promise<Customer | undefined>;
+  getCustomerByEmail(email: string, tenantId: string): Promise<Customer | undefined>;
   createCustomer(customer: InsertCustomer): Promise<Customer>;
   updateCustomer(id: string, updates: Partial<Customer>): Promise<Customer>;
   
@@ -103,6 +104,14 @@ export interface IStorage {
   
   // Dashboard stats
   getDashboardStats(tenantId: string): Promise<any>;
+  
+  // Advanced Reports
+  getTicketReports(tenantId: string, filters: any): Promise<any>;
+  getPerformanceReports(tenantId: string, period?: string): Promise<any>;
+  getSlaReports(tenantId: string, filters: any): Promise<any>;
+  getHourBankReports(tenantId: string, customerId?: string): Promise<any>;
+  getTrendReports(tenantId: string, options: any): Promise<any>;
+  exportReportsCsv(tenantId: string, reportType: string, filters: any): Promise<string>;
   
   // SLA Config operations
   getSlaConfigs(tenantId: string, filters?: any): Promise<SlaConfig[]>;
@@ -240,6 +249,14 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(customers)
       .where(and(eq(customers.id, id), eq(customers.tenantId, tenantId)));
+    return customer;
+  }
+
+  async getCustomerByEmail(email: string, tenantId: string): Promise<Customer | undefined> {
+    const [customer] = await db
+      .select()
+      .from(customers)
+      .where(and(eq(customers.email, email), eq(customers.tenantId, tenantId)));
     return customer;
   }
 
@@ -580,30 +597,33 @@ export class DatabaseStorage implements IStorage {
     const conditions = [eq(tickets.tenantId, tenantId)];
 
     if (filters?.status) {
-      conditions.push(
-        or(
-          eq(slaStatus.firstResponseStatus, filters.status as any),
-          eq(slaStatus.resolutionStatus, filters.status as any)
-        )
+      const statusCondition = or(
+        eq(slaStatus.firstResponseStatus, filters.status as any),
+        eq(slaStatus.resolutionStatus, filters.status as any)
       );
+      if (statusCondition) {
+        conditions.push(statusCondition);
+      }
     }
 
     if (filters?.dueToday) {
-      conditions.push(
-        or(
-          sql`DATE(first_response_due_at) = CURRENT_DATE`,
-          sql`DATE(resolution_due_at) = CURRENT_DATE`
-        )
+      const dueTodayCondition = or(
+        sql`DATE(first_response_due_at) = CURRENT_DATE`,
+        sql`DATE(resolution_due_at) = CURRENT_DATE`
       );
+      if (dueTodayCondition) {
+        conditions.push(dueTodayCondition);
+      }
     }
 
     if (filters?.overdue) {
-      conditions.push(
-        or(
-          sql`first_response_due_at < NOW() AND first_response_at IS NULL`,
-          sql`resolution_due_at < NOW() AND resolved_at IS NULL`
-        )
+      const overdueCondition = or(
+        sql`first_response_due_at < NOW() AND first_response_at IS NULL`,
+        sql`resolution_due_at < NOW() AND resolved_at IS NULL`
       );
+      if (overdueCondition) {
+        conditions.push(overdueCondition);
+      }
     }
 
     return db
@@ -758,6 +778,185 @@ export class DatabaseStorage implements IStorage {
   async createSlaLog(slaLogData: InsertSlaLog): Promise<SlaLog> {
     const [log] = await db.insert(slaLogs).values(slaLogData).returning();
     return log;
+  }
+
+  // Novos métodos para relatórios avançados
+  async getTicketReports(tenantId: string, filters: any): Promise<any[]> {
+    let baseQuery = db
+      .select({
+        id: tickets.id,
+        title: tickets.title,
+        status: tickets.status,
+        priority: tickets.priority,
+        createdAt: tickets.createdAt,
+        updatedAt: tickets.updatedAt,
+        customerId: tickets.customerId,
+        assigneeId: tickets.assigneeId,
+        categoryId: tickets.categoryId,
+        departmentId: tickets.departmentId,
+      })
+      .from(tickets)
+      .where(eq(tickets.tenantId, tenantId));
+
+    // Aplicar filtros adicionais
+    const conditions = [eq(tickets.tenantId, tenantId)];
+    
+    if (filters.status) {
+      conditions.push(eq(tickets.status, filters.status));
+    }
+    if (filters.priority) {
+      conditions.push(eq(tickets.priority, filters.priority));
+    }
+    if (filters.assigneeId) {
+      conditions.push(eq(tickets.assigneeId, filters.assigneeId));
+    }
+    if (filters.categoryId) {
+      conditions.push(eq(tickets.categoryId, filters.categoryId));
+    }
+    if (filters.departmentId) {
+      conditions.push(eq(tickets.departmentId, filters.departmentId));
+    }
+
+    return db
+      .select({
+        id: tickets.id,
+        title: tickets.title,
+        status: tickets.status,
+        priority: tickets.priority,
+        createdAt: tickets.createdAt,
+        updatedAt: tickets.updatedAt,
+        customerId: tickets.customerId,
+        assigneeId: tickets.assigneeId,
+        categoryId: tickets.categoryId,
+        departmentId: tickets.departmentId,
+      })
+      .from(tickets)
+      .where(and(...conditions))
+      .orderBy(desc(tickets.createdAt));
+  }
+
+  async getPerformanceReports(tenantId: string, filters: any): Promise<any[]> {
+    // Relatório de performance por usuário
+    const performanceData = await db
+      .select({
+        userId: tickets.assigneeId,
+        totalTickets: sql<number>`count(${tickets.id})`,
+        resolvedTickets: sql<number>`count(case when ${tickets.status} = 'resolved' then 1 end)`,
+        avgResolutionTime: sql<number>`avg(case when ${tickets.status} = 'resolved' then extract(epoch from (${tickets.updatedAt} - ${tickets.createdAt})) / 3600 end)`,
+      })
+      .from(tickets)
+      .where(eq(tickets.tenantId, tenantId))
+      .groupBy(tickets.assigneeId);
+
+    return performanceData;
+  }
+
+  async getSlaReports(tenantId: string, filters: any): Promise<any[]> {
+    // Relatório de SLA
+    const slaData = await db
+      .select({
+        ticketId: slaStatus.ticketId,
+        firstResponseStatus: slaStatus.firstResponseStatus,
+        resolutionStatus: slaStatus.resolutionStatus,
+        firstResponseDueAt: slaStatus.firstResponseDueAt,
+        resolutionDueAt: slaStatus.resolutionDueAt,
+        firstResponseTimeRemaining: slaStatus.firstResponseTimeRemaining,
+        resolutionTimeRemaining: slaStatus.resolutionTimeRemaining,
+        createdAt: slaStatus.createdAt,
+      })
+      .from(slaStatus)
+      .innerJoin(tickets, eq(slaStatus.ticketId, tickets.id))
+      .where(eq(tickets.tenantId, tenantId));
+
+    return slaData;
+  }
+
+  async getHourBankReports(tenantId: string, filters: any): Promise<any[]> {
+    // Relatório de banco de horas
+    const hourBankData = await db
+      .select({
+        id: hourBanks.id,
+        customerId: hourBanks.customerId,
+        totalHours: hourBanks.totalHours,
+        consumedHours: hourBanks.consumedHours,
+        remainingHours: sql<number>`${hourBanks.totalHours} - ${hourBanks.consumedHours}`,
+        isActive: hourBanks.isActive,
+        expiresAt: hourBanks.expiresAt,
+        createdAt: hourBanks.createdAt,
+      })
+      .from(hourBanks)
+      .where(eq(hourBanks.tenantId, tenantId));
+
+    return hourBankData;
+  }
+
+  async getTrendReports(tenantId: string, filters: any): Promise<any[]> {
+    // Relatório de tendências (últimos 30 dias)
+    const trendData = await db
+      .select({
+        date: sql<string>`date(${tickets.createdAt})`,
+        totalTickets: sql<number>`count(${tickets.id})`,
+        openTickets: sql<number>`count(case when ${tickets.status} = 'new' then 1 end)`,
+        inProgressTickets: sql<number>`count(case when ${tickets.status} = 'in_progress' then 1 end)`,
+        resolvedTickets: sql<number>`count(case when ${tickets.status} = 'resolved' then 1 end)`,
+      })
+      .from(tickets)
+      .where(
+        and(
+          eq(tickets.tenantId, tenantId),
+          sql`${tickets.createdAt} >= current_date - interval '30 days'`
+        )
+      )
+      .groupBy(sql`date(${tickets.createdAt})`)
+      .orderBy(sql`date(${tickets.createdAt})`);
+
+    return trendData;
+  }
+
+  async exportReportsCsv(tenantId: string, reportType: string, filters: any): Promise<string> {
+    let data: any[] = [];
+    let headers: string[] = [];
+
+    switch (reportType) {
+      case 'tickets':
+        data = await this.getTicketReports(tenantId, filters);
+        headers = ['ID', 'Título', 'Status', 'Prioridade', 'Criado em', 'Atualizado em'];
+        break;
+      case 'performance':
+        data = await this.getPerformanceReports(tenantId, filters);
+        headers = ['Usuário', 'Total de Tickets', 'Tickets Resolvidos', 'Tempo Médio de Resolução (h)'];
+        break;
+      case 'sla':
+        data = await this.getSlaReports(tenantId, filters);
+        headers = ['Ticket ID', 'Prioridade', 'Status', 'Tempo Alvo', 'Tempo Decorrido', 'Tempo Restante', 'Violado'];
+        break;
+      case 'hourbank':
+        data = await this.getHourBankReports(tenantId, filters);
+        headers = ['ID', 'Cliente', 'Horas Totais', 'Horas Usadas', 'Horas Restantes', 'Status', 'Expira em'];
+        break;
+      case 'trends':
+        data = await this.getTrendReports(tenantId, filters);
+        headers = ['Data', 'Total de Tickets', 'Abertos', 'Em Progresso', 'Resolvidos'];
+        break;
+      default:
+        throw new Error('Tipo de relatório não suportado');
+    }
+
+    // Gerar CSV
+    const csvRows = [headers.join(',')];
+    
+    for (const row of data) {
+      const values = Object.values(row).map(value => {
+        if (value === null || value === undefined) return '';
+        if (typeof value === 'string' && value.includes(',')) {
+          return `"${value.replace(/"/g, '""')}"`;
+        }
+        return String(value);
+      });
+      csvRows.push(values.join(','));
+    }
+
+    return csvRows.join('\n');
   }
 }
 

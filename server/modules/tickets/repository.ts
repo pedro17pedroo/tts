@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../repositories/base.repository";
-import type { Ticket, InsertTicket, TicketComment, InsertTicketComment, TimeEntry, Customer } from "@shared/schema";
+import type { Ticket, InsertTicket, TicketComment, InsertTicketComment, TimeEntry, Customer } from "../../schema";
 
 export class TicketsRepository extends BaseRepository {
   async getTicketsByTenant(tenantId: string, filters?: any): Promise<Ticket[]> {

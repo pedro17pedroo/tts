@@ -1,5 +1,5 @@
 import * as client from "openid-client";
-import { Strategy, type VerifyFunction } from "openid-client/passport";
+import { Strategy, type VerifyFunction } from "openid-client/build/passport";
 
 import passport from "passport";
 import session from "express-session";
@@ -78,9 +78,23 @@ export async function setupAuth(app: Express) {
     tokens: client.TokenEndpointResponse & client.TokenEndpointResponseHelpers,
     verified: passport.AuthenticateCallback
   ) => {
-    const user = {};
+    const claims = tokens.claims();
+    if (!claims || !claims.sub || !claims.email) {
+      return verified(new Error('Invalid claims'), false);
+    }
+    
+    const user = {
+      id: String(claims.sub),
+      email: String(claims.email),
+      firstName: String(claims.given_name || claims.name || claims.email),
+      lastName: String(claims.family_name || ''),
+      role: 'customer' as const,
+      tenantId: undefined as string | undefined,
+      isActive: true,
+      profileImageUrl: String(claims.picture || '')
+    };
     updateUserSession(user, tokens);
-    await upsertUser(tokens.claims());
+    await upsertUser(claims);
     verified(null, user);
   };
 
@@ -98,8 +112,8 @@ export async function setupAuth(app: Express) {
     passport.use(strategy);
   }
 
-  passport.serializeUser((user: Express.User, cb) => cb(null, user));
-  passport.deserializeUser((user: Express.User, cb) => cb(null, user));
+  passport.serializeUser((user: Express.User, cb: (err: any, id?: any) => void) => cb(null, user));
+  passport.deserializeUser((user: Express.User, cb: (err: any, user?: any) => void) => cb(null, user));
 
   app.get("/api/login", (req, res, next) => {
     passport.authenticate(`replitauth:${req.hostname}`, {

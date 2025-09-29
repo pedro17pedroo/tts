@@ -1,5 +1,5 @@
 import { DepartmentsRepository } from "./repository";
-import type { Department, Category } from "@shared/schema";
+import type { Department, Category } from "../../schema";
 
 export class DepartmentsService {
   private repository: DepartmentsRepository;

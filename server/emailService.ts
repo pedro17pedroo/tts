@@ -27,7 +27,7 @@ export async function sendEmail(params: EmailParams): Promise<boolean> {
       to: params.to,
       from: (process.env.SENDGRID_FROM_EMAIL || 'noreply@tatuticket.com') as string,
       subject: params.subject,
-      text: params.text,
+      text: params.text || '',
       html: params.html,
     });
     return true;

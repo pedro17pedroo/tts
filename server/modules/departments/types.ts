@@ -1,21 +1,11 @@
-import { type Request } from "express";
-import type { Department, Category } from "@shared/schema";
+import type { Department, Category } from "../../schema";
+import type { AuthenticatedRequest } from "../../shared/base-types";
 
 export type DepartmentData = Department;
 export type CategoryData = Category;
 
-// Request types
-export interface AuthenticatedRequest extends Request {
-  user: {
-    claims: {
-      sub: string;
-      email: string;
-      first_name: string;
-      last_name: string;
-      profile_image_url: string;
-    };
-  };
-}
+// Export the global AuthenticatedRequest for consistency
+export type { AuthenticatedRequest };
 
 // Response types
 export interface DepartmentsResponse {

@@ -1,4 +1,5 @@
-import { type Request } from "express";
+import type { Request, Response, NextFunction } from "express";
+import { Session } from "express-session";
 
 // Base Response Types
 export interface BaseResponse {
@@ -28,17 +29,45 @@ export interface AuthenticatedRequest extends Request {
     firstName: string;
     lastName: string;
     role: 'global_admin' | 'tenant_admin' | 'agent' | 'customer';
-    tenantId: string | null;
+    tenantId?: string;
     isActive: boolean;
     profileImageUrl?: string;
   };
-  session: {
+  session: Session & {
     userId?: string;
     userEmail?: string;
     userRole?: string;
-    tenantId?: string | null;
+    tenantId?: string;
   };
 }
+
+// Base types for the application
+export interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: "global_admin" | "tenant_admin" | "agent" | "customer";
+  tenantId?: string;
+  isActive: boolean;
+  profileImageUrl?: string;
+}
+
+export interface Tenant {
+  id: string;
+  name: string;
+  subdomain: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Type for authenticated request handlers
+export type AuthenticatedRequestHandler = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next?: NextFunction
+) => Promise<void> | void;
 
 // Base Controller Interface
 export interface BaseController {

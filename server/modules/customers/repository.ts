@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../repositories/base.repository";
-import type { Customer, InsertCustomer } from "@shared/schema";
+import type { Customer, InsertCustomer } from "../../schema";
 
 export class CustomersRepository extends BaseRepository {
   async getCustomersByTenant(tenantId: string): Promise<Customer[]> {
@@ -8,6 +8,10 @@ export class CustomersRepository extends BaseRepository {
 
   async getCustomer(id: string, tenantId: string): Promise<Customer | undefined> {
     return this.storage.getCustomer(id, tenantId);
+  }
+
+  async getCustomerByEmail(email: string, tenantId: string): Promise<Customer | undefined> {
+    return this.storage.getCustomerByEmail(email, tenantId);
   }
 
   async createCustomer(customerData: InsertCustomer): Promise<Customer> {

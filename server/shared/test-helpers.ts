@@ -15,13 +15,14 @@ export const createMockResponse = (): Partial<Response> => {
 export const createMockAuthenticatedRequest = (overrides?: Partial<AuthenticatedRequest>): Partial<AuthenticatedRequest> => {
   const baseRequest: Partial<AuthenticatedRequest> = {
     user: {
-      claims: {
-        sub: "test-user-id",
-        email: "test@example.com",
-        first_name: "Test",
-        last_name: "User",
-        profile_image_url: "https://example.com/avatar.png",
-      },
+      id: "test-user-id",
+      email: "test@example.com",
+      firstName: "Test",
+      lastName: "User",
+      role: "customer",
+      tenantId: "test-tenant-123",
+      isActive: true,
+      profileImageUrl: "https://example.com/avatar.png",
     },
     params: {},
     query: {},

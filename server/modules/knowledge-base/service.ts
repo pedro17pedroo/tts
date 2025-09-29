@@ -1,5 +1,5 @@
 import { KnowledgeBaseRepository } from "./repository";
-import type { Article, InsertArticle } from "@shared/schema";
+import type { Article, InsertArticle } from "../../schema";
 
 export class KnowledgeBaseService {
   private repository: KnowledgeBaseRepository;

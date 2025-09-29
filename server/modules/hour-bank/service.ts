@@ -1,5 +1,5 @@
 import { HourBankRepository } from "./repository";
-import type { HourBank, InsertHourBank, TimeEntry, InsertTimeEntry } from "@shared/schema";
+import type { HourBank, InsertHourBank, TimeEntry, InsertTimeEntry } from "../../schema";
 
 export class HourBankService {
   private repository: HourBankRepository;

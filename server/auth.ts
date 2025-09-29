@@ -2,8 +2,9 @@ import * as bcrypt from "bcrypt";
 import * as crypto from "crypto";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
-import type { Express, RequestHandler } from "express";
-import type { User } from "@shared/schema";
+import type { Express, RequestHandler, Request, Response, NextFunction } from "express";
+import type { User } from "./schema";
+import type { AuthenticatedRequest } from "./shared/base-types";
 import { AuthService } from "./modules/auth/service";
 
 // Session configuration
@@ -65,7 +66,7 @@ export function clearUserSession(req: any): void {
 }
 
 // Authentication middleware
-export const isAuthenticated: RequestHandler = async (req, res, next) => {
+export const isAuthenticated = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.session?.userId;
 
   if (!userId) {
@@ -80,8 +81,17 @@ export const isAuthenticated: RequestHandler = async (req, res, next) => {
       return res.status(401).json({ message: "Unauthorized" });
     }
 
-    // Attach user to request
-    (req as any).user = user;
+    // Attach user to request with proper mapping
+    (req as AuthenticatedRequest).user = {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName || '',
+      lastName: user.lastName || '',
+      role: user.role as "global_admin" | "tenant_admin" | "agent" | "customer",
+      tenantId: user.tenantId || undefined,
+      isActive: user.isActive || false,
+      profileImageUrl: user.profileImageUrl || undefined
+    };
     return next();
   } catch (error) {
     console.error('Authentication error:', error);

@@ -2,11 +2,23 @@ import { type Response } from "express";
 import { BaseController } from "../../shared/base-controller";
 import { SlaService } from "./service";
 import { 
-  insertSlaConfigSchema, 
   insertSlaStatusSchema, 
   insertSlaLogSchema 
-} from "@shared/schema";
+} from "../../schema";
 import { z } from "zod";
+
+// Simple validation schema for SLA Config
+const createSlaConfigSchema = z.object({
+  categoryId: z.string().optional(),
+  priority: z.enum(["low", "medium", "high", "critical"]),
+  firstResponseMinutes: z.number().positive(),
+  resolutionMinutes: z.number().positive(),
+  businessHoursStart: z.string().default("09:00"),
+  businessHoursEnd: z.string().default("18:00"),
+  businessDays: z.array(z.number()).default([1, 2, 3, 4, 5]),
+  timezone: z.string().default("Africa/Luanda"),
+  isActive: z.boolean().default(true),
+});
 import type { 
   AuthenticatedRequest,
   SlaConfigsResponse,
@@ -82,19 +94,6 @@ export class SlaController extends BaseController {
       }
 
       const { tenantId } = authResult;
-
-      // Validate request body
-      const createSlaConfigSchema = z.object({
-        categoryId: z.string().optional(),
-        priority: z.enum(['low', 'medium', 'high', 'critical']),
-        firstResponseMinutes: z.number().min(1),
-        resolutionMinutes: z.number().min(1),
-        businessHoursStart: z.string().regex(/^\d{2}:\d{2}$/).optional(),
-        businessHoursEnd: z.string().regex(/^\d{2}:\d{2}$/).optional(),
-        businessDays: z.array(z.number().min(1).max(7)).optional(),
-        timezone: z.string().optional(),
-      });
-
       const validatedData = createSlaConfigSchema.parse(req.body);
       
       const params: CreateSlaConfigParams = {

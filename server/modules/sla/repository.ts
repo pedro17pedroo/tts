@@ -4,10 +4,10 @@ import type {
   InsertSlaConfig, 
   SlaStatus, 
   InsertSlaStatus, 
-  SlaLogs, 
+  SlaLog, 
   InsertSlaLog,
   Ticket
-} from "@shared/schema";
+} from "../../schema";
 import type { 
   SlaConfigFilters, 
   SlaStatusFilters, 
@@ -95,19 +95,19 @@ export class SlaRepository extends BaseRepository {
   }
 
   // SLA Logs operations
-  async getSlaLogs(tenantId: string, filters?: SlaLogFilters): Promise<SlaLogs[]> {
-    return this.withErrorHandling('getSlaLogs', async () => {
+  async getSlaLog(tenantId: string, filters?: SlaLogFilters): Promise<SlaLog[]> {
+    return this.withErrorHandling('getSlaLog', async () => {
       return this.storage.getSlaLogs(tenantId, filters);
     });
   }
 
-  async getSlaLogsByTicket(ticketId: string): Promise<SlaLogs[]> {
-    return this.withErrorHandling('getSlaLogsByTicket', async () => {
+  async getSlaLogByTicket(ticketId: string): Promise<SlaLog[]> {
+    return this.withErrorHandling('getSlaLogByTicket', async () => {
       return this.storage.getSlaLogsByTicket(ticketId);
     });
   }
 
-  async createSlaLog(slaLogData: InsertSlaLog): Promise<SlaLogs> {
+  async createSlaLog(slaLogData: InsertSlaLog): Promise<SlaLog> {
     return this.withErrorHandling('createSlaLog', async () => {
       return this.storage.createSlaLog(slaLogData);
     });
@@ -132,19 +132,19 @@ export class SlaRepository extends BaseRepository {
     });
   }
 
-  async getSlaLogsByDateRange(tenantId: string, dateFrom: string, dateTo: string): Promise<SlaLogs[]> {
-    return this.withErrorHandling('getSlaLogsByDateRange', async () => {
+  async getSlaLogByDateRange(tenantId: string, dateFrom: string, dateTo: string): Promise<SlaLog[]> {
+    return this.withErrorHandling('getSlaLogByDateRange', async () => {
       return this.storage.getSlaLogs(tenantId, { dateFrom, dateTo });
     });
   }
 
-  async getSlaLogsByAction(tenantId: string, action: 'created' | 'updated' | 'deleted' | 'violation' | 'resolution'): Promise<SlaLogs[]> {
-    return this.withErrorHandling('getSlaLogsByAction', async () => {
+  async getSlaLogByAction(tenantId: string, action: 'created' | 'updated' | 'deleted' | 'violation' | 'resolution'): Promise<SlaLog[]> {
+    return this.withErrorHandling('getSlaLogByAction', async () => {
       return this.storage.getSlaLogs(tenantId, { action });
     });
   }
 
-  async getSlaViolationLogs(tenantId: string): Promise<SlaLogs[]> {
+  async getSlaViolationLogs(tenantId: string): Promise<SlaLog[]> {
     return this.withErrorHandling('getSlaViolationLogs', async () => {
       return this.storage.getSlaLogs(tenantId, { action: 'violation' });
     });

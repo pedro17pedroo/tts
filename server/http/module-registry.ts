@@ -7,6 +7,8 @@ import { hourBankModule } from "../modules/hour-bank/router";
 import { knowledgeBaseModule } from "../modules/knowledge-base/router";
 import { departmentsModule, categoriesModule } from "../modules/departments/router";
 import { dashboardModule } from "../modules/dashboard/router";
+import { slaModule } from "../modules/sla/router";
+import { emailRoutes } from "../modules/email/routes";
 
 export interface Module {
   name: string;
@@ -59,6 +61,16 @@ const modules: Module[] = [
     name: "dashboard",
     router: dashboardModule,
     basePath: "/api/dashboard",
+  },
+  {
+    name: "sla",
+    router: slaModule,
+    basePath: "/api/sla",
+  },
+  {
+    name: "email",
+    router: emailRoutes,
+    basePath: "/api/email",
   },
 ];
 

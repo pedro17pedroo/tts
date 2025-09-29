@@ -1,7 +1,7 @@
 import { type Response } from "express";
 import { BaseController } from "../../shared/base-controller";
 import { TicketsService } from "./service";
-import { insertTicketSchema, insertTicketCommentSchema } from "@shared/schema";
+import { z } from "zod";
 import type { 
   AuthenticatedRequest,
   TicketsResponse,
@@ -9,6 +9,22 @@ import type {
   TicketCommentResponse,
   TicketFilters
 } from "./types";
+
+// Simple validation schemas
+const createTicketSchema = z.object({
+  title: z.string().min(1, "Título é obrigatório"),
+  description: z.string().min(1, "Descrição é obrigatória"),
+  priority: z.enum(["low", "medium", "high", "critical"]).default("medium"),
+  customerId: z.string(),
+  departmentId: z.string().optional(),
+  categoryId: z.string().optional(),
+  assigneeId: z.string().optional(),
+});
+
+const createTicketCommentSchema = z.object({
+  content: z.string().min(1, "Conteúdo é obrigatório"),
+  isInternal: z.boolean().default(false),
+});
 
 export class TicketsController extends BaseController {
   private service: TicketsService;
@@ -47,12 +63,13 @@ export class TicketsController extends BaseController {
       }
 
       const { tenantId } = authResult;
-      const data = insertTicketSchema.parse({
-        ...req.body,
+      const validatedData = createTicketSchema.parse(req.body);
+      const ticketData = {
+        ...validatedData,
         tenantId,
-      });
+      };
 
-      const ticket = await this.service.createTicket(data);
+      const ticket = await this.service.createTicket(ticketData);
       this.sendSuccessWithStatus(res, 201, ticket, "Ticket created successfully");
     } catch (error) {
       this.handleError(error, res, "Failed to create ticket");
@@ -100,13 +117,14 @@ export class TicketsController extends BaseController {
       }
 
       const { user } = authResult;
-      const data = insertTicketCommentSchema.parse({
-        ...req.body,
+      const validatedData = createTicketCommentSchema.parse(req.body);
+      const commentData = {
+        ...validatedData,
         ticketId: req.params.id,
         authorId: user.id,
-      });
+      };
 
-      const comment = await this.service.createTicketComment(data);
+      const comment = await this.service.createTicketComment(commentData);
       this.sendSuccessWithStatus(res, 201, comment, "Comment created successfully");
     } catch (error) {
       this.handleError(error, res, "Failed to create comment");

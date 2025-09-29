@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Tenant, InsertTenant } from "@shared/schema";
+import type { Tenant, InsertTenant } from "../../schema";
 import type { 
   AuthenticatedRequest, 
   SuccessResponse,

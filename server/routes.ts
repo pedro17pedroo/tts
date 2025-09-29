@@ -6,17 +6,9 @@ import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./auth";
 import { sendEmail } from "./emailService";
 import {
-  insertTenantSchema,
-  insertCustomerSchema,
-  insertTicketSchema,
-  insertTicketCommentSchema,
-  insertHourBankSchema,
-  insertTimeEntrySchema,
-  insertArticleSchema,
-  insertDepartmentSchema,
-  insertCategorySchema,
   updateTenantBrandingSchema,
-} from "@shared/schema";
+} from "./schema";
+import { emailRoutes } from "./modules/email/routes";
 
 let stripe: Stripe | null = null;
 if (process.env.STRIPE_SECRET_KEY) {
@@ -37,6 +29,64 @@ const onboardingSchema = z.object({
   stripeSubscriptionId: z.string().optional(),
 });
 
+// Schemas simples para validação
+const insertCustomerSchema = z.object({
+  name: z.string().min(1),
+  email: z.string().email(),
+  phone: z.string().optional(),
+  company: z.string().optional(),
+  tenantId: z.string(),
+});
+
+const insertTicketSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  priority: z.enum(['low', 'medium', 'high', 'critical']).default('medium'),
+  customerId: z.string(),
+  departmentId: z.string().optional(),
+  categoryId: z.string().optional(),
+  tenantId: z.string(),
+});
+
+const insertTicketCommentSchema = z.object({
+  content: z.string().min(1),
+  isInternal: z.boolean().default(false),
+  ticketId: z.string(),
+  authorId: z.string(),
+});
+
+const insertHourBankSchema = z.object({
+  customerId: z.string(),
+  totalHours: z.string(),
+  hourlyRate: z.string().optional(),
+  expiresAt: z.string().optional(),
+  tenantId: z.string(),
+});
+
+const insertTimeEntrySchema = z.object({
+  ticketId: z.string(),
+  userId: z.string(),
+  startTime: z.string(),
+  endTime: z.string().optional(),
+  duration: z.string().optional(),
+  description: z.string().optional(),
+  hourBankId: z.string().optional(),
+});
+
+const insertArticleSchema = z.object({
+  title: z.string().min(1),
+  content: z.string().min(1),
+  summary: z.string().optional(),
+  isPublic: z.boolean().default(false),
+  categoryId: z.string().optional(),
+  tenantId: z.string(),
+  authorId: z.string(),
+});
+
+const updateLocaleSettingsSchema = z.object({
+  locale: z.enum(['pt-AO', 'pt-BR', 'en-US', 'es-ES']),
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   await setupAuth(app);
@@ -46,10 +96,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user.id;
       const user = await storage.getUser(userId);
-      res.json(user);
+      return res.json(user);
     } catch (error) {
       console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
+      return res.status(500).json({ message: "Failed to fetch user" });
     }
   });
 
@@ -104,10 +154,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         });
       }
 
-      res.json({ tenant, success: true });
+      return res.json({ tenant, success: true });
     } catch (error) {
       console.error("Onboarding error:", error);
-      res.status(500).json({ message: "Failed to complete onboarding" });
+      return res.status(500).json({ message: "Failed to complete onboarding" });
     }
   });
 
@@ -164,14 +214,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const latestInvoice = subscription.latest_invoice as any;
-      res.json({
+      return res.json({
         subscriptionId: subscription.id,
         clientSecret: latestInvoice?.payment_intent?.client_secret,
         customerId: customer.id,
       });
     } catch (error: any) {
       console.error("Onboarding subscription error:", error);
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   });
 
@@ -238,13 +288,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const latestInvoice = subscription.latest_invoice as any;
-      res.json({
+      return res.json({
         subscriptionId: subscription.id,
         clientSecret: latestInvoice?.payment_intent?.client_secret,
       });
     } catch (error: any) {
       console.error("Subscription error:", error);
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   });
 
@@ -259,10 +309,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const stats = await storage.getDashboardStats(user.tenantId);
-      res.json(stats);
+      return res.json(stats);
     } catch (error) {
       console.error("Dashboard stats error:", error);
-      res.status(500).json({ message: "Failed to fetch dashboard stats" });
+      return res.status(500).json({ message: "Failed to fetch dashboard stats" });
     }
   });
 
@@ -277,10 +327,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const customers = await storage.getCustomersByTenant(user.tenantId);
-      res.json(customers);
+      return res.json(customers);
     } catch (error) {
       console.error("Customers fetch error:", error);
-      res.status(500).json({ message: "Failed to fetch customers" });
+      return res.status(500).json({ message: "Failed to fetch customers" });
     }
   });
 
@@ -299,10 +349,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const customer = await storage.createCustomer(data);
-      res.json(customer);
+      return res.json(customer);
     } catch (error) {
       console.error("Customer creation error:", error);
-      res.status(500).json({ message: "Failed to create customer" });
+      return res.status(500).json({ message: "Failed to create customer" });
     }
   });
 
@@ -323,10 +373,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       };
 
       const tickets = await storage.getTicketsByTenant(user.tenantId, filters);
-      res.json(tickets);
+      return res.json(tickets);
     } catch (error) {
       console.error("Tickets fetch error:", error);
-      res.status(500).json({ message: "Failed to fetch tickets" });
+      return res.status(500).json({ message: "Failed to fetch tickets" });
     }
   });
 
@@ -366,10 +416,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error("Email notification failed:", emailError);
       }
 
-      res.json(ticket);
+      return res.json(ticket);
     } catch (error) {
       console.error("Ticket creation error:", error);
-      res.status(500).json({ message: "Failed to create ticket" });
+      return res.status(500).json({ message: "Failed to create ticket" });
     }
   });
 
@@ -390,10 +440,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const comments = await storage.getTicketComments(ticket.id);
       const timeEntries = await storage.getTimeEntriesByTicket(ticket.id);
 
-      res.json({ ticket, comments, timeEntries });
+      return res.json({ ticket, comments, timeEntries });
     } catch (error) {
       console.error("Ticket fetch error:", error);
-      res.status(500).json({ message: "Failed to fetch ticket" });
+      return res.status(500).json({ message: "Failed to fetch ticket" });
     }
   });
 
@@ -407,10 +457,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const ticket = await storage.updateTicket(req.params.id, req.body);
-      res.json(ticket);
+      return res.json(ticket);
     } catch (error) {
       console.error("Ticket update error:", error);
-      res.status(500).json({ message: "Failed to update ticket" });
+      return res.status(500).json({ message: "Failed to update ticket" });
     }
   });
 
@@ -431,10 +481,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const comment = await storage.createTicketComment(data);
-      res.json(comment);
+      return res.json(comment);
     } catch (error) {
       console.error("Comment creation error:", error);
-      res.status(500).json({ message: "Failed to create comment" });
+      return res.status(500).json({ message: "Failed to create comment" });
     }
   });
 
@@ -449,10 +499,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const hourBanks = await storage.getHourBanksByTenant(user.tenantId);
-      res.json(hourBanks);
+      return res.json(hourBanks);
     } catch (error) {
       console.error("Hour banks fetch error:", error);
-      res.status(500).json({ message: "Failed to fetch hour banks" });
+      return res.status(500).json({ message: "Failed to fetch hour banks" });
     }
   });
 
@@ -465,16 +515,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "User not associated with tenant" });
       }
 
-      const data = insertHourBankSchema.parse({
+      const validatedData = insertHourBankSchema.parse({
         ...req.body,
         tenantId: user.tenantId,
       });
 
-      const hourBank = await storage.createHourBank(data);
-      res.json(hourBank);
+      const hourBankData = {
+        ...validatedData,
+        expiresAt: validatedData.expiresAt ? new Date(validatedData.expiresAt) : undefined,
+      };
+
+      const hourBank = await storage.createHourBank(hourBankData);
+      return res.json(hourBank);
     } catch (error) {
       console.error("Hour bank creation error:", error);
-      res.status(500).json({ message: "Failed to create hour bank" });
+      return res.status(500).json({ message: "Failed to create hour bank" });
     }
   });
 
@@ -482,26 +537,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/time-entries', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.id;
-      const data = insertTimeEntrySchema.parse({
+      const validatedData = insertTimeEntrySchema.parse({
         ...req.body,
         userId,
       });
 
-      const timeEntry = await storage.createTimeEntry(data);
-      res.json(timeEntry);
+      const timeEntryData = {
+        ...validatedData,
+        startTime: new Date(validatedData.startTime),
+        endTime: validatedData.endTime ? new Date(validatedData.endTime) : undefined,
+      };
+
+      const timeEntry = await storage.createTimeEntry(timeEntryData);
+      return res.json(timeEntry);
     } catch (error) {
       console.error("Time entry creation error:", error);
-      res.status(500).json({ message: "Failed to create time entry" });
+      return res.status(500).json({ message: "Failed to create time entry" });
     }
   });
 
   app.patch('/api/time-entries/:id', isAuthenticated, async (req: any, res) => {
     try {
       const timeEntry = await storage.updateTimeEntry(req.params.id, req.body);
-      res.json(timeEntry);
+      return res.json(timeEntry);
     } catch (error) {
       console.error("Time entry update error:", error);
-      res.status(500).json({ message: "Failed to update time entry" });
+      return res.status(500).json({ message: "Failed to update time entry" });
     }
   });
 
@@ -517,10 +578,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const isPublic = req.query.public === 'true' ? true : undefined;
       const articles = await storage.getArticlesByTenant(user.tenantId, isPublic);
-      res.json(articles);
+      return res.json(articles);
     } catch (error) {
       console.error("Articles fetch error:", error);
-      res.status(500).json({ message: "Failed to fetch articles" });
+      return res.status(500).json({ message: "Failed to fetch articles" });
     }
   });
 
@@ -540,10 +601,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       const article = await storage.createArticle(data);
-      res.json(article);
+      return res.json(article);
     } catch (error) {
       console.error("Article creation error:", error);
-      res.status(500).json({ message: "Failed to create article" });
+      return res.status(500).json({ message: "Failed to create article" });
     }
   });
 
@@ -562,13 +623,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Tenant not found" });
       }
 
-      res.json({
+      return res.json({
         customBranding: tenant.customBranding || {},
         tenantName: tenant.name,
       });
     } catch (error) {
       console.error("Get branding error:", error);
-      res.status(500).json({ message: "Failed to fetch branding" });
+      return res.status(500).json({ message: "Failed to fetch branding" });
     }
   });
 
@@ -591,13 +652,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         customBranding,
       });
 
-      res.json({
+      return res.json({
         customBranding: updatedTenant.customBranding,
         message: "Branding updated successfully"
       });
     } catch (error) {
       console.error("Update branding error:", error);
-      res.status(500).json({ message: "Failed to update branding" });
+      return res.status(500).json({ message: "Failed to update branding" });
     }
   });
 
@@ -634,13 +695,67 @@ export async function registerRoutes(app: Express): Promise<Server> {
         },
       });
 
-      res.json({
+      return res.json({
         logoUrl,
         message: "Logo uploaded successfully"
       });
     } catch (error) {
       console.error("Logo upload error:", error);
-      res.status(500).json({ message: "Failed to upload logo" });
+      return res.status(500).json({ message: "Failed to upload logo" });
+    }
+  });
+
+  // Tenant locale settings endpoints
+  app.get('/api/tenant/locale-settings', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
+      
+      if (!user?.tenantId) {
+        return res.status(400).json({ message: "User not associated with a tenant" });
+      }
+
+      const tenant = await storage.getTenant(user.tenantId);
+      if (!tenant) {
+        return res.status(404).json({ message: "Tenant not found" });
+      }
+
+      // Return the tenant's locale setting or default to 'pt-AO'
+      return res.json({
+        locale: tenant.locale || 'pt-AO',
+      });
+    } catch (error) {
+      console.error("Get locale settings error:", error);
+      return res.status(500).json({ message: "Failed to fetch locale settings" });
+    }
+  });
+
+  app.put('/api/tenant/locale-settings', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.id;
+      const user = await storage.getUser(userId);
+      
+      if (!user?.tenantId) {
+        return res.status(400).json({ message: "User not associated with a tenant" });
+      }
+
+      if (user.role !== 'tenant_admin') {
+        return res.status(403).json({ message: "Only tenant admins can update locale settings" });
+      }
+
+      const { locale } = updateLocaleSettingsSchema.parse(req.body);
+
+      const updatedTenant = await storage.updateTenant(user.tenantId, {
+        locale,
+      });
+
+      return res.json({
+        locale: updatedTenant.locale,
+        message: "Locale settings updated successfully"
+      });
+    } catch (error) {
+      console.error("Update locale settings error:", error);
+      return res.status(500).json({ message: "Failed to update locale settings" });
     }
   });
 
@@ -655,10 +770,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const departments = await storage.getDepartmentsByTenant(user.tenantId);
-      res.json(departments);
+      return res.json(departments);
     } catch (error) {
       console.error("Departments fetch error:", error);
-      res.status(500).json({ message: "Failed to fetch departments" });
+      return res.status(500).json({ message: "Failed to fetch departments" });
     }
   });
 
@@ -673,12 +788,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const categories = await storage.getCategoriesByTenant(user.tenantId);
-      res.json(categories);
+      return res.json(categories);
     } catch (error) {
       console.error("Categories fetch error:", error);
-      res.status(500).json({ message: "Failed to fetch categories" });
+      return res.status(500).json({ message: "Failed to fetch categories" });
     }
   });
+
+  // Email routes
+  app.use('/api/email', emailRoutes);
 
   const httpServer = createServer(app);
   return httpServer;

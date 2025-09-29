@@ -2,7 +2,36 @@ import * as crypto from "crypto";
 import { AuthRepository } from "./repository";
 import { hashPassword, comparePassword, generateResetToken, isTokenExpired } from "../../auth";
 import { sendEmail } from "../../clients/email.client";
-import type { User, UpsertUser, RegisterUser, LoginUser, ForgotPassword, ResetPassword, ChangePassword } from "@shared/schema";
+import type { User, UpsertUser } from "../../schema";
+
+// Definindo tipos que estão faltando
+export interface RegisterUser {
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
+  role?: 'global_admin' | 'tenant_admin' | 'agent' | 'customer';
+  tenantId?: string | null;
+}
+
+export interface LoginUser {
+  email: string;
+  password: string;
+}
+
+export interface ForgotPassword {
+  email: string;
+}
+
+export interface ResetPassword {
+  token: string;
+  password: string;
+}
+
+export interface ChangePassword {
+  currentPassword: string;
+  newPassword: string;
+}
 
 export class AuthService {
   private repository: AuthRepository;

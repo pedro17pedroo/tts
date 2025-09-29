@@ -1,5 +1,5 @@
 import { BaseRepository } from "../../repositories/base.repository";
-import type { Article, InsertArticle } from "@shared/schema";
+import type { Article, InsertArticle } from "../../schema";
 
 export class KnowledgeBaseRepository extends BaseRepository {
   async getArticlesByTenant(tenantId: string, isPublic?: boolean): Promise<Article[]> {

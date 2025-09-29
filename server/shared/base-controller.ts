@@ -66,7 +66,7 @@ export abstract class BaseController {
   // Get authenticated user with tenant validation
   protected async getAuthenticatedUser(req: AuthenticatedRequest): Promise<{user: any, tenantId: string} | null> {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.user.id;
       const user = await this.authService.getUserById(userId);
       
       if (!user?.tenantId) {
