@@ -7,7 +7,8 @@ import { Columns, Table, Search } from "lucide-react";
 import KanbanBoard from "@/components/tickets/kanban-board";
 import TicketsTable from "@/components/tickets/tickets-table";
 import CreateTicketModal from "@/components/tickets/create-ticket-modal";
-import type { Ticket } from "@shared/schema";
+import PageContainer from "@/components/ui/page-container";
+import type { Ticket } from "@/types/schema";
 
 export default function Tickets() {
   const [view, setView] = useState<"kanban" | "table">("kanban");
@@ -20,21 +21,41 @@ export default function Tickets() {
 
   const { data: tickets = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/tickets", filters],
+    queryFn: async ({ queryKey }) => {
+      const [url, params] = queryKey;
+      const searchParams = new URLSearchParams();
+      Object.entries(params as Record<string, any>).forEach(([key, value]) => {
+        if (value !== undefined && value !== null && value !== "") {
+          searchParams.append(key, String(value));
+        }
+      });
+      const response = await fetch(`${url}?${searchParams.toString()}`, {
+        credentials: "include",
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      return response.json();
+    },
+    select: (data) => Array.isArray(data) ? data : [],
   });
 
   if (isLoading) {
     return (
-      <div className="p-6">
+      <PageContainer>
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-muted rounded w-1/4"></div>
           <div className="h-64 bg-muted rounded"></div>
         </div>
-      </div>
+      </PageContainer>
     );
   }
 
   return (
-    <div className="p-4 md:p-6" data-testid="tickets-page">
+    <PageContainer 
+      title="Tickets" 
+      subtitle="Gerir tickets de suporte"
+      data-testid="tickets-page"
+    >
+
       {/* Filters and Controls */}
       <div className="space-y-4 mb-6">
         {/* Top Row - View Toggle and Create Button */}
@@ -78,14 +99,14 @@ export default function Tickets() {
         {/* Bottom Row - Filters */}
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
           <Select
-            value={filters.status}
-            onValueChange={(value) => setFilters(prev => ({ ...prev, status: value }))}
+            value={filters.status || "all"}
+            onValueChange={(value) => setFilters(prev => ({ ...prev, status: value === "all" ? "" : value }))}
           >
             <SelectTrigger className="w-full sm:w-36 md:w-40" data-testid="select-status-filter">
               <SelectValue placeholder="Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Todos os Status</SelectItem>
+              <SelectItem value="all">Todos os Status</SelectItem>
               <SelectItem value="new">Novo</SelectItem>
               <SelectItem value="in_progress">Em Progresso</SelectItem>
               <SelectItem value="waiting_customer">Aguardando Cliente</SelectItem>
@@ -95,14 +116,14 @@ export default function Tickets() {
           </Select>
 
           <Select
-            value={filters.priority}
-            onValueChange={(value) => setFilters(prev => ({ ...prev, priority: value }))}
+            value={filters.priority || "all"}
+            onValueChange={(value) => setFilters(prev => ({ ...prev, priority: value === "all" ? "" : value }))}
           >
             <SelectTrigger className="w-full sm:w-36 md:w-40" data-testid="select-priority-filter">
               <SelectValue placeholder="Prioridade" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Todas as Prioridades</SelectItem>
+              <SelectItem value="all">Todas as Prioridades</SelectItem>
               <SelectItem value="low">Baixa</SelectItem>
               <SelectItem value="medium">Média</SelectItem>
               <SelectItem value="high">Alta</SelectItem>
@@ -135,6 +156,6 @@ export default function Tickets() {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
       />
-    </div>
+    </PageContainer>
   );
 }

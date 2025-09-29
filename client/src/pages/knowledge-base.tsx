@@ -16,6 +16,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import PageContainer from "@/components/ui/page-container";
 
 const articleSchema = z.object({
   title: z.string().min(1, "Título é obrigatório"),
@@ -47,6 +48,7 @@ export default function KnowledgeBase() {
 
   const { data: articles = [], isLoading } = useQuery<Article[]>({
     queryKey: ["/api/articles"],
+    select: (data) => Array.isArray(data) ? data : [],
   });
 
   const form = useForm<ArticleFormData>({
@@ -86,7 +88,8 @@ export default function KnowledgeBase() {
     createArticleMutation.mutate(data);
   };
 
-  const filteredArticles = articles.filter(article => {
+  const articlesArray = Array.isArray(articles) ? articles : [];
+  const filteredArticles = articlesArray.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          article.content.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterPublic === null || article.isPublic === filterPublic;
@@ -94,31 +97,33 @@ export default function KnowledgeBase() {
   });
 
   const stats = {
-    total: articles.length,
-    public: articles.filter(a => a.isPublic).length,
-    private: articles.filter(a => !a.isPublic).length,
-    totalViews: articles.reduce((sum, a) => sum + a.viewCount, 0),
+    total: articlesArray.length,
+    public: articlesArray.filter(a => a.isPublic).length,
+    private: articlesArray.filter(a => !a.isPublic).length,
+    totalViews: articlesArray.reduce((sum, a) => sum + a.viewCount, 0),
   };
 
   if (isLoading) {
     return (
-      <div className="p-6">
+      <PageContainer>
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-muted rounded w-1/4"></div>
           <div className="h-64 bg-muted rounded"></div>
         </div>
-      </div>
+      </PageContainer>
     );
   }
 
   return (
-    <div className="p-6" data-testid="knowledge-base-page">
-      {/* Header */}
+    <PageContainer 
+      title="Base de Conhecimento" 
+      subtitle="Gestão de artigos"
+      data-testid="knowledge-base-page"
+    >
+
+      {/* Header Actions */}
       <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">Base de Conhecimento</h1>
-          <p className="text-muted-foreground">Gerencie artigos e documentação para sua equipe e clientes</p>
-        </div>
+        <div></div>
         <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
           <DialogTrigger asChild>
             <Button data-testid="button-create-article">
@@ -412,6 +417,6 @@ export default function KnowledgeBase() {
           ))}
         </div>
       )}
-    </div>
+    </PageContainer>
   );
 }

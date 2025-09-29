@@ -35,7 +35,8 @@ import { z } from "zod";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
-import type { Department, Category } from "@shared/schema";
+import type { Department, Category } from "@/types/schema";
+import PageContainer from "@/components/ui/page-container";
 
 // Define branding response type
 const brandingResponseSchema = z.object({
@@ -353,10 +354,12 @@ export default function Settings() {
 
   const { data: departments = [] } = useQuery<Department[]>({
     queryKey: ["/api/departments"],
+    select: (data) => Array.isArray(data) ? data : [],
   });
 
   const { data: categories = [] } = useQuery<Category[]>({
     queryKey: ["/api/categories"],
+    select: (data) => Array.isArray(data) ? data : [],
   });
 
   const companyForm = useForm<CompanyFormData>({
@@ -428,12 +431,11 @@ export default function Settings() {
   };
 
   return (
-    <div className="p-6" data-testid="settings-page">
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">Configurações</h1>
-        <p className="text-muted-foreground">Gerencie as configurações da sua conta e organização</p>
-      </div>
+    <PageContainer 
+      title="Configurações" 
+      subtitle="Gestão do sistema"
+      data-testid="settings-page"
+    >
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList className="grid w-full grid-cols-6">
@@ -810,6 +812,6 @@ export default function Settings() {
           <CustomizationSettings />
         </TabsContent>
       </Tabs>
-    </div>
+    </PageContainer>
   );
 }

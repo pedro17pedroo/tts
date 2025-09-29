@@ -17,6 +17,7 @@ import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import PageContainer from "@/components/ui/page-container";
 
 const customerSchema = z.object({
   name: z.string().min(1, "Nome é obrigatório"),
@@ -45,6 +46,7 @@ export default function Customers() {
 
   const { data: customers = [], isLoading } = useQuery<Customer[]>({
     queryKey: ["/api/customers"],
+    select: (data) => Array.isArray(data) ? data : [],
   });
 
   const form = useForm<CustomerFormData>({
@@ -84,31 +86,33 @@ export default function Customers() {
     createCustomerMutation.mutate(data);
   };
 
-  const filteredCustomers = customers.filter(customer =>
+  const filteredCustomers = Array.isArray(customers) ? customers.filter(customer =>
     customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     customer.company?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ) : [];
 
   if (isLoading) {
     return (
-      <div className="p-6">
+      <PageContainer>
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-muted rounded w-1/4"></div>
           <div className="h-64 bg-muted rounded"></div>
         </div>
-      </div>
+      </PageContainer>
     );
   }
 
   return (
-    <div className="p-4 md:p-6" data-testid="customers-page">
-      {/* Header */}
+    <PageContainer 
+      title="Clientes" 
+      subtitle="Base de clientes"
+      data-testid="customers-page"
+    >
+
+      {/* Header Actions */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-        <div>
-          <h1 className="text-xl md:text-2xl font-bold">Clientes</h1>
-          <p className="text-sm md:text-base text-muted-foreground">Gerencie seus clientes e suas informações</p>
-        </div>
+        <div></div>
         <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
           <DialogTrigger asChild>
             <Button data-testid="button-create-customer" size="sm" className="text-xs md:text-sm">
@@ -456,6 +460,6 @@ export default function Customers() {
           )}
         </CardContent>
       </Card>
-    </div>
+    </PageContainer>
   );
 }

@@ -13,6 +13,7 @@ import { z } from "zod";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import HourBankCard from "@/components/hour-bank/hour-bank-card";
+import PageContainer from "@/components/ui/page-container";
 
 const hourBankSchema = z.object({
   customerId: z.string().min(1, "Cliente é obrigatório"),
@@ -52,6 +53,7 @@ export default function HourBank() {
 
   const { data: hourBanks = [], isLoading } = useQuery<HourBank[]>({
     queryKey: ["/api/hour-banks"],
+    select: (data) => Array.isArray(data) ? data : [],
   });
 
   const { data: customers = [] } = useQuery<Customer[]>({
@@ -102,41 +104,44 @@ export default function HourBank() {
   };
 
   // Calculate statistics
-  const totalSold = hourBanks.reduce((sum, bank) => sum + parseFloat(bank.totalHours), 0);
-  const consumed = hourBanks.reduce((sum, bank) => sum + parseFloat(bank.consumedHours), 0);
+  const hourBanksArray = Array.isArray(hourBanks) ? hourBanks : [];
+  const totalSold = hourBanksArray.reduce((sum, bank) => sum + parseFloat(bank.totalHours), 0);
+  const consumed = hourBanksArray.reduce((sum, bank) => sum + parseFloat(bank.consumedHours), 0);
   
   const stats = {
     totalSold,
     consumed,
     available: totalSold - consumed,
-    totalValue: hourBanks.reduce((sum, bank) => {
+    totalValue: hourBanksArray.reduce((sum, bank) => {
       if (bank.hourlyRate) {
         return sum + (parseFloat(bank.totalHours) * parseFloat(bank.hourlyRate));
       }
       return sum;
     }, 0),
-    activeBanks: hourBanks.filter(bank => bank.isActive).length,
+    activeBanks: hourBanksArray.filter(bank => bank.isActive).length,
   };
 
   if (isLoading) {
     return (
-      <div className="p-6">
+      <PageContainer>
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-muted rounded w-1/4"></div>
           <div className="h-64 bg-muted rounded"></div>
         </div>
-      </div>
+      </PageContainer>
     );
   }
 
   return (
-    <div className="p-6" data-testid="hour-bank-page">
-      {/* Header */}
+    <PageContainer 
+      title="Bolsa de Horas" 
+      subtitle="Gestão de horas"
+      data-testid="hour-bank-page"
+    >
+
+      {/* Header Actions */}
       <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">Bolsa de Horas</h1>
-          <p className="text-muted-foreground">Gerencie as bolsas de horas dos seus clientes</p>
-        </div>
+        <div></div>
         <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
           <DialogTrigger asChild>
             <Button className="bg-accent hover:bg-accent/90" data-testid="button-create-hour-bank">
@@ -355,6 +360,6 @@ export default function HourBank() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </PageContainer>
   );
 }
