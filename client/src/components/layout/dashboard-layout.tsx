@@ -16,7 +16,8 @@ import {
   Menu,
   X,
   LogOut,
-  ChevronRight
+  ChevronRight,
+  Shield
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -91,6 +92,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       description: 'Analytics e métricas'
     },
     { 
+      name: 'SLA', 
+      href: '/sla', 
+      icon: Shield, 
+      current: location === '/sla',
+      description: 'Gestão de SLA'
+    },
+    { 
       name: 'Configurações', 
       href: '/settings', 
       icon: Settings, 
@@ -109,7 +117,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20">
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 lg:flex">
       {/* Mobile sidebar backdrop */}
       {isSidebarOpen && (
         <div 
@@ -123,15 +131,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar */}
       <nav 
         id="sidebar"
-        className={`fixed left-0 top-0 h-full w-72 bg-card/95 backdrop-blur-lg border-r border-border/50 shadow-xl z-50 transform transition-all duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed lg:sticky left-0 top-0 h-screen w-72 bg-sidebar backdrop-blur-lg border-r border-border/50 shadow-xl z-50 transform transition-all duration-300 ease-in-out lg:translate-x-0 ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:static lg:z-auto lg:w-72`}
+        } relative`}
         aria-label="Navigation principale"
         data-testid="sidebar"
       >
+
         {/* Header Section */}
-        <div className="p-6 border-b border-border/50">
-          <div className="flex items-center justify-between">
+        <div className="px-4 md:px-6 py-4 md:py-5 flex items-center min-h-[69px] md:min-h-[77px]">
+          <div className="flex items-center justify-between w-full">
             <div className="flex items-center space-x-3">
               <div className="relative">
                 <div className="absolute inset-0 bg-primary/20 rounded-lg blur-sm"></div>
@@ -152,14 +161,6 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               <X className="h-5 w-5" />
             </Button>
           </div>
-          <div className="mt-3 p-3 bg-muted/30 rounded-lg">
-            <p className="text-sm font-medium text-foreground truncate">
-              {user?.firstName ? `${user.firstName}'s Company` : 'Pedro\'s Company'}
-            </p>
-            <p className="text-xs text-muted-foreground mt-1">
-              Plano Professional • Ativo
-            </p>
-          </div>
         </div>
 
         {/* Navigation Section */}
@@ -172,8 +173,8 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <button
                     className={`w-full flex items-center justify-between p-3 rounded-xl transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                       item.current 
-                        ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25 transform scale-[0.98]' 
-                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/50 hover:transform hover:scale-[0.98]'
+                        ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/30 border border-primary/20 transform scale-[0.98] ring-1 ring-primary/20' 
+                        : 'text-muted-foreground hover:text-foreground hover:bg-muted/60 hover:border hover:border-border/50 hover:shadow-sm hover:transform hover:scale-[0.98] border border-transparent'
                     }`}
                     onClick={() => {
                       setLocation(item.href);
@@ -183,12 +184,16 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                     aria-current={item.current ? "page" : undefined}
                   >
                     <div className="flex items-center space-x-3 flex-1 min-w-0">
-                      <div className={`p-1.5 rounded-lg ${
+                      <div className={`p-1.5 rounded-lg transition-all duration-200 ${
                         item.current 
-                          ? 'bg-white/20' 
-                          : 'bg-muted/30 group-hover:bg-muted'
+                          ? 'bg-white/25 shadow-sm' 
+                          : 'bg-muted/40 group-hover:bg-muted/70 group-hover:shadow-sm'
                       }`}>
-                        <Icon className="h-4 w-4" aria-hidden="true" />
+                        <Icon className={`h-4 w-4 transition-all duration-200 ${
+                          item.current 
+                            ? 'text-primary-foreground' 
+                            : 'text-muted-foreground group-hover:text-foreground'
+                        }`} aria-hidden="true" />
                       </div>
                       <div className="flex-1 min-w-0 text-left">
                         <p className="font-medium truncate text-sm">
@@ -264,10 +269,10 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       </nav>
 
       {/* Main content */}
-      <div className="lg:ml-72">
+      <div className="flex-1 min-h-screen flex flex-col">
         {/* Top bar */}
-        <header className="bg-card/80 backdrop-blur-lg border-b border-border/50 px-4 md:px-8 py-4 md:py-5 sticky top-0 z-30">
-          <div className="flex items-center justify-between gap-4">
+        <header className="bg-card backdrop-blur-lg border-b border-border/50 px-4 md:px-6 py-4 md:py-5 sticky top-0 z-30 flex-shrink-0">
+          <div className="flex items-center justify-between gap-4 max-w-none">
             <div className="flex items-center space-x-4 min-w-0 flex-1">
               <Button
                 variant="ghost"
@@ -281,19 +286,19 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
               >
                 <Menu className="h-5 w-5" aria-hidden="true" />
               </Button>
-              <div>
-                <h1 className="text-xl md:text-2xl font-bold text-foreground truncate">
-                  {getPageTitle()}
+              <div className="min-w-0 flex-1">
+                <h1 className="text-lg md:text-xl font-semibold text-foreground truncate">
+                  {user?.firstName ? `${user.firstName}'s Company` : 'Pedro\'s Company'}
                 </h1>
-                <p className="text-sm text-muted-foreground hidden sm:block">
-                  {navigation.find(nav => nav.current)?.description || 'Gerencie sua plataforma'}
+                <p className="text-sm text-muted-foreground">
+                  Plano Professional • Ativo
                 </p>
               </div>
             </div>
             <div className="flex items-center space-x-3 md:space-x-4 shrink-0">
               <div className="hidden md:flex items-center space-x-2">
                 <HeaderLanguageSwitcher />
-                <ThemeToggle />
+                <ThemeToggle variant="icon-only" />
               </div>
               <Button 
                 variant="outline" 
@@ -305,23 +310,13 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
                   <span className="w-1.5 h-1.5 bg-primary-foreground rounded-full"></span>
                 </span>
               </Button>
-              <Button 
-                className="bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 text-sm md:text-base font-medium"
-                onClick={() => setLocation('/tickets')}
-                data-testid="button-new-ticket"
-                size="sm"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Novo Ticket</span>
-                <span className="sm:hidden">Novo</span>
-              </Button>
             </div>
           </div>
         </header>
 
         {/* Page content */}
-        <main className="p-4 md:p-8">
-          <div className="mx-auto max-w-7xl">
+        <main className="flex-1 p-4 md:p-6 lg:p-8">
+          <div className="mx-auto max-w-7xl w-full">
             {children}
           </div>
         </main>

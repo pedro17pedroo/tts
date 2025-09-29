@@ -1,0 +1,1372 @@
+
+
+(anónimo) @ chrome-extension://b…f/includes/tab.js:1Compreenda este erro
+api/dashboard/reports/trends/[object%20Object]:1  Failed to load resource: the server responded with a status of 404 (Not Found)Compreenda este erro
+api/tenant/locale-settings:1  Failed to load resource: the server responded with a status of 404 (Not Found)Compreenda este erro
+reports:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedCompreenda este erro
+reports:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedCompreenda este erro
+reports:1 Uncaught (in promise) Error: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedCompreenda este erro
+reports:1 Unchecked runtime.lastError: A listener indicated an asynchronous response by returning true, but the message channel closed before a response was receivedCompreenda este erro
+api/dashboard/reports/trends/[object%20Object]:1  Failed to load resource: the server responded with a status of 404 (Not Found)Compreenda este erro
+src/pages/knowledge-base.tsx?t=1759126847142:1  Failed to load resource: the server responded with a status of 500 (Internal Server Error)Compreenda este erro
+hook.js:608 [hmr] Failed to reload /src/pages/knowledge-base.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above)
+overrideMethod @ hook.js:608Compreenda este erro
+api/tickets/[object%20Object]:1  Failed to load resource: the server responded with a status of 404 (Not Found)Compreenda este erro
+2customers.tsx:87 Uncaught TypeError: customers.filter is not a function
+    at Customers (customers.tsx:87:39)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)Compreenda este erro
+hook.js:608 The above error occurred in the <Customers> component:
+
+    at Customers (http://localhost:3003/src/pages/customers.tsx?t=1759126664519:44:53)
+    at Route (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:206:16)
+    at div
+    at main
+    at div
+    at div
+    at DashboardLayout (http://localhost:3003/src/components/layout/dashboard-layout.tsx?t=1759126592195:42:43)
+    at Switch (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:262:17)
+    at Router (http://localhost:3003/src/App.tsx:62:48)
+    at Provider (http://localhost:3003/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=17a391f0:38:15)
+    at TooltipProvider (http://localhost:3003/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=17a391f0:63:5)
+    at LocaleProvider (http://localhost:3003/src/contexts/LocaleContext.tsx:58:34)
+    at QueryClientProvider (http://localhost:3003/node_modules/.vite/deps/@tanstack_react-query.js?v=17a391f0:3081:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+overrideMethod @ hook.js:608Compreenda este erro
+chunk-RPCDYKBN.js?v=17a391f0:9129 Uncaught TypeError: customers.filter is not a function
+    at Customers (customers.tsx:87:39)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+    at renderRootSync (chunk-RPCDYKBN.js?v=17a391f0:19116:15)
+    at recoverFromConcurrentError (chunk-RPCDYKBN.js?v=17a391f0:18736:28)
+    at performSyncWorkOnRoot (chunk-RPCDYKBN.js?v=17a391f0:18879:28)Compreenda este erro
+
+
+
+
+(anónimo) @ tab.js:1
+(anónimo) @ tab.js:1
+Promise.then
+i @ tab.js:1
+122 @ tab.js:1
+n @ tab.js:1
+(anónimo) @ tab.js:1
+(anónimo) @ tab.js:1Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/tickets/[object%20Object] 404 (Not Found)
+window.fetch @ frame_ant.js:2
+(anónimo) @ queryClient.ts:32
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19432
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=17a391f0:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18718
+workLoop @ chunk-RPCDYKBN.js?v=17a391f0:197
+flushWork @ chunk-RPCDYKBN.js?v=17a391f0:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=17a391f0:384Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/tenant/locale-settings 404 (Not Found)
+window.fetch @ frame_ant.js:2
+queryFn @ LocaleContext.tsx:98
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+setOptions @ @tanstack_react-query.js?v=17a391f0:1392
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3308
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19432
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=17a391f0:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18718
+workLoop @ chunk-RPCDYKBN.js?v=17a391f0:197
+flushWork @ chunk-RPCDYKBN.js?v=17a391f0:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=17a391f0:384Compreenda este erro
+hour-bank.tsx:105 Uncaught TypeError: hourBanks.reduce is not a function
+    at HourBank (hour-bank.tsx:105:31)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+HourBank @ hour-bank.tsx:105
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=17a391f0:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=17a391f0:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=17a391f0:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18874
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+hour-bank.tsx:105 Uncaught TypeError: hourBanks.reduce is not a function
+    at HourBank (hour-bank.tsx:105:31)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+HourBank @ hour-bank.tsx:105
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=17a391f0:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=17a391f0:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=17a391f0:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=17a391f0:18736
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18879
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+hook.js:608 The above error occurred in the <HourBank> component:
+
+    at HourBank (http://localhost:3003/src/pages/hour-bank.tsx?t=1759126692502:41:53)
+    at Route (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:206:16)
+    at div
+    at main
+    at div
+    at div
+    at DashboardLayout (http://localhost:3003/src/components/layout/dashboard-layout.tsx?t=1759126592195:42:43)
+    at Switch (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:262:17)
+    at Router (http://localhost:3003/src/App.tsx?t=1759126861439:62:48)
+    at Provider (http://localhost:3003/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=17a391f0:38:15)
+    at TooltipProvider (http://localhost:3003/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=17a391f0:63:5)
+    at LocaleProvider (http://localhost:3003/src/contexts/LocaleContext.tsx:58:34)
+    at QueryClientProvider (http://localhost:3003/node_modules/.vite/deps/@tanstack_react-query.js?v=17a391f0:3081:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+overrideMethod @ hook.js:608
+logCapturedError @ chunk-RPCDYKBN.js?v=17a391f0:14032
+update.callback @ chunk-RPCDYKBN.js?v=17a391f0:14052
+callCallback @ chunk-RPCDYKBN.js?v=17a391f0:11248
+commitUpdateQueue @ chunk-RPCDYKBN.js?v=17a391f0:11265
+commitLayoutEffectOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:17093
+commitLayoutMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:17980
+commitLayoutEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:17969
+commitLayoutEffects @ chunk-RPCDYKBN.js?v=17a391f0:17920
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19353
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+chunk-RPCDYKBN.js?v=17a391f0:9129 Uncaught TypeError: hourBanks.reduce is not a function
+    at HourBank (hour-bank.tsx:105:31)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+    at renderRootSync (chunk-RPCDYKBN.js?v=17a391f0:19116:15)
+    at recoverFromConcurrentError (chunk-RPCDYKBN.js?v=17a391f0:18736:28)
+    at performSyncWorkOnRoot (chunk-RPCDYKBN.js?v=17a391f0:18879:28)
+HourBank @ hour-bank.tsx:105
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19753
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=17a391f0:18736
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18879
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+
+
+
+
+(anónimo) @ tab.js:1
+(anónimo) @ tab.js:1
+Promise.then
+i @ tab.js:1
+122 @ tab.js:1
+n @ tab.js:1
+(anónimo) @ tab.js:1
+(anónimo) @ tab.js:1Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/tickets/[object%20Object] 404 (Not Found)
+window.fetch @ frame_ant.js:2
+(anónimo) @ queryClient.ts:32
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19432
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=17a391f0:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18718
+workLoop @ chunk-RPCDYKBN.js?v=17a391f0:197
+flushWork @ chunk-RPCDYKBN.js?v=17a391f0:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=17a391f0:384Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/tenant/locale-settings 404 (Not Found)
+window.fetch @ frame_ant.js:2
+queryFn @ LocaleContext.tsx:98
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+setOptions @ @tanstack_react-query.js?v=17a391f0:1392
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3308
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19432
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=17a391f0:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18718
+workLoop @ chunk-RPCDYKBN.js?v=17a391f0:197
+flushWork @ chunk-RPCDYKBN.js?v=17a391f0:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=17a391f0:384Compreenda este erro
+knowledge-base.tsx:89 Uncaught TypeError: articles.filter is not a function
+    at KnowledgeBase (knowledge-base.tsx:89:37)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+KnowledgeBase @ knowledge-base.tsx:89
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=17a391f0:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=17a391f0:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=17a391f0:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18874
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+knowledge-base.tsx:89 Uncaught TypeError: articles.filter is not a function
+    at KnowledgeBase (knowledge-base.tsx:89:37)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+KnowledgeBase @ knowledge-base.tsx:89
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=17a391f0:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=17a391f0:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=17a391f0:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=17a391f0:18736
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18879
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+hook.js:608 The above error occurred in the <KnowledgeBase> component:
+
+    at KnowledgeBase (http://localhost:3003/src/pages/knowledge-base.tsx?t=1759126861439:44:53)
+    at Route (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:206:16)
+    at div
+    at main
+    at div
+    at div
+    at DashboardLayout (http://localhost:3003/src/components/layout/dashboard-layout.tsx?t=1759126592195:42:43)
+    at Switch (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:262:17)
+    at Router (http://localhost:3003/src/App.tsx?t=1759126861439:62:48)
+    at Provider (http://localhost:3003/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=17a391f0:38:15)
+    at TooltipProvider (http://localhost:3003/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=17a391f0:63:5)
+    at LocaleProvider (http://localhost:3003/src/contexts/LocaleContext.tsx:58:34)
+    at QueryClientProvider (http://localhost:3003/node_modules/.vite/deps/@tanstack_react-query.js?v=17a391f0:3081:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+overrideMethod @ hook.js:608
+logCapturedError @ chunk-RPCDYKBN.js?v=17a391f0:14032
+update.callback @ chunk-RPCDYKBN.js?v=17a391f0:14052
+callCallback @ chunk-RPCDYKBN.js?v=17a391f0:11248
+commitUpdateQueue @ chunk-RPCDYKBN.js?v=17a391f0:11265
+commitLayoutEffectOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:17093
+commitLayoutMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:17980
+commitLayoutEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:17969
+commitLayoutEffects @ chunk-RPCDYKBN.js?v=17a391f0:17920
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19353
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+chunk-RPCDYKBN.js?v=17a391f0:9129 Uncaught TypeError: articles.filter is not a function
+    at KnowledgeBase (knowledge-base.tsx:89:37)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+    at renderRootSync (chunk-RPCDYKBN.js?v=17a391f0:19116:15)
+    at recoverFromConcurrentError (chunk-RPCDYKBN.js?v=17a391f0:18736:28)
+    at performSyncWorkOnRoot (chunk-RPCDYKBN.js?v=17a391f0:18879:28)
+KnowledgeBase @ knowledge-base.tsx:89
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19753
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=17a391f0:18736
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18879
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+
+
+
+
+(anónimo) @ tab.js:1
+(anónimo) @ tab.js:1
+Promise.then
+i @ tab.js:1
+122 @ tab.js:1
+n @ tab.js:1
+(anónimo) @ tab.js:1
+(anónimo) @ tab.js:1Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/tickets/[object%20Object] 404 (Not Found)
+window.fetch @ frame_ant.js:2
+(anónimo) @ queryClient.ts:32
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19432
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=17a391f0:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18718
+workLoop @ chunk-RPCDYKBN.js?v=17a391f0:197
+flushWork @ chunk-RPCDYKBN.js?v=17a391f0:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=17a391f0:384Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/tenant/locale-settings 404 (Not Found)
+window.fetch @ frame_ant.js:2
+queryFn @ LocaleContext.tsx:98
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+setOptions @ @tanstack_react-query.js?v=17a391f0:1392
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3308
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19432
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=17a391f0:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18718
+workLoop @ chunk-RPCDYKBN.js?v=17a391f0:197
+flushWork @ chunk-RPCDYKBN.js?v=17a391f0:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=17a391f0:384Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/dashboard/reports/trends/[object%20Object] 404 (Not Found)
+window.fetch @ frame_ant.js:2
+(anónimo) @ queryClient.ts:32
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+sla.tsx:300 Uncaught TypeError: slaConfigs.map is not a function
+    at SlaPage (sla.tsx:300:33)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+SlaPage @ sla.tsx:300
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=17a391f0:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=17a391f0:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=17a391f0:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18874
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+sla.tsx:300 Uncaught TypeError: slaConfigs.map is not a function
+    at SlaPage (sla.tsx:300:33)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+SlaPage @ sla.tsx:300
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=17a391f0:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=17a391f0:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=17a391f0:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=17a391f0:18736
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18879
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+hook.js:608 The above error occurred in the <SlaPage> component:
+
+    at SlaPage (http://localhost:3003/src/pages/sla.tsx?t=1759126825069:49:37)
+    at Route (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:206:16)
+    at div
+    at main
+    at div
+    at div
+    at DashboardLayout (http://localhost:3003/src/components/layout/dashboard-layout.tsx?t=1759126592195:42:43)
+    at Switch (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:262:17)
+    at Router (http://localhost:3003/src/App.tsx?t=1759126861439:62:48)
+    at Provider (http://localhost:3003/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=17a391f0:38:15)
+    at TooltipProvider (http://localhost:3003/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=17a391f0:63:5)
+    at LocaleProvider (http://localhost:3003/src/contexts/LocaleContext.tsx:58:34)
+    at QueryClientProvider (http://localhost:3003/node_modules/.vite/deps/@tanstack_react-query.js?v=17a391f0:3081:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+overrideMethod @ hook.js:608
+logCapturedError @ chunk-RPCDYKBN.js?v=17a391f0:14032
+update.callback @ chunk-RPCDYKBN.js?v=17a391f0:14052
+callCallback @ chunk-RPCDYKBN.js?v=17a391f0:11248
+commitUpdateQueue @ chunk-RPCDYKBN.js?v=17a391f0:11265
+commitLayoutEffectOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:17093
+commitLayoutMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:17980
+commitLayoutEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:17969
+commitLayoutEffects @ chunk-RPCDYKBN.js?v=17a391f0:17920
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19353
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+chunk-RPCDYKBN.js?v=17a391f0:9129 Uncaught TypeError: slaConfigs.map is not a function
+    at SlaPage (sla.tsx:300:33)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+    at renderRootSync (chunk-RPCDYKBN.js?v=17a391f0:19116:15)
+    at recoverFromConcurrentError (chunk-RPCDYKBN.js?v=17a391f0:18736:28)
+    at performSyncWorkOnRoot (chunk-RPCDYKBN.js?v=17a391f0:18879:28)
+SlaPage @ sla.tsx:300
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19753
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=17a391f0:18736
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18879
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+
+
+
+
+(anónimo) @ tab.js:1
+(anónimo) @ tab.js:1
+Promise.then
+i @ tab.js:1
+122 @ tab.js:1
+n @ tab.js:1
+(anónimo) @ tab.js:1
+(anónimo) @ tab.js:1Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/tenant/locale-settings 404 (Not Found)
+window.fetch @ frame_ant.js:2
+queryFn @ LocaleContext.tsx:98
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+setOptions @ @tanstack_react-query.js?v=17a391f0:1392
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3308
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19432
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=17a391f0:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18718
+workLoop @ chunk-RPCDYKBN.js?v=17a391f0:197
+flushWork @ chunk-RPCDYKBN.js?v=17a391f0:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=17a391f0:384Compreenda este erro
+frame_ant.js:2  GET http://localhost:3003/api/dashboard/reports/trends/[object%20Object] 404 (Not Found)
+window.fetch @ frame_ant.js:2
+(anónimo) @ queryClient.ts:32
+fetchFn @ @tanstack_react-query.js?v=17a391f0:1097
+run @ @tanstack_react-query.js?v=17a391f0:795
+start @ @tanstack_react-query.js?v=17a391f0:838
+fetch @ @tanstack_react-query.js?v=17a391f0:1144
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18868
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19432
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+finishConcurrentRender @ chunk-RPCDYKBN.js?v=17a391f0:18805
+performConcurrentWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18718
+workLoop @ chunk-RPCDYKBN.js?v=17a391f0:197
+flushWork @ chunk-RPCDYKBN.js?v=17a391f0:176
+performWorkUntilDeadline @ chunk-RPCDYKBN.js?v=17a391f0:384Compreenda este erro
+settings.tsx:576 Uncaught TypeError: categories.map is not a function
+    at Settings (settings.tsx:576:32)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+Settings @ settings.tsx:576
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=17a391f0:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=17a391f0:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=17a391f0:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18874
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+settings.tsx:576 Uncaught TypeError: categories.map is not a function
+    at Settings (settings.tsx:576:32)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at HTMLUnknownElement.callCallback2 (chunk-RPCDYKBN.js?v=17a391f0:3674:22)
+    at Object.invokeGuardedCallbackDev (chunk-RPCDYKBN.js?v=17a391f0:3699:24)
+    at invokeGuardedCallback (chunk-RPCDYKBN.js?v=17a391f0:3733:39)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19765:15)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+Settings @ settings.tsx:576
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+callCallback2 @ chunk-RPCDYKBN.js?v=17a391f0:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=17a391f0:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=17a391f0:3733
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19765
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=17a391f0:18736
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18879
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+hook.js:608 The above error occurred in the <Settings> component:
+
+    at Settings (http://localhost:3003/src/pages/settings.tsx?t=1759126720343:620:37)
+    at Route (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:206:16)
+    at div
+    at main
+    at div
+    at div
+    at DashboardLayout (http://localhost:3003/src/components/layout/dashboard-layout.tsx?t=1759126592195:42:43)
+    at Switch (http://localhost:3003/node_modules/.vite/deps/wouter.js?v=17a391f0:262:17)
+    at Router (http://localhost:3003/src/App.tsx?t=1759126861439:62:48)
+    at Provider (http://localhost:3003/node_modules/.vite/deps/chunk-OXZDJRWN.js?v=17a391f0:38:15)
+    at TooltipProvider (http://localhost:3003/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=17a391f0:63:5)
+    at LocaleProvider (http://localhost:3003/src/contexts/LocaleContext.tsx:58:34)
+    at QueryClientProvider (http://localhost:3003/node_modules/.vite/deps/@tanstack_react-query.js?v=17a391f0:3081:3)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+overrideMethod @ hook.js:608
+logCapturedError @ chunk-RPCDYKBN.js?v=17a391f0:14032
+update.callback @ chunk-RPCDYKBN.js?v=17a391f0:14052
+callCallback @ chunk-RPCDYKBN.js?v=17a391f0:11248
+commitUpdateQueue @ chunk-RPCDYKBN.js?v=17a391f0:11265
+commitLayoutEffectOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:17093
+commitLayoutMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:17980
+commitLayoutEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:17969
+commitLayoutEffects @ chunk-RPCDYKBN.js?v=17a391f0:17920
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19353
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro
+chunk-RPCDYKBN.js?v=17a391f0:9129 Uncaught TypeError: categories.map is not a function
+    at Settings (settings.tsx:576:32)
+    at renderWithHooks (chunk-RPCDYKBN.js?v=17a391f0:11548:26)
+    at updateFunctionComponent (chunk-RPCDYKBN.js?v=17a391f0:14582:28)
+    at beginWork (chunk-RPCDYKBN.js?v=17a391f0:15924:22)
+    at beginWork$1 (chunk-RPCDYKBN.js?v=17a391f0:19753:22)
+    at performUnitOfWork (chunk-RPCDYKBN.js?v=17a391f0:19198:20)
+    at workLoopSync (chunk-RPCDYKBN.js?v=17a391f0:19137:13)
+    at renderRootSync (chunk-RPCDYKBN.js?v=17a391f0:19116:15)
+    at recoverFromConcurrentError (chunk-RPCDYKBN.js?v=17a391f0:18736:28)
+    at performSyncWorkOnRoot (chunk-RPCDYKBN.js?v=17a391f0:18879:28)
+Settings @ settings.tsx:576
+renderWithHooks @ chunk-RPCDYKBN.js?v=17a391f0:11548
+updateFunctionComponent @ chunk-RPCDYKBN.js?v=17a391f0:14582
+beginWork @ chunk-RPCDYKBN.js?v=17a391f0:15924
+beginWork$1 @ chunk-RPCDYKBN.js?v=17a391f0:19753
+performUnitOfWork @ chunk-RPCDYKBN.js?v=17a391f0:19198
+workLoopSync @ chunk-RPCDYKBN.js?v=17a391f0:19137
+renderRootSync @ chunk-RPCDYKBN.js?v=17a391f0:19116
+recoverFromConcurrentError @ chunk-RPCDYKBN.js?v=17a391f0:18736
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18879
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627
+setTimeout
+systemSetTimeoutZero @ @tanstack_react-query.js?v=17a391f0:103
+flush @ @tanstack_react-query.js?v=17a391f0:610
+batch @ @tanstack_react-query.js?v=17a391f0:628
+dispatch_fn @ @tanstack_react-query.js?v=17a391f0:1260
+setData @ @tanstack_react-query.js?v=17a391f0:931
+fetch @ @tanstack_react-query.js?v=17a391f0:1153
+await in fetch
+executeFetch_fn @ @tanstack_react-query.js?v=17a391f0:1639
+onSubscribe @ @tanstack_react-query.js?v=17a391f0:1335
+subscribe @ @tanstack_react-query.js?v=17a391f0:24
+(anónimo) @ @tanstack_react-query.js?v=17a391f0:3298
+subscribeToStore @ chunk-RPCDYKBN.js?v=17a391f0:11984
+commitHookEffectListMount @ chunk-RPCDYKBN.js?v=17a391f0:16915
+commitPassiveMountOnFiber @ chunk-RPCDYKBN.js?v=17a391f0:18156
+commitPassiveMountEffects_complete @ chunk-RPCDYKBN.js?v=17a391f0:18129
+commitPassiveMountEffects_begin @ chunk-RPCDYKBN.js?v=17a391f0:18119
+commitPassiveMountEffects @ chunk-RPCDYKBN.js?v=17a391f0:18109
+flushPassiveEffectsImpl @ chunk-RPCDYKBN.js?v=17a391f0:19490
+flushPassiveEffects @ chunk-RPCDYKBN.js?v=17a391f0:19447
+commitRootImpl @ chunk-RPCDYKBN.js?v=17a391f0:19416
+commitRoot @ chunk-RPCDYKBN.js?v=17a391f0:19277
+performSyncWorkOnRoot @ chunk-RPCDYKBN.js?v=17a391f0:18895
+flushSyncCallbacks @ chunk-RPCDYKBN.js?v=17a391f0:9119
+(anónimo) @ chunk-RPCDYKBN.js?v=17a391f0:18627Compreenda este erro

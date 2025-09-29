@@ -139,31 +139,31 @@ export default function TicketsTable({ tickets }: TicketsTableProps) {
 
   return (
     <>
-      {/* Desktop Table View */}
-      <div className="hidden md:block">
+      {/* Desktop and Tablet Table View */}
+      <div className="hidden sm:block">
         <Card data-testid="tickets-table">
           <CardContent className="p-0">
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-muted scrollbar-track-transparent">
               <Table className="w-full min-w-[800px]">
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-20">ID</TableHead>
-                    <TableHead className="min-w-[200px]">
+                    <TableHead className="w-16 sm:w-20 sticky left-0 bg-card z-10">ID</TableHead>
+                    <TableHead className="min-w-[180px] sm:min-w-[200px]">
                       <SortButton field="title">Título</SortButton>
                     </TableHead>
-                    <TableHead className="min-w-[120px]">Cliente</TableHead>
-                    <TableHead className="min-w-[100px]">
+                    <TableHead className="min-w-[100px] sm:min-w-[120px] hidden lg:table-cell">Cliente</TableHead>
+                    <TableHead className="min-w-[90px] sm:min-w-[100px]">
                       <SortButton field="status">Status</SortButton>
                     </TableHead>
-                    <TableHead className="min-w-[100px]">
+                    <TableHead className="min-w-[90px] sm:min-w-[100px]">
                       <SortButton field="priority">Prioridade</SortButton>
                     </TableHead>
-                    <TableHead className="min-w-[120px]">Responsável</TableHead>
-                    <TableHead className="min-w-[80px]">Tempo</TableHead>
-                    <TableHead className="min-w-[100px]">
+                    <TableHead className="min-w-[100px] sm:min-w-[120px] hidden xl:table-cell">Responsável</TableHead>
+                    <TableHead className="min-w-[70px] sm:min-w-[80px] hidden lg:table-cell">Tempo</TableHead>
+                    <TableHead className="min-w-[90px] sm:min-w-[100px]">
                       <SortButton field="createdAt">Criado</SortButton>
                     </TableHead>
-                    <TableHead className="w-12"></TableHead>
+                    <TableHead className="w-10 sm:w-12 sticky right-0 bg-card z-10"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -174,62 +174,70 @@ export default function TicketsTable({ tickets }: TicketsTableProps) {
                       onClick={() => handleViewTicket(ticket.id)}
                       data-testid={`ticket-row-${ticket.id}`}
                     >
-                      <TableCell className="font-mono text-sm">
+                      <TableCell className="font-mono text-xs sm:text-sm sticky left-0 bg-card">
                         #{ticket.id.slice(-6)}
                       </TableCell>
-                      <TableCell className="max-w-xs">
+                      <TableCell className="max-w-[150px] sm:max-w-xs">
                         <div>
-                          <p className="font-medium line-clamp-1">{ticket.title}</p>
-                          <p className="text-sm text-muted-foreground line-clamp-1">{ticket.description}</p>
+                          <p className="font-medium line-clamp-1 text-sm sm:text-base">{ticket.title}</p>
+                          <p className="text-xs sm:text-sm text-muted-foreground line-clamp-1 lg:block hidden">{ticket.description}</p>
                         </div>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden lg:table-cell">
                         <div className="flex items-center space-x-2">
-                          <Avatar className="h-6 w-6">
+                          <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
                             <AvatarFallback className="text-xs">
                               {ticket.customerId.slice(0, 2).toUpperCase()}
                             </AvatarFallback>
                           </Avatar>
-                          <span className="text-sm">#{ticket.customerId.slice(-6)}</span>
+                          <span className="text-xs sm:text-sm">#{ticket.customerId.slice(-6)}</span>
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={getStatusColor(ticket.status) as any}>
+                        <Badge variant={getStatusColor(ticket.status) as any} className="text-xs">
                           {getStatusLabel(ticket.status)}
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        <Badge variant={getPriorityColor(ticket.priority) as any}>
+                        <Badge variant={getPriorityColor(ticket.priority) as any} className="text-xs">
                           {getPriorityLabel(ticket.priority)}
                         </Badge>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden xl:table-cell">
                         {ticket.assigneeId ? (
                           <div className="flex items-center space-x-2">
-                            <Avatar className="h-6 w-6">
+                            <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
                               <AvatarFallback className="text-xs">
                                 {ticket.assigneeId.slice(0, 2).toUpperCase()}
                               </AvatarFallback>
                             </Avatar>
-                            <span className="text-sm">#{ticket.assigneeId.slice(-6)}</span>
+                            <span className="text-xs sm:text-sm">#{ticket.assigneeId.slice(-6)}</span>
                           </div>
                         ) : (
-                          <span className="text-sm text-muted-foreground">Não atribuído</span>
+                          <span className="text-xs sm:text-sm text-muted-foreground">Não atribuído</span>
                         )}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="hidden lg:table-cell">
                         <div className="flex items-center space-x-1">
-                          <Clock className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm">{ticket.timeSpent || 0}h</span>
+                          <Clock className="h-3 w-3 sm:h-4 sm:w-4 text-muted-foreground" />
+                          <span className="text-xs sm:text-sm">{ticket.timeSpent || 0}h</span>
                         </div>
                       </TableCell>
-                      <TableCell className="text-sm text-muted-foreground">
-                        {formatDistanceToNow(new Date(ticket.createdAt), {
-                          addSuffix: true,
-                          locale: ptBR
-                        })}
+                      <TableCell className="text-xs sm:text-sm text-muted-foreground">
+                        <span className="hidden sm:inline">
+                          {formatDistanceToNow(new Date(ticket.createdAt), {
+                            addSuffix: true,
+                            locale: ptBR
+                          })}
+                        </span>
+                        <span className="sm:hidden">
+                          {formatDistanceToNow(new Date(ticket.createdAt), {
+                            addSuffix: false,
+                            locale: ptBR
+                          })}
+                        </span>
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="sticky right-0 bg-card">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button
@@ -281,7 +289,7 @@ export default function TicketsTable({ tickets }: TicketsTableProps) {
       </div>
 
       {/* Mobile Card View */}
-      <div className="md:hidden space-y-4" data-testid="tickets-mobile-view">
+      <div className="sm:hidden space-y-3" data-testid="tickets-mobile-view">
         {sortedTickets.map((ticket) => (
           <Card 
             key={ticket.id} 

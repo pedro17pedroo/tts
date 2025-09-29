@@ -12,7 +12,7 @@ import {
   Clock, 
   Play, 
   Pause, 
-  OctagonMinus, 
+  Square, 
   Send, 
   Paperclip, 
   X, 
@@ -173,7 +173,7 @@ export default function TicketDetailsModal({ ticketId, isOpen, onClose }: Ticket
     if (ticketId) {
       updateTicketMutation.mutate({
         ticketId,
-        updates: { assigneeId }
+        updates: { assigneeId: assigneeId === "unassigned" ? undefined : assigneeId }
       });
     }
   };
@@ -470,12 +470,12 @@ export default function TicketDetailsModal({ ticketId, isOpen, onClose }: Ticket
                 <div className="space-y-3">
                   <div>
                     <label className="block text-sm font-medium mb-1">Responsável</label>
-                    <Select value={ticket.assigneeId || ""} onValueChange={handleAssigneeChange}>
+                    <Select value={ticket.assigneeId || "unassigned"} onValueChange={handleAssigneeChange}>
                       <SelectTrigger data-testid="select-ticket-assignee">
                         <SelectValue placeholder="Não atribuído" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Não atribuído</SelectItem>
+                        <SelectItem value="unassigned">Não atribuído</SelectItem>
                         {users.map((user: any) => (
                           <SelectItem key={user.id} value={user.id}>
                             {user.firstName ? `${user.firstName} ${user.lastName || ''}`.trim() : user.email}
@@ -486,12 +486,12 @@ export default function TicketDetailsModal({ ticketId, isOpen, onClose }: Ticket
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-1">Departamento</label>
-                    <Select value={ticket.departmentId || ""}>
+                    <Select value={ticket.departmentId || "undefined"}>
                       <SelectTrigger data-testid="select-ticket-department">
                         <SelectValue placeholder="Não definido" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="">Não definido</SelectItem>
+                        <SelectItem value="undefined">Não definido</SelectItem>
                         {departments.map((dept: any) => (
                           <SelectItem key={dept.id} value={dept.id}>
                             {dept.name}

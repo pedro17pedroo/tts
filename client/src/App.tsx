@@ -18,6 +18,7 @@ import KnowledgeBase from "@/pages/knowledge-base";
 import Reports from "@/pages/reports";
 import Settings from "@/pages/settings";
 import Subscribe from "@/pages/subscribe";
+import SlaPage from "@/pages/sla";
 import NotFound from "@/pages/not-found";
 
 function RedirectToSaasRegister() {
@@ -68,6 +69,7 @@ function Router() {
             <Route path="/hour-bank" component={HourBank} />
             <Route path="/knowledge-base" component={KnowledgeBase} />
             <Route path="/reports" component={Reports} />
+            <Route path="/sla" component={SlaPage} />
             <Route path="/settings" component={Settings} />
           </DashboardLayout>
           <Route path="/" component={RedirectToDashboard} />

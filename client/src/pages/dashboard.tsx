@@ -39,7 +39,19 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="p-4 md:p-6" data-testid="dashboard-page">
+    <div className="px-4 md:px-6 pb-4 md:pb-6" data-testid="dashboard-page">
+      {/* Page Header */}
+      <div className="mb-4 md:mb-6 pb-4 md:pb-5 ">
+        <div className="flex items-baseline gap-2">
+          <h1 className="text-lg md:text-xl font-semibold text-foreground">
+            Dashboard
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            | Visão geral do sistema
+          </p>
+        </div>
+      </div>
+
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
         <StatsCard

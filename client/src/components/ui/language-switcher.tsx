@@ -46,7 +46,7 @@ export function LanguageSwitcher({
       case 'icon-only':
         return (
           <>
-            <Globe className="h-4 w-4" />
+            <span className="text-lg">{currentLanguageInfo.flag}</span>
             <ChevronDown className="h-3 w-3 ml-1 opacity-50" />
           </>
         );
@@ -158,7 +158,7 @@ export function IconOnlyLanguageSwitcher(props: Omit<LanguageSwitcherProps, 'var
 
 // Header/Navigation variant
 export function HeaderLanguageSwitcher(props: Omit<LanguageSwitcherProps, 'variant' | 'side'>) {
-  return <LanguageSwitcher variant="compact" side="bottom" {...props} />;
+  return <LanguageSwitcher variant="icon-only" side="bottom" {...props} />;
 }
 
 // Settings page variant

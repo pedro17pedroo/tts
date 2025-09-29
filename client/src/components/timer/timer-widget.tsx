@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Play, Pause, OctagonMinus, Clock, Plus } from "lucide-react";
+import { Play, Pause, Square, Clock, Plus } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 
@@ -33,7 +33,7 @@ export default function TimerWidget({ ticketId, onTimerStart, onTimerStop }: Tim
 
   // Timer effect
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+    let interval: number | null = null;
     
     if (isRunning) {
       interval = setInterval(() => {
@@ -319,7 +319,7 @@ export default function TimerWidget({ ticketId, onTimerStart, onTimerStop }: Tim
                       disabled={stopTimerMutation.isPending}
                       data-testid="button-stop-timer"
                     >
-                      <OctagonMinus className="h-4 w-4 mr-1" />
+                      <Square className="h-4 w-4 mr-1" />
                       Finalizar
                     </Button>
                   </>

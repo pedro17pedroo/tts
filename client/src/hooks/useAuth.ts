@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
-import type { User, LoginUser, RegisterUser } from "@shared/schema";
+import type { User, LoginUser, RegisterUser } from "@/types/schema";
 
 export function useAuth() {
   const queryClient = useQueryClient();

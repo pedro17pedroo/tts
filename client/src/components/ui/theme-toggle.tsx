@@ -267,7 +267,7 @@ export function IconOnlyThemeToggle(props: Omit<ThemeToggleProps, 'variant'>) {
 
 // Header/Navigation variant
 export function HeaderThemeToggle(props: Omit<ThemeToggleProps, 'variant' | 'side'>) {
-  return <ThemeToggle variant="compact" side="bottom" {...props} />;
+  return <ThemeToggle variant="icon-only" side="bottom" {...props} />;
 }
 
 // Settings page variant
